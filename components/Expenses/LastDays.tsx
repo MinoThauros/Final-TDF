@@ -1,7 +1,7 @@
-import { spending } from '../models/spending';
+import { spending } from '../../models/spending';
 import { View,Text } from "react-native"
 import { StyleSheet } from 'react-native';
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 
 const LastDaysTotal=({total}:{total:number}):JSX.Element=>{

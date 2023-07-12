@@ -1,7 +1,7 @@
 import { View, Text, Modal, StyleSheet } from 'react-native'
 import {useContext} from 'react'
 import { spending } from '../models/spending'
-import SpendingCard from '../components/SpendingCard'
+import SpendingCard from '../components/Expenses/SpendingCard'
 import { OverlayContext } from '../states/context/InputOverlayContext'
 import { useStoreExpense } from '../Hooks/ReactQ'
 import { useQueryClient,QueryClient } from '@tanstack/react-query'

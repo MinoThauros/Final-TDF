@@ -1,6 +1,6 @@
 import {View, Text} from "react-native";
 import { useSelector} from "react-redux";
-import DisplaySpendings from "../components/SpendingsList";
+import DisplaySpendings from "../components/Expenses/SpendingsList";
 import { useState,useLayoutEffect,useEffect } from 'react';
 import { useContext } from "react";
 import { HTTPInterface } from '../API/http';

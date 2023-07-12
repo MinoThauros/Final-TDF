@@ -1,7 +1,7 @@
 import { Button, Text, View, StyleSheet, Pressable } from "react-native";
-import { spending } from '../models/spending';
+import { spending } from '../../models/spending';
 import { useState } from "react";
-import SpendingDetailsReactQ from "../ReactQ_screens/SpendingDetailsReactQ";
+import SpendingDetailsReactQ from "../../ReactQ_screens/SpendingDetailsReactQ";
 
 
 const SpendingsDisplayer=({spending}:{spending:spending}):JSX.Element=>{

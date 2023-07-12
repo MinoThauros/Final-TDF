@@ -6,7 +6,7 @@ import Profile from './screens/Profile';
 import {Ionicons} from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { store } from './states/redux/store';
-import {HeaderButton} from './components/headerAddButton';
+import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
 import SpendingInput from './screens/SpendingInput'; 
 import SpendingDetailsComponent from './screens/SpengingDetails';

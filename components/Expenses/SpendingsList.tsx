@@ -2,7 +2,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { FlatList,View } from "react-native";
 import SpendingsDisplayer from "./ SpendingsDisplayer";
-import { spending } from '../models/spending';
+import { spending } from '../../models/spending';
 //import { SetSpending } from "../states/redux/expenses";
 
 

@@ -1,8 +1,8 @@
 import { View, StyleSheet,Pressable } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
 import { useContext } from "react";
-import { OverlayContext } from '../states/context/InputOverlayContext';
-import Colors from "../constants/colors";
+import { OverlayContext } from '../../states/context/InputOverlayContext';
+import Colors from "../../constants/colors";
 
 export const HeaderButton=({size}:any):JSX.Element=>{
 

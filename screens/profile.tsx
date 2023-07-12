@@ -1,14 +1,13 @@
 import { Pressable, Text, Touchable, View, StyleSheet, ScrollView } from "react-native";
-import PieChartComponent from "../components/PieChart";
-import ProfileHeader from "../components/ProfileHeader";
+import PieChartComponent from "../components/Profile/PieChart";
+import ProfileHeader from "../components/Profile/ProfileHeader";
 import { Stack, Button, Switch, Divider } from "@react-native-material/core";
 import Colors from "../constants/colors";
 import { useContext, useState } from "react";
 import { AuthContext } from "../states/context/CredentialsContext";
 import { AntDesign } from '@expo/vector-icons';
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import ProfileDetailInstance from "../components/ProfileLink";
-import ProfilePageExtras from "../components/ProfilePageExtras";
+import ProfilePageExtras from "../components/Profile/ProfilePageExtras";
 import ActiveButton from "../components/UI/ActiveButton";
 
 
@@ -21,7 +20,7 @@ const Profile=({navigation,route}:any)=>{
         console.log('logout');//tigger a message to the user that they are logging out
         logout();
     }
-    
+
     return (
         <View style={styles.overallContainer}>
             <View style={styles.bioZone}>

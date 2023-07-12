@@ -4,7 +4,7 @@ import React, { useContext } from 'react'
 import { useGetExpenses } from '../Hooks/ReactQ'
 import { InitializeSpending } from '../states/redux/expenses';
 import { useDispatch, useSelector } from "react-redux";
-import DisplaySpendings from '../components/SpendingsList';
+import DisplaySpendings from '../components/Expenses/SpendingsList';
 import LoadingOvelay from '../components/UI/LoadingOverlay';
 import { SnackBarContext } from '../states/context/SnackBarContext';
 import Colors from '../constants/colors';

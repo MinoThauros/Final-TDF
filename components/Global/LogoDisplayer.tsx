@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { Text, Stack, HStack } from "@react-native-material/core";
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 const LogoDisplayer = () => {
   return (

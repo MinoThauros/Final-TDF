@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ProfilePageOptions from './ProfilePageOptions'
-import { _handlePressButtonAsync } from '../screens/utils/InAppBrowser'
+import { _handlePressButtonAsync } from '../../screens/utils/InAppBrowser'
 const ProfilePageExtras = () => {
   return (
     <View>

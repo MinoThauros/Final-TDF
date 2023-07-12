@@ -8,33 +8,20 @@ import { AuthContext } from "../states/context/CredentialsContext";
 import { AntDesign } from '@expo/vector-icons';
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import ProfileDetailInstance from "../components/ProfileLink";
+import ProfilePageExtras from "../components/ProfilePageExtras";
 
 
 const Profile=({navigation,route}:any)=>{
     const {logout}=useContext(AuthContext);
     const [hideMore,setHideMore]=useState(true);
 
-    const button=()=>{
+    const LogOut=()=>{
         //navigation.navigate('Recent expenses');
         console.log('logout');//tigger a message to the user that they are logging out
         logout();
-
     }
 
-    const Details=()=>{
-        return(
-            <View>
-                <ProfileDetailInstance ButtonTitle="Edit profile"/>
-                <ProfileDetailInstance ButtonTitle="Change password"/>
-                <ProfileDetailInstance ButtonTitle="Delete account"/>
-                <ProfileDetailInstance ButtonTitle="Terms and conditions"/>
-                <ProfileDetailInstance ButtonTitle="Privacy policy"/>
-                <ProfileDetailInstance ButtonTitle="About"/>
-                <ProfileDetailInstance ButtonTitle="Contact us"/>
-                <ProfileDetailInstance ButtonTitle="Help"/>
-            </View>
-                   
-        )}
+
 
     return (
         <View style={styles.overallContainer}>
@@ -58,13 +45,13 @@ const Profile=({navigation,route}:any)=>{
                         loadingIndicatorPosition="trailing"
                         onPress={()=>{setHideMore(!hideMore)}}
                     />
-                    {hideMore&&<Details/>}
+                    {hideMore&&<ProfilePageExtras/>}
                 </Stack>
                 
                 <Button 
                     title="Log out"  
                     variant="outlined"  
-                    onPress={button}
+                    onPress={LogOut}
                     style={styles.button}
                     loading={true}
                     />

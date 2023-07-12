@@ -8,7 +8,7 @@ import { OverlayContext } from '../states/context/InputOverlayContext';
 import { spending } from "../models/spending";
 import { InitializeSpending } from "../states/redux/expenses";
 import { useDispatch } from "react-redux";
-import LoadingOvelay from "../components/LoadingOverlay";
+import LoadingOvelay from "../components/UI/LoadingOverlay";
 
 const {storeExpense,getExpenses}= new HTTPInterface()
 

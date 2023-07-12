@@ -24,6 +24,7 @@ const Profile=({navigation,route}:any)=>{
     const Details=()=>{
         return(
             <View>
+                <ProfileDetailInstance ButtonTitle="Edit profile"/>
                 <ProfileDetailInstance ButtonTitle="Change password"/>
                 <ProfileDetailInstance ButtonTitle="Delete account"/>
                 <ProfileDetailInstance ButtonTitle="Terms and conditions"/>

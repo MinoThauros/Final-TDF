@@ -1,6 +1,6 @@
 import { View, Text,StyleSheet } from 'react-native'
 import React from 'react'
-import ColorCategory from './ColorCategory'
+import ColorCategory from './UI/ColorCategory'
 
 const ChartLegends = ({sliceColor}:{sliceColor:string[]}) => {
   return (

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import CustomTextInput from '../components/CustomTextInput'
+import CustomTextInput from '../components/UI/CustomTextInput'
 import { useState } from 'react'
 import { Button } from '@react-native-material/core'
 import LoginPage from './LoginPage'

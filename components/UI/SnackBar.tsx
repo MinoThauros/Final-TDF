@@ -1,7 +1,7 @@
 import { Snackbar, Button } from "@react-native-material/core";
 import { View, Text } from 'react-native'
 import {useContext, useState} from 'react'
-import { SnackBarContext } from "../states/context/SnackBarContext";
+import { SnackBarContext } from "../../states/context/SnackBarContext";
 
 export type SnackBarProps={
     condition:boolean;

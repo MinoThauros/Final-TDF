@@ -14,7 +14,7 @@ const ProfileDetailInstance = ({ButtonTitle,Link}:{ButtonTitle:string,Link?:stri
   return(
     <View>
         <Button variant="text" onPress={_handlePressButtonAsync} title={ButtonTitle} style={{alignSelf:'flex-start'}}/>
-        <Divider style={{ marginTop:10 }} />
+        <Divider style={{ margin:2 }} />
     </View>        
 )}
 

@@ -2,7 +2,7 @@ import { View, Text, Button, Modal, TextInput, StyleSheet } from 'react-native'
 import { useState } from 'react'
 import { Validator } from '../API/validator';
 import { spending } from '../models/spending';
-import CustomTextInput from './CustomTextInput';
+import CustomTextInput from './UI/CustomTextInput';
 import { Categories } from '../models/spending';
 import { CategoryTypes } from './PieChart';
 

@@ -1,5 +1,5 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
-import { Validator } from '../API/validator';
+import { Validator } from '../../API/validator';
 
 type CustomTextInputProps={
     defaultValue?:string,

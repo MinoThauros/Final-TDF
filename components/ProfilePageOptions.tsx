@@ -11,7 +11,7 @@ type Option={
 const ProfilePageOptions = ({options}:{options:Option[]}) => {
   return (
     <View style={{minHeight:2}}>
-        <FlashList
+        <FlashList //using flashlist to render the options
         data={options}
         renderItem={({item})=>(
             <View>

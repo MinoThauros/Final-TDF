@@ -34,7 +34,7 @@ const PieChartComponent = () => {
              <Text>Spending overview:</Text>
         </View>
           <PieChart
-            widthAndHeight={250}
+            widthAndHeight={300}
             series={chartData.map((item)=>item['total'])}
             sliceColor={chartData.map((item)=>item['catColor'])}
             coverRadius={0.45}

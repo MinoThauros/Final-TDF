@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
+import { FIREBASE_API_KEY } from 'react-native-dotenv';
 
 /*
 Firebase rules have to be:
@@ -81,7 +82,7 @@ export class HTTPInterface{
 }
 
 export class AuthInterface{
-    private readonly  API_KEY:string='AIzaSyDWZcx9JHwZSj2fam2grs4bAL0reJBuIzE';
+    private readonly  API_KEY:string=FIREBASE_API_KEY;
     private readonly  generateUrl=({mode}:{mode:'signInWithPassword'|'signUp'})=>{
         return `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${this.API_KEY}`
 

@@ -2,14 +2,16 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ProfilePageOptions from './ProfilePageOptions'
 import { _handlePressButtonAsync } from '../../screens/utils/InAppBrowser'
+import { useNavigation } from '@react-navigation/native'
 const ProfilePageExtras = () => {
+    const {navigate}=useNavigation();
   return (
     <View>
       <ProfilePageOptions
         options={[
             {
                 title:"Edit profile",
-                action:()=>{console.log("Editing profile...")}
+                action:()=>{navigate('ProfileForm' as never)}
             },
             {
                 title:"Change password",

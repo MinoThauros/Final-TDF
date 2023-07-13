@@ -8,9 +8,8 @@ const LogoDisplayer = () => {
     <Stack style={styles.LogoBox}>
         <View style={styles.imageContainer}>
             <Image 
-                source={require('../assets/TimaTechLogo.png')} 
+                source={require('../../assets/TimaTechLogo.png')} 
                 style={styles.image} 
-                //resizeMode="center" 
                 resizeMethod='scale'/>
         </View>
       <Text  variant="h2" style={styles.text}>TimaTech.</Text>

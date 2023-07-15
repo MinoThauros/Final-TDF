@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import { Avatar, Button, HStack, Stack } from '@react-native-material/core';
 import Colors from '../../constants/colors';
+import TextButton from '../UI/TextButton';
 
 
 const ProfilePhotoBox = () => {
@@ -23,13 +24,17 @@ const ProfilePhotoBox = () => {
             }}
             style={{ margin: 4 }}
             />
-        <View style={styles.buttonContainer}>
-            <Pressable 
-                onPress={()=>console.log('Changed photo')}
-                style={({pressed})=>(pressed ? styles.pressed:null)}>
-                <Text style={styles.buttonText}>Change photo</Text>
-            </Pressable>
-        </View>
+        <TextButton 
+        text="Change photo" 
+        onPress={()=>console.log('Changed photo')}
+        extraStyling={{
+            TextStyling:{
+                color:Colors.Tangerine,
+                fontSize:12,
+                fontWeight:'bold',
+            }
+        }}
+        />
     </Stack>
     </View>
     

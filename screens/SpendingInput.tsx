@@ -170,3 +170,12 @@ const styles=StyleSheet.create({
 
     }
 })
+
+/**
+=> Create an autocomplete places search somewhere in this form; this will be the name of the expense\
++ https://developers.google.com/maps/documentation/javascript/places#place_details
++ we find the placeId and then add the type of the place to the category (https://developers.google.com/maps/documentation/places/web-service/supported_types)
+=> this should return an image of the place and the name of the place
+=> add image uri to the spending object + find a way to autofill the category (the type of the place )
+=> push image name/references to the database using UUID
+ */

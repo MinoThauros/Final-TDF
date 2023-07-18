@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
 import { FIREBASE_API_KEY } from 'react-native-dotenv';
+import { Profile } from '../models/profile';
 
 /*
 Firebase rules have to be:
@@ -27,7 +28,7 @@ export class HTTPInterface{
     async getExpenses(){
         const expenses=[] as spending[]
 
-        const response =await await axios.get('https://bgetapp-default-rtdb.firebaseio.com/expenses.json');
+        const response =await axios.get('https://bgetapp-default-rtdb.firebaseio.com/expenses.json');
         return new Promise((resolve,reject)=>{
             if(response.status===200){
                 const {data}=response
@@ -113,4 +114,44 @@ export class AuthInterface{
 
 
 
+}
+
+export class ProfileInterface{
+
+    getProfile=async ({userId}:{userId:string})=>{
+        let profile=[] as Profile[]
+
+        const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`);
+        return new Promise((resolve,reject)=>{
+            if(response.status===200){
+                const {data}=response
+                for ( let key in data){
+                    const profileObj:Profile={
+                        id:key,//firebase id
+                        name:data[key].name,
+                        last_name:data[key].last_name,
+                        date_of_birth:data[key].date_of_birth,
+                        city:data[key].city,
+                        country:data[key].country,
+                        gender:data[key].gender,
+                        occupation:data[key].occupation,
+                        imageUrl:data[key].imageUrl??'',//if no image url, set to empty string
+                    };
+                    profile.push(profileObj);
+                }
+
+                resolve(profile[0] as Profile)
+            }else{
+                reject(response as  AxiosResponse<any, any>)
+            }
+        })
+    }
+
+    updateProfile=async ({userId,newProfile}:{userId:string,newProfile:Profile})=>{
+        return await axios.put('https://bgetapp-default-rtdb.firebaseio.com/profile'+`/${userId}.json`,newProfile)
+    }
+
+    createProfile=async ({userId,profile}:{userId:string,profile:Profile})=>{
+        return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`,profile)
+    }
 }

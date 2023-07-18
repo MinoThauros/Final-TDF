@@ -12,17 +12,22 @@ import CancelButton from '../../components/ProfileForm/CancelButton';
 import { AuthContext } from '../../states/context/CredentialsContext';
 import { Profile } from '../../models/profile';
 
-//can be used to create a profile or edit a profile
-const ProfileForm = () => {
-    const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [gender, setGender] = useState('');
-    const [occupation, setOccupation] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
+type ProfileFormProps={
+    onSubmit:({profile}:{profile:Profile})=>void,
+    defaultValue?:Profile
+}
 
-    const {setOptions:navOptions,goBack,navigate}=useNavigation()
+//can be used to create a profile or edit a profile
+const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
+    const [name, setName] = useState( defaultValue?.name?? '');
+    const [lastName, setLastName] = useState( defaultValue?.last_name?? '');
+    const [dateOfBirth, setDateOfBirth] = useState( defaultValue?.date_of_birth?? '');
+    const [gender, setGender] = useState( defaultValue?.gender?? '');
+    const [occupation, setOccupation] = useState( defaultValue?.occupation?? '');
+    const [city, setCity] = useState( defaultValue?.city?? '');
+    const [country, setCountry] = useState( defaultValue?.country?? '');
+
+    const {setOptions:navOptions,navigate}=useNavigation()
     const {userId}=useContext(AuthContext)
 
     useLayoutEffect(() => {
@@ -42,6 +47,8 @@ const ProfileForm = () => {
             country,
             id:userId
         }
+        //onSubmit({profile})
+        console.log(profile)
     }
 
   return (
@@ -51,48 +58,62 @@ const ProfileForm = () => {
                 <ProfilePhotoBox/>
             </View>
             <View>
-                <Stack spacing={5} style={{padding:5, paddingVertical:5, marginBottom:15,marginHorizontal:10}}>
+                <Stack spacing={6} style={{padding:5, paddingVertical:5, marginBottom:15,marginHorizontal:10}}>
                     <TextInput
                     variant='standard'
                     label='Name'
                     onChangeText={setName}
-                    color={Colors.Tangerine}
+                    defaultValue={name}
+                    value={name}
                     
                     /><TextInput
                     variant='standard'
                     label='Last Name'
                     onChangeText={setLastName}
+                    defaultValue={lastName}
+                    value={lastName}
                     />
                     <TextInput
                     variant='standard'
                     label="Date of Birth"
                     onChangeText={setDateOfBirth}
+                    defaultValue={dateOfBirth}
+                    value={dateOfBirth}
                     />
                     <TextInput
                     variant='standard'
                     label="Occupation"
                     onChangeText={setOccupation}
+                    defaultValue={occupation}
+                    value={occupation}
                     />
                     <TextInput
                     variant='standard'
                     label="Gender"
                     onChangeText={setGender}
+                    defaultValue={gender}
+                    value={gender}
                     />
                     <TextInput
                     variant='standard'
                     label="City"
                     onChangeText={setCity}
+                    defaultValue={city}
+                    value={city}
                     />
                     <TextInput
                     variant='standard'
                     label="Country"
                     onChangeText={setCountry}
+                    defaultValue={country}
+                    value={country
+                    }
                     />
                 </Stack>
                 
                     <TextButton 
                         text="Done"
-                        onPress={()=>console.log('Saved')}
+                        onPress={submitHandler}
                         extraStyling={{
                             TextStyling:styles.buttonTextStyle,
                             ButtonStyling:styles.buttonContainerStyle
@@ -161,4 +182,5 @@ const styles = StyleSheet.create({
     * we'll need to create a profile somewhere as a post request
     * this would poll the database for the profile and then display it
     * If profile is not found, then we'll display a form to create a profile
+    * The Form should accept an optional profile object
  */

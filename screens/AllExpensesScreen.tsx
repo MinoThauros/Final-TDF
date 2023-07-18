@@ -1,6 +1,6 @@
 import {View, Text} from "react-native";
 import { useSelector} from "react-redux";
-import DisplaySpendings from "../components/SpendingsList";
+import DisplaySpendings from "../components/Expenses/SpendingsList";
 import { useState,useLayoutEffect,useEffect } from 'react';
 import { useContext } from "react";
 import { HTTPInterface } from '../API/http';
@@ -8,7 +8,7 @@ import { OverlayContext } from '../states/context/InputOverlayContext';
 import { spending } from "../models/spending";
 import { InitializeSpending } from "../states/redux/expenses";
 import { useDispatch } from "react-redux";
-import LoadingOvelay from "../components/LoadingOverlay";
+import LoadingOvelay from "../components/UI/LoadingOverlay";
 
 const {storeExpense,getExpenses}= new HTTPInterface()
 

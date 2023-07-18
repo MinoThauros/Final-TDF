@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useContext, useState } from 'react'
-import CustomTextInput from '../components/CustomTextInput'
+import CustomTextInput from '../components/UI/CustomTextInput'
 import { AuthPagesProps } from './AuthPages'
 import { Stack, Button } from "@react-native-material/core";
 import Colors from '../constants/colors';
@@ -18,8 +18,10 @@ const SingUpPage = ({setLogin}:AuthPagesProps) => {
 
 
 
-    const onLogin=({idToken}:{idToken:string})=>{
-        authenticate({token:idToken})
+    const onLogin=({idToken,userId}:{idToken:string,userId:string})=>{
+        authenticate({
+            token:idToken,
+            userId:userId})
     }
 
     const {mutate:signup,isSuccess,data}=useSignup({onSuccess:onLogin})

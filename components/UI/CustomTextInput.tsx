@@ -1,5 +1,5 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
-import { Validator } from '../API/validator';
+import { Validator } from '../../API/validator';
 
 type CustomTextInputProps={
     defaultValue?:string,
@@ -8,6 +8,7 @@ type CustomTextInputProps={
     nextValue: React.Dispatch<React.SetStateAction<string>> | ((prevState: any) => void) ,
     validationErr? :  JSX.Element,
     //pass the form submission 
+    extraStyle?:any
 }
 
 /**
@@ -22,10 +23,12 @@ const CustomTextInput = ({
     defaultValue, 
     nextValue,
     validationErr,
-    title}:CustomTextInputProps) => {
+    title,
+    extraStyle
+}:CustomTextInputProps) => {
 
     return (
-        <View style={styles.overallView}>
+        <View style={ extraStyle ?{ ...extraStyle,...styles.overallView}:styles.overallView}>
             {title && <Text style={styles.titles}>{title} </Text>}
                 {validationErr}
                 <TextInput 
@@ -56,7 +59,7 @@ const styles=StyleSheet.create({
 
     textInputA:{
         height: 40,
-        marginVertical: 10,
+        marginVertical: 5,
         borderWidth: 1,
         padding: 10,
         backgroundColor:'white',

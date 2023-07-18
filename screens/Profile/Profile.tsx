@@ -1,75 +1,52 @@
 import { Pressable, Text, Touchable, View, StyleSheet, ScrollView } from "react-native";
-import PieChartComponent from "../components/PieChart";
-import ProfileHeader from "../components/ProfileHeader";
+import PieChartComponent from "../../components/Profile/PieChart";
+import ProfileHeader from "../../components/Profile/ProfileHeader";
 import { Stack, Button, Switch, Divider } from "@react-native-material/core";
-import Colors from "../constants/colors";
+import Colors from "../../constants/colors";
 import { useContext, useState } from "react";
-import { AuthContext } from "../states/context/CredentialsContext";
+import { AuthContext } from "../../states/context/CredentialsContext";
 import { AntDesign } from '@expo/vector-icons';
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import ProfileDetailInstance from "../components/ProfileLink";
+import ProfilePageExtras from "../../components/Profile/ProfilePageExtras";
+import ActiveButton from "../../components/UI/ActiveButton";
 
 
 const Profile=({navigation,route}:any)=>{
     const {logout}=useContext(AuthContext);
-    const [hideMore,setHideMore]=useState(true);
+    const [hideMore,setHideMore]=useState(false);
 
-    const button=()=>{
+    const LogOut=()=>{
         //navigation.navigate('Recent expenses');
         console.log('logout');//tigger a message to the user that they are logging out
         logout();
-
     }
-
-    const Details=()=>{
-        return(
-            <View>
-                <ProfileDetailInstance ButtonTitle="Change password"/>
-                <ProfileDetailInstance ButtonTitle="Delete account"/>
-                <ProfileDetailInstance ButtonTitle="Terms and conditions"/>
-                <ProfileDetailInstance ButtonTitle="Privacy policy"/>
-                <ProfileDetailInstance ButtonTitle="About"/>
-                <ProfileDetailInstance ButtonTitle="Contact us"/>
-                <ProfileDetailInstance ButtonTitle="Help"/>
-            </View>
-                   
-        )}
 
     return (
         <View style={styles.overallContainer}>
-            
-                <View style={styles.bioZone}>
-                    <ProfileHeader/>
-                </View>
-                <ScrollView>
+            <View style={styles.bioZone}>
+                <ProfileHeader/>
+            </View>
+            <ScrollView>
                 <View style={{minWidth:'100%'}}>
                     <PieChartComponent/>
                 </View>
                 <Stack style={{...styles.optionsContainer}}>
-                    <Button
-                        title={hideMore?"Less Options":"More Options"}
-                        trailing={
-                            <AntDesign 
-                                name={hideMore? "downcircle":"rightcircle" }
-                                size={24} 
-                                color="black" />}
-                        //loadingIndicator="⏰"
-                        loadingIndicatorPosition="trailing"
+                    <ActiveButton
+                        condition={hideMore}
+                        IfTrue={{title:"Less Options",buttonTitle:"downcircle"}}
+                        ifFalse={{title:"More Options",buttonTitle:"rightcircle"}}
                         onPress={()=>{setHideMore(!hideMore)}}
                     />
-                    {hideMore&&<Details/>}
+                    {hideMore&&<ProfilePageExtras/>}
                 </Stack>
-                
                 <Button 
                     title="Log out"  
                     variant="outlined"  
-                    onPress={button}
+                    onPress={LogOut}
                     style={styles.button}
                     loading={true}
-                    />
-
+                />
             </ScrollView>
-            
         </View>
     )
 }

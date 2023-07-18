@@ -3,24 +3,26 @@ import { createContext, useState } from "react";
 export const AuthContext=createContext({
     token:null as string | null,
     logout:():void=>{},//to set the token to null
+    userId:'' as string,
     isAuthenticated:false as boolean,
-    authenticate:({token}:{token:string}):void=>{},//to set the token to a value
+    authenticate:({token,userId}:{token:string,userId:string}):void=>{},//to set the token to a value
 })
 
 export const AuthContextProvider=({children}:any):JSX.Element=>{
     const [token,setToken]=useState(null as string | null);
     const [isAuthenticated,setIsAuthenticated]=useState(false as boolean);
+    const [userId,setUserId]=useState('' as string);
 
     const Logout=():void=>{
         setToken(null);
         setIsAuthenticated(!!token)//!!converts to boolean
+        setUserId('');
     }
 
-    const Authenticate=({token}:{token:string}):void=>{
-        console.log('authenticating with',token,'in context')
+    const Authenticate=({token,userId}:{token:string,userId:string}):void=>{
         setToken(token);
         setIsAuthenticated(!!token)
-        
+        setUserId(userId);
 
     }
 
@@ -29,6 +31,7 @@ export const AuthContextProvider=({children}:any):JSX.Element=>{
         isAuthenticated,
         logout:Logout,
         authenticate:Authenticate,
+        userId,
     }
     return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
 }

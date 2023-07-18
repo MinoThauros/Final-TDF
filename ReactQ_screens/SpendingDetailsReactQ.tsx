@@ -2,10 +2,10 @@ import { View, Text,Button, StyleSheet, Modal} from 'react-native'
 import { spending } from '../models/spending';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteExpense,useUpdateExpense} from '../Hooks/ReactQ';
-import Spending from '../components/Spending';
+import Spending from '../components/Expenses/Spending';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
-import SpendingCard from '../components/SpendingCard';
+import SpendingCard from '../components/Expenses/SpendingCard';
 import { SnackBarContext } from '../states/context/SnackBarContext';
 
 /**

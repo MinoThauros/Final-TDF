@@ -5,7 +5,7 @@ import AuthPages from './screens/AuthPages';
 import { AuthContext, AuthContextProvider } from './states/context/CredentialsContext';
 import { useContext } from 'react';
 import { SnackBarContext, SnackBarContextProvider } from './states/context/SnackBarContext';
-import SnackBar from './components/SnackBar';
+import SnackBar from './components/UI/SnackBar';
 
 const Pages=()=>{
     const {isAuthenticated}=useContext(AuthContext)

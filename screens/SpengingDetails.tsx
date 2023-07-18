@@ -1,7 +1,7 @@
 import { View, Button,Text } from "react-native";
 import { useSelector,useDispatch } from "react-redux";
 import { spending } from '../models/spending';
-import Spending from "../components/Spending";
+import Spending from "../components/Expenses/Spending";
 import { DeleteSpending,EditSpending } from "../states/redux/expenses";
 import { useState, useEffect } from 'react';
 import { HTTPInterface } from "../API/http";

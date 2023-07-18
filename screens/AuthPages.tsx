@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native'
-import CustomTextInput from '../components/CustomTextInput'
+import CustomTextInput from '../components/UI/CustomTextInput'
 import { useState } from 'react'
 import { Button } from '@react-native-material/core'
 import LoginPage from './LoginPage'
 import SignupPage from './SingUpPage'
 import Colors from '../constants/colors'
-import LogoDisplayer from '../components/LogoDisplayer'
+import LogoDisplayer from '../components/Global/LogoDisplayer'
 
 export type AuthPagesProps={
     setLogin:(value: React.SetStateAction<boolean>) => void,

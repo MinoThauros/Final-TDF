@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Stack, Avatar } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 const ProfileHeader = () => {
   return (

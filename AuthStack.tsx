@@ -2,11 +2,11 @@ import { KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import RecentExpenses from './screens/RecentExpensesScreen';
-import Profile from './screens/Profile';
+import Profile from './screens/Profile/Profile';
 import {Ionicons} from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { store } from './states/redux/store';
-import {HeaderButton} from './components/headerAddButton';
+import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
 import SpendingInput from './screens/SpendingInput'; 
 import SpendingDetailsComponent from './screens/SpengingDetails';
@@ -15,6 +15,7 @@ import SpendingInputReactQ from './ReactQ_screens/SpendingInputReactQ';
 import SpendingDetailsReactQ from './ReactQ_screens/SpendingDetailsReactQ';
 import AuthPages from './screens/AuthPages';
 import Colors from './constants/colors';
+import ProfileForm from './screens/Profile/ProfileForm';
 
 const Tab = createBottomTabNavigator();
 
@@ -81,15 +82,30 @@ const AuthStack = () => {
                 headerTitleStyle:{
                   color:Colors.Tangerine,
                 },
-                title:'My Profile'
+                title:'My Profile',
+                
               }}/>
-
-            <Tab.Screen 
+              
+              {/**
+               <Tab.Screen 
               name="Details"
               component={SpendingDetailsComponent}
               options={{
                 tabBarButton: () => null
               }}/>
+               */
+              }
+              <Tab.Screen
+                name="ProfileForm"
+                component={ProfileForm}
+                options={{
+                  tabBarButton: () => null,
+                  title:'Edit Profile',
+                  headerTitleStyle:{
+                    color:Colors.Tangerine,
+                  }
+              }}/>
+              
           </Tab.Navigator>
         </NavigationContainer>
       </Provider>

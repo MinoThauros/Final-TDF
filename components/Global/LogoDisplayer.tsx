@@ -1,16 +1,15 @@
 import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { Text, Stack, HStack } from "@react-native-material/core";
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 const LogoDisplayer = () => {
   return (
     <Stack style={styles.LogoBox}>
         <View style={styles.imageContainer}>
             <Image 
-                source={require('../assets/TimaTechLogo.png')} 
+                source={require('../../assets/TimaTechLogo.png')} 
                 style={styles.image} 
-                //resizeMode="center" 
                 resizeMethod='scale'/>
         </View>
       <Text  variant="h2" style={styles.text}>TimaTech.</Text>

@@ -1,5 +1,5 @@
 import { View,Text, StyleSheet,Button } from "react-native"
-import { spending } from '../models/spending';
+import { spending } from '../../models/spending';
 import { Stack, IconButton, HStack } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 

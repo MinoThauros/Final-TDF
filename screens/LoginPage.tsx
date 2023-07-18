@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useState,useContext } from 'react'
-import CustomTextInput from '../components/CustomTextInput'
+import CustomTextInput from '../components/UI/CustomTextInput'
 import { AuthPagesProps } from './AuthPages'
 import { Stack, Button,Snackbar } from "@react-native-material/core";
 import Colors from '../constants/colors';
@@ -9,7 +9,7 @@ import { useLogin } from '../Hooks/AuthReactQ'
 import { Validator } from '../API/validator'
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthContext } from '../states/context/CredentialsContext';
-import SnackBar from '../components/SnackBar'
+import SnackBar from '../components/UI/SnackBar'
 import { SnackBarContext } from '../states/context/SnackBarContext'
 
 const LoginPage = ({setLogin}:AuthPagesProps) => {
@@ -23,8 +23,10 @@ const LoginPage = ({setLogin}:AuthPagesProps) => {
         setSnackBar({message:response.data.error.message})
     }
     
-    const onLogin=({idToken}:{idToken:string})=>{
-        authenticate({token:idToken})
+    const onLogin=({idToken,userId}:{idToken:string,userId:string})=>{
+        authenticate({
+            token:idToken,
+            userId:userId})
     }
     const {mutate:signup,isSuccess,data,error,isError,status}=useLogin({onSuccess:onLogin,onError:onError})
     

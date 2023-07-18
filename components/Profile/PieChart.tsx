@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import PieChart  from 'react-native-pie-chart' //https://www.npmjs.com/package/react-native-pie-chart
 import ChartLegends from './ChartLegends';
-import { useGetExpenses } from '../Hooks/ReactQ';
-import { Categories, spending } from '../models/spending';
-import GetChartObj, {sliceColor} from '../utils/ChartUtils';
-import { SnackBarContext } from '../states/context/SnackBarContext';
+import { useGetExpenses } from '../../Hooks/ReactQ';
+import { Categories, spending } from '../../models/spending';
+import GetChartObj, {sliceColor} from '../../utils/ChartUtils';
+import { SnackBarContext } from '../../states/context/SnackBarContext';
 
 export type CategoryTypes=typeof Categories[number]
 const PieChartComponent = () => {
@@ -34,7 +34,7 @@ const PieChartComponent = () => {
              <Text>Spending overview:</Text>
         </View>
           <PieChart
-            widthAndHeight={250}
+            widthAndHeight={300}
             series={chartData.map((item)=>item['total'])}
             sliceColor={chartData.map((item)=>item['catColor'])}
             coverRadius={0.45}

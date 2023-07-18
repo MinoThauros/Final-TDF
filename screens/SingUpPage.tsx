@@ -18,8 +18,10 @@ const SingUpPage = ({setLogin}:AuthPagesProps) => {
 
 
 
-    const onLogin=({idToken}:{idToken:string})=>{
-        authenticate({token:idToken})
+    const onLogin=({idToken,userId}:{idToken:string,userId:string})=>{
+        authenticate({
+            token:idToken,
+            userId:userId})
     }
 
     const {mutate:signup,isSuccess,data}=useSignup({onSuccess:onLogin})

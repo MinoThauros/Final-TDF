@@ -27,14 +27,7 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
     const [city, setCity] = useState( defaultValue?.city?? '');
     const [country, setCountry] = useState( defaultValue?.country?? '');
 
-    const {setOptions:navOptions,navigate}=useNavigation()
-    const {userId}=useContext(AuthContext)
-
-    useLayoutEffect(() => {
-        navOptions({
-            headerLeft:()=><CancelButton onPress={()=>navigate('Profile' as never)}/>,
-        })
-    }, [])
+    
 
     const submitHandler=()=>{
         const profile:Profile={
@@ -45,15 +38,14 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             occupation,
             city,
             country,
-            id:userId
+            id:defaultValue?.id??'',
         }
-        //onSubmit({profile})
-        console.log(profile)
+        onSubmit({profile})
     }
 
   return (
-    <View style={styles.overallContainer}>
-        <View style={styles.card}>
+    <>
+     <View style={styles.card}>
             <View>
                 <ProfilePhotoBox/>
             </View>
@@ -123,8 +115,9 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             <View>
                 
         </View>
+    </>
+       
         
-    </View>
   )
 }
 

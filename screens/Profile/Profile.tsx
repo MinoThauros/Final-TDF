@@ -11,9 +11,12 @@ import ProfilePageExtras from "../../components/Profile/ProfilePageExtras";
 import ActiveButton from "../../components/UI/ActiveButton";
 import { useGetProfile } from "../../Hooks/ProfileReactQ";
 import CreateProfile from "./CreateProfile";
+import { useNavigation } from "@react-navigation/native";
 
 
-const Profile=({navigation,route}:any)=>{
+
+const Profile=()=>{
+    const {navigate}=useNavigation();
     const {logout,userId}=useContext(AuthContext);
     const [hideMore,setHideMore]=useState(false);
     //-->profile API call here
@@ -26,8 +29,16 @@ const Profile=({navigation,route}:any)=>{
         logout();
     }
 
+    if(!isFetched){
+        return <View><Text>Loading...</Text></View>
+    }
+
     if(isFetched && profileData?.message==='No Profile found'){
-        return <CreateProfile/>
+        return (
+        <View>
+            <Text>You do not have a profile yet</Text>
+            <Button title="Create Profile" onPress={()=>navigate('CreateProfile' as never)}/>
+        </View>)
     }
 
    

@@ -16,6 +16,8 @@ import SpendingDetailsReactQ from './ReactQ_screens/SpendingDetailsReactQ';
 import AuthPages from './screens/AuthPages';
 import Colors from './constants/colors';
 import ProfileForm from './screens/Profile/ProfileForm';
+import CreateProfile from './screens/Profile/CreateProfile';
+import EditProfile from './screens/Profile/EditProfile';
 
 const Tab = createBottomTabNavigator();
 
@@ -96,8 +98,19 @@ const AuthStack = () => {
                */
               }
               <Tab.Screen
-                name="ProfileForm"
-                component={ProfileForm}
+                name="CreateProfile"
+                component={CreateProfile}
+                options={{
+                  tabBarButton: () => null,
+                  title:'Create Profile',
+                  headerTitleStyle:{
+                    color:Colors.Tangerine,
+                  }
+              }}/>
+
+              <Tab.Screen
+                name="EditProfile"
+                component={EditProfile}
                 options={{
                   tabBarButton: () => null,
                   title:'Edit Profile',
@@ -105,6 +118,7 @@ const AuthStack = () => {
                     color:Colors.Tangerine,
                   }
               }}/>
+
               
           </Tab.Navigator>
         </NavigationContainer>

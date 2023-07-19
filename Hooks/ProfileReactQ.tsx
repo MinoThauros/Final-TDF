@@ -1,8 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { ProfileInterface } from "../API/http";
 import { Profile } from "../models/profile";
+import { QueryClient } from "@tanstack/react-query";
 
 const {getProfile,createProfile,updateProfile}=new ProfileInterface();
+
+const queryClient=new QueryClient();
 
 export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
@@ -11,10 +14,10 @@ export const useGetProfile = ({userId}:{userId:string}) => {
     })
 }
 
-export const useCreateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
+export const useCreateProfile = ({userId}:{userId:string}) => {
     return useMutation({
         mutationKey:['profile',userId],
-        mutationFn:()=>createProfile({userId,profile}),
+        mutationFn:createProfile,
         onSuccess:()=>console.log('profile created'),
         onMutate: async ({ userId, profile }:{userId:string,profile:Profile})=>{
 
@@ -23,6 +26,7 @@ export const useCreateProfile = ({userId,profile}:{userId:string,profile:Profile
 
         },
         onSettled:()=>{
+            queryClient.invalidateQueries({ queryKey: ['profile',userId] })
 
         },
     })
@@ -40,7 +44,7 @@ export const useUpdateProfile = ({userId,profile}:{userId:string,profile:Profile
 
         },
         onSettled:()=>{
-            
+            queryClient.invalidateQueries({ queryKey: ['profile',userId] })
         },
     })
 }

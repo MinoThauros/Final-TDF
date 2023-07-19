@@ -4,15 +4,14 @@ import { Profile } from "../models/profile";
 
 const {getProfile,createProfile,updateProfile}=new ProfileInterface();
 
-const useGetProfile = ({userId}:{userId:string}) => {
+export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
         queryKey:['profile',userId],
         queryFn:()=>getProfile({userId}),
-        enabled:!!userId,
     })
 }
 
-const useCreateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
+export const useCreateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
     return useMutation({
         mutationKey:['profile',userId],
         mutationFn:()=>createProfile({userId,profile}),
@@ -29,7 +28,7 @@ const useCreateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
     })
 }
 
-const useUpdateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
+export const useUpdateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
     return useMutation({
         mutationKey:['profile',userId],
         mutationFn:()=>updateProfile({userId,newProfile:profile}),

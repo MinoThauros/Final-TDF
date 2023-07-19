@@ -9,17 +9,28 @@ import { AntDesign } from '@expo/vector-icons';
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import ProfilePageExtras from "../../components/Profile/ProfilePageExtras";
 import ActiveButton from "../../components/UI/ActiveButton";
+import { useGetProfile } from "../../Hooks/ProfileReactQ";
+import CreateProfile from "./CreateProfile";
 
 
 const Profile=({navigation,route}:any)=>{
-    const {logout}=useContext(AuthContext);
+    const {logout,userId}=useContext(AuthContext);
     const [hideMore,setHideMore]=useState(false);
+    //-->profile API call here
+    //send it as default value to the form]
+    const {data:profileData,isFetched}=useGetProfile({userId})
 
     const LogOut=()=>{
         //navigation.navigate('Recent expenses');
         console.log('logout');//tigger a message to the user that they are logging out
         logout();
     }
+
+    if(isFetched && profileData?.message==='No Profile found'){
+        return <CreateProfile/>
+    }
+
+   
 
     return (
         <View style={styles.overallContainer}>

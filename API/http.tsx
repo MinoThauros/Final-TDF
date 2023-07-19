@@ -116,9 +116,13 @@ export class AuthInterface{
 
 }
 
+type GetProfileResponse={
+    response:Profile|AxiosResponse<any,any> | null,
+    message:'No Profile found' | 'Found profile' | 'error'
+}
 export class ProfileInterface{
 
-    getProfile=async ({userId}:{userId:string})=>{
+    getProfile=async ({userId}:{userId:string}):Promise<GetProfileResponse> =>{
         let profile=[] as Profile[]
 
         const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`);
@@ -140,9 +144,24 @@ export class ProfileInterface{
                     profile.push(profileObj);
                 }
 
-                resolve(profile[0] as Profile)
+                if(profile.length>0){
+                    //resolve(profile[0] as Profile)
+                    resolve({
+                        response: profile[0] as Profile,
+                        message: 'Found profile'
+                    })
+                }
+            }if(profile.length===0 && response.status===200){
+                resolve({
+                    response: null,
+                    message:'No Profile found'
+                
+                })
             }else{
-                reject(response as  AxiosResponse<any, any>)
+                reject({
+                    response: response as  AxiosResponse<any, any>,
+                    message:'Error'
+                })
             }
         })
     }

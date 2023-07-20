@@ -3,12 +3,14 @@ import React, { useContext, useLayoutEffect } from 'react'
 import { AuthContext } from '../../states/context/CredentialsContext'
 import ProfileForm from './ProfileForm'
 import { Profile } from '../../models/profile'
-import { useGetProfile } from '../../Hooks/ProfileReactQ'
+import { useGetProfile, useUpdateProfile } from '../../Hooks/ProfileReactQ'
 import { useNavigation } from '@react-navigation/native'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import Colors from '../../constants/colors'
+import { useQueryClient } from '@tanstack/react-query'
 
 const EditProfile = () => {
+  const queryClient = useQueryClient()
   //profile doesnt exist; create it
   const {setOptions:navOptions,navigate}=useNavigation()
   const {userId}=useContext(AuthContext)
@@ -16,14 +18,18 @@ const EditProfile = () => {
     navOptions({
         headerLeft:()=><CancelButton onPress={()=>navigate('Profile' as never)}/>,
     })
-}, [])
-    //get profile form context
-    //-->profile API call here
-    //send it as default value to the form]
-    const {data,isFetched}=useGetProfile({userId})
-    const onSubmit=({profile}:{profile:Profile})=>{
-      console.log(profile)
-    }
+  }, [])
+
+  const {data}=useGetProfile({userId})
+  const {mutate,isSuccess}=useUpdateProfile({queryClient})
+  const onSubmit=({profile}:{profile:Profile})=>{
+    mutate({
+      newProfile:profile,
+      userId:userId,
+    })
+    navigate('Profile' as never)
+    isSuccess&&navigate('Profile' as never)
+  }
   return (
     <View style={styles.overallContainer}>
       <ProfileForm onSubmit={onSubmit} defaultValue={data?.response as Profile}/>

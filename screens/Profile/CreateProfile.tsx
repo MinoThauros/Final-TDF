@@ -7,8 +7,10 @@ import { useNavigation } from '@react-navigation/native'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import Colors from '../../constants/colors'
 import { useCreateProfile } from '../../Hooks/ProfileReactQ'
+import { useQueryClient } from '@tanstack/react-query'
 
 const CreateProfile = () => {
+  const queryClient = useQueryClient()
     //profile doesnt exist; create it
     const {setOptions:navOptions,navigate}=useNavigation()
     const {userId}=useContext(AuthContext)
@@ -17,7 +19,7 @@ const CreateProfile = () => {
           headerLeft:()=><CancelButton onPress={()=>navigate('Profile' as never)}/>,
       })
   }, [])
-  const {mutate, isError, isLoading}=useCreateProfile({userId})
+  const {mutate, isError, isLoading}=useCreateProfile({queryClient})
   const onSubmit=({profile}:{profile:Profile})=>{
       console.log(profile)
       //create profile here
@@ -31,7 +33,7 @@ const CreateProfile = () => {
     
   return (
     <View style={styles.overallContainer}>
-      <ProfileForm onSubmit={onSubmit}/>
+      <ProfileForm onSubmit={(onSubmit)}/>
     </View>
   )
 }

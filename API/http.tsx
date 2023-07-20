@@ -127,29 +127,29 @@ export class ProfileInterface{
 
         const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`);
         return new Promise((resolve,reject)=>{
-            if(response.status===200){
+            if(response.status===200 && response){
                 const {data}=response
-                for ( let key in data){
+                console.log('api call resp', data)
                     const profileObj:Profile={
-                        id:key,//firebase id
-                        name:data[key].name,
-                        last_name:data[key].last_name,
-                        date_of_birth:data[key].date_of_birth,
-                        city:data[key].city,
-                        country:data[key].country,
-                        gender:data[key].gender,
-                        occupation:data[key].occupation,
-                        imageUrl:data[key].imageUrl??'',//if no image url, set to empty string
+                        id:'',//firebase id
+                        name:data.name,
+                        last_name:data.last_name,
+                        date_of_birth:data.date_of_birth,
+                        city:data.city,
+                        country:data.country,
+                        gender:data.gender,
+                        occupation:data.occupation,
+                        imageUrl:data.imageUrl??'',//if no image url, set to empty string
                     };
-                    profile.push(profileObj);
-                }
 
-                if(profile.length>0){
+
+                if(profileObj){
                     //resolve(profile[0] as Profile)
                     resolve({
-                        response: profile[0] as Profile,
+                        response: profileObj,
                         message: 'Found profile'
                     })
+                    
                 }
             }if(profile.length===0 && response.status===200){
                 resolve({
@@ -167,7 +167,7 @@ export class ProfileInterface{
     }
 
     updateProfile=async ({userId,newProfile}:{userId:string,newProfile:Profile})=>{
-        return await axios.put('https://bgetapp-default-rtdb.firebaseio.com/profile'+`/${userId}.json`,newProfile)
+        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`,newProfile)
     }
 
     createProfile=async ({userId,profile}:{userId:string,profile:Profile})=>{

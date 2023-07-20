@@ -1,29 +1,35 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Stack, Avatar } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import Colors from '../../constants/colors';
+import { AuthContext } from '../../states/context/CredentialsContext';
+import { useGetProfile } from '../../Hooks/ProfileReactQ';
+import { Profile } from '../../models/profile';
 
 const ProfileHeader = () => {
-  return (
-    <View style={{minWidth:'100%'}}>
+    const {userId}=useContext(AuthContext)
+    const profile=useGetProfile({userId}).data?.response as Profile
 
-        <View style={styles.avatarContainer} >
-            <Avatar
-            label="Jed Watson"
-            icon={props => <Icon name="account" {...props} />}
-            image={{ uri: "https://mui.com/static/images/avatar/1.jpg" }}
-            size={75}
-            style={{ margin: 4 }}
-            />
-        </View>
-        
-        <View style={styles.metaContainer} >
-            <Text>Jed Watson</Text>
-            <Text>Software Engineer, Google</Text>
-        </View>
+    return (
+        <View style={{minWidth:'100%'}}>
+
+            <View style={styles.avatarContainer} >
+                <Avatar
+                label={profile?.name??''}
+                icon={props => <Icon name="account" {...props} />}
+                image={{ uri: "https://mui.com/static/images/avatar/1.jpg" }}
+                size={75}
+                style={{ margin: 4 }}
+                />
+            </View>
+            
+            <View style={styles.metaContainer} >
+                <Text>{profile?.name??''}</Text>
+                <Text>{profile?.occupation??''}</Text>
+            </View>
     </View>
-  )
+    )
 }
 
 export default ProfileHeader

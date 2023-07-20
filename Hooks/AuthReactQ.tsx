@@ -18,7 +18,6 @@ const {login,signup}= new AuthInterface();
 export const useLogin = ({onSuccess,onError}:useMutationProps) => {
     return useMutation(['login'], login,{
         onSuccess:({data})=>{
-            console.log('data is',data),
             onSuccess({
                 idToken:data.idToken,
                 userId:data.localId,

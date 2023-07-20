@@ -1,50 +1,65 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { ProfileInterface } from "../API/http";
 import { Profile } from "../models/profile";
-import { QueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const {getProfile,createProfile,updateProfile}=new ProfileInterface();
 
-const queryClient=new QueryClient();
+
 
 export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
-        queryKey:['profile',userId],
+        queryKey:['profile'],
         queryFn:()=>getProfile({userId}),
+        onSuccess:(data)=>console.log('profile fetched',data,'userID: ',userId),
     })
 }
 
-export const useCreateProfile = ({userId}:{userId:string}) => {
+export const useCreateProfile = ({queryClient}:{queryClient:QueryClient}) => {
     return useMutation({
-        mutationKey:['profile',userId],
+        mutationKey:['profile'],
         mutationFn:createProfile,
         onSuccess:()=>console.log('profile created'),
         onMutate: async ({ userId, profile }:{userId:string,profile:Profile})=>{
+            await queryClient.cancelQueries({ queryKey: ['profile'] })
+            const previousProfile = queryClient.getQueryData(['profile']) as Profile;
+            queryClient.setQueryData(['profile'], (old:any) => profile as Profile);
+            console.log('query data is updated to',queryClient.getQueryData(['profile']))
+            return { previousProfile };
 
         },
-        onError:(err,variables,contect)=>{
+        onError:(err,variables,context)=>{
+            queryClient.setQueryData(['profile'], context?.previousProfile as Profile)
 
         },
         onSettled:()=>{
-            queryClient.invalidateQueries({ queryKey: ['profile',userId] })
+            queryClient.invalidateQueries({ queryKey: ['profile'] })
 
         },
     })
 }
 
-export const useUpdateProfile = ({userId,profile}:{userId:string,profile:Profile}) => {
+export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
     return useMutation({
-        mutationKey:['profile',userId],
-        mutationFn:()=>updateProfile({userId,newProfile:profile}),
-        onSuccess:()=>console.log('profile updated'),
-        onMutate: async ({ userId, profile }:{userId:string,profile:Profile})=>{
+        mutationKey:['profile'],
+        mutationFn:updateProfile,
+        onSuccess:({data})=>console.log('profile updated',data),
+        onMutate: async ({ userId, newProfile }:{userId:string,newProfile:Profile})=>{
+            await queryClient.cancelQueries({ queryKey: ['profile'] })
+            const previousProfile = queryClient.getQueryData(['profile']) as Profile;
+            queryClient.setQueryData(['profile'], (old:any) => newProfile as Profile);
+
+            console.log('query data is updated to',queryClient.getQueryData(['profile']))
+            return { previousProfile };
 
         },
-        onError:(err,variables,contect)=>{
+        onError:(err,variables,context)=>{
+            console.log(err)
+            queryClient.setQueryData(['profile'], context?.previousProfile as Profile)
 
         },
         onSettled:()=>{
-            queryClient.invalidateQueries({ queryKey: ['profile',userId] })
+            queryClient.invalidateQueries({ queryKey: ['profile'] })
         },
     })
 }

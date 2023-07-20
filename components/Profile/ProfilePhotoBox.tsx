@@ -3,6 +3,7 @@ import React from 'react'
 import { Avatar, Button, HStack, Stack } from '@react-native-material/core';
 import Colors from '../../constants/colors';
 import TextButton from '../UI/TextButton';
+import ProfilePic from './ProfilePic';
 
 
 const ProfilePhotoBox = () => {
@@ -14,27 +15,18 @@ const ProfilePhotoBox = () => {
         paddingBottom: '2%',
         }}>
         <Stack style={styles.photoBox}>
-        <Avatar
-            label="Jed Watson"
-            image={{uri: "https://mui.com/static/images/avatar/1.jpg"}}
-            size={100}
-            imageStyle={{
-                borderWidth: 4,
-                borderColor: Colors.Dark_Purple,
+            <ProfilePic size={100}/>
+            <TextButton 
+            text="Change photo" 
+            onPress={()=>console.log('Changed photo')}
+            extraStyling={{
+                TextStyling:{
+                    color:Colors.Tangerine,
+                    fontSize:12,
+                    fontWeight:'bold',
+                }
             }}
-            style={{ margin: 4 }}
             />
-        <TextButton 
-        text="Change photo" 
-        onPress={()=>console.log('Changed photo')}
-        extraStyling={{
-            TextStyling:{
-                color:Colors.Tangerine,
-                fontSize:12,
-                fontWeight:'bold',
-            }
-        }}
-        />
     </Stack>
     </View>
     

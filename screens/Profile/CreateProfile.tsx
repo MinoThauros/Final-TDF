@@ -19,7 +19,7 @@ const CreateProfile = () => {
           headerLeft:()=><CancelButton onPress={()=>navigate('Profile' as never)}/>,
       })
   }, [])
-  const {mutate, isError, isLoading}=useCreateProfile({queryClient})
+  const {mutate, isError, isLoading,isSuccess}=useCreateProfile({queryClient})
   const onSubmit=({profile}:{profile:Profile})=>{
       console.log(profile)
       //create profile here
@@ -27,7 +27,7 @@ const CreateProfile = () => {
         userId,
         profile
       })
-      navigate('Profile' as never)
+      isSuccess && navigate('Profile' as never)
   }
 
     

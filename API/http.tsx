@@ -129,18 +129,17 @@ export class ProfileInterface{
         return new Promise((resolve,reject)=>{
             if(response.status===200 && response){
                 const {data}=response
-                console.log('api call resp', data)
-                    const profileObj:Profile={
-                        id:'',//firebase id
-                        name:data.name,
-                        last_name:data.last_name,
-                        date_of_birth:data.date_of_birth,
-                        city:data.city,
-                        country:data.country,
-                        gender:data.gender,
-                        occupation:data.occupation,
-                        imageUrl:data.imageUrl??'',//if no image url, set to empty string
-                    };
+                const profileObj:Profile={
+                    id:'',//firebase id
+                    name:data.name,
+                    last_name:data.last_name,
+                    date_of_birth:data.date_of_birth,
+                    city:data.city,
+                    country:data.country,
+                    gender:data.gender,
+                    occupation:data.occupation,
+                    imageUrl:data.imageUrl??'',//if no image url, set to empty string
+                };
 
 
                 if(profileObj){

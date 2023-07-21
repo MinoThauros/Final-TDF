@@ -5,12 +5,13 @@ import CustomTextInput from '../../components/UI/CustomTextInput';
 import { Avatar, Button, HStack, Stack, TextInput } from '@react-native-material/core';
 import ProfileHeader from '../../components/Profile/ProfileHeader';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
-import ProfilePhotoBox from '../../components/Profile/ProfilePhotoBox';
+import ProfilePhotoBox from '../../components/Profile/PhotoForm';
 import { useNavigation } from '@react-navigation/native';
 import TextButton from '../../components/UI/TextButton';
 import CancelButton from '../../components/ProfileForm/CancelButton';
 import { AuthContext } from '../../states/context/CredentialsContext';
 import { Profile } from '../../models/profile';
+import PhotoForm from '../../components/Profile/PhotoForm';
 
 type ProfileFormProps={
     onSubmit:({profile}:{profile:Profile})=>void,
@@ -26,6 +27,7 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
     const [occupation, setOccupation] = useState( defaultValue?.occupation?? '');
     const [city, setCity] = useState( defaultValue?.city?? '');
     const [country, setCountry] = useState( defaultValue?.country?? '');
+    const [imageUrl, setImageUrl] = useState( defaultValue?.imageUrl?? '');
 
     
 
@@ -39,15 +41,20 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             city,
             country,
             id:defaultValue?.id??'',
+            imageUrl:imageUrl ,
         }
         onSubmit({profile})
+    }
+    
+    const onNewPhoto=({photoUrl}:{photoUrl:string})=>{
+        setImageUrl(photoUrl)
     }
 
   return (
     <>
      <View style={styles.card}>
             <View>
-                <ProfilePhotoBox/>
+                <PhotoForm onNewPhoto={onNewPhoto}/>
             </View>
             <View>
                 <Stack spacing={6} style={{padding:5, paddingVertical:5, marginBottom:15,marginHorizontal:10}}>

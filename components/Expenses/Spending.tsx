@@ -2,6 +2,8 @@ import { View,Text, StyleSheet,Button } from "react-native"
 import { spending } from '../../models/spending';
 import { Stack, IconButton, HStack } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import CircleContainer from "../UI/CircleContainer";
+import LargerCircleContainer from "../UI/LargerCircleContainer";
 
 
 const Spending=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
@@ -10,10 +12,7 @@ const Spending=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>vo
         <View style={styles.overallContainer}>
             <HStack m={4} spacing={6} style={styles.titleBox}>
                 <Text style={styles.titleLetters}>{title}</Text>
-                <View style={styles.CircleContainer}>
-                    <IconButton icon={<Icon name="delete" size={20} color="black"/>} onPress={Delete}/>
-                </View>
-                
+                <CircleContainer onPress={Delete} icon={"delete"}/>
             </HStack>
             <View style={styles.DetailsBox}>
                 <View style={styles.DetailsBoxLeft}>
@@ -24,9 +23,7 @@ const Spending=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>vo
                     <View style={styles.dateBox}>
                         <Text style={styles.date}>{date}</Text>
                     </View>
-                    <View style={styles.CircleContainer2}>
-                        <IconButton icon={<Icon name="pen" size={20} color="black"/>} onPress={Edit}/>
-                    </View>
+                    <LargerCircleContainer onPress={Edit} icon={"pen"}/>
                 </View>
             </View>
             <Button title="Hide" onPress={optional}/>

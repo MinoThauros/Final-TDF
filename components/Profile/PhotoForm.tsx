@@ -14,6 +14,9 @@ import {
     launchImageLibraryAsync } from 'expo-image-picker';
 import LargestRoundIconButton from '../UI/LargestRoundIconButton';
 import verifyPermissions from '../../screens/utils/DeviceNative/PermissionsManager';
+import { useGetProfile, useUpdateProfile } from '../../Hooks/ProfileReactQ';
+import { Profile } from '../../models/profile';
+import { useQueryClient } from '@tanstack/react-query';
 
 type PhotoFormProps={
     onNewPhoto:({photoUrl}:{photoUrl:string})=>void
@@ -23,6 +26,9 @@ type PhotoFormProps={
 const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     //handle photo change here
     const {userId}=useContext(AuthContext)
+    const profile=useGetProfile({userId}).data?.response as Profile
+    const queryClient = useQueryClient()
+    const {mutate:updateProfile}=useUpdateProfile({queryClient})
     //name of the file will be userId+CurrentTime+UUIDV4
     const [modalVisible,setModalVisible]=useState(false)
     const [cameraPermisisonInfo,cameraRequestPermission]=useCameraPermissions();
@@ -68,6 +74,12 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             })
         if (image) {
             console.log(image.assets ? image.assets[0].uri : 'LOOOL')
+            updateProfile({
+                userId,
+                newProfile:{
+                    ...profile,
+                    imageUrl:image.assets ? image.assets[0].uri : ''}})
+            setModalVisible(false)
             onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
         }
     }
@@ -85,6 +97,11 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             })
         if (image) {
             console.log(image.assets ? image.assets[0].uri : 'LOOOL')
+            updateProfile({
+                userId,
+                newProfile:{
+                    ...profile,
+                    imageUrl:image.assets ? image.assets[0].uri : ''}})
             onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
         }
     }

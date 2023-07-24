@@ -12,15 +12,18 @@ type useMutationProps = {
 
 const {storeExpense, getExpenses, deleteExpense,updateExpense} = new HTTPInterface();
 
-export const useGetExpenses = ({onSuccess,onError}:{onSuccess:({data}:{data:spending[]})=>void,onError: ({response}:{response:any}) => void;}) => {
-      return useQuery(['expenses'], getExpenses,{
-         onSuccess:(data:spending[])=>{           
+export const useGetExpenses = ({onSuccess,onError,userId}:{onSuccess:({data}:{data:spending[]})=>void,onError: ({response}:{response:any}) => void, userId:string}) => {
+      return useQuery({
+            queryKey: ['expenses'],
+            queryFn: async () => getExpenses({userId}),
+            onSuccess:(data:spending[])=>{           
             onSuccess({data})},//run provided callback
             onError:(err)=>{
                   console.log(err)
                   const error=err as any;
                   onError({response:error.response})
             },
+            enabled: !!userId,
 
       });
 }
@@ -29,7 +32,7 @@ export const useStoreExpense = ({onSuccess,queryClient,onError}:useMutationProps
       return useMutation(storeExpense,{
             onSuccess: (data) => {
                   onSuccess({data})},
-            onMutate: async (newSpending:spending) => {
+            onMutate: async ({spending} :{spending:spending,userId:string}) => {
                   // Cancel any outgoing refetches
                   // (so they don't overwrite our optimistic update)
                   await queryClient.cancelQueries({queryKey: ['expenses']});
@@ -38,7 +41,7 @@ export const useStoreExpense = ({onSuccess,queryClient,onError}:useMutationProps
                   const previousSpendings = queryClient.getQueryData(['expenses']) as spending[];
 
                   // Optimistically update to the new value
-                  queryClient.setQueryData(['expenses'], (old:any) => [...old, newSpending] as spending[]);
+                  queryClient.setQueryData(['expenses'], (old:any) => [...old, spending] as spending[]);
 
                   // Return a context object with the snapshotted value
                   return { previousSpendings };
@@ -63,7 +66,7 @@ export const useStoreExpense = ({onSuccess,queryClient,onError}:useMutationProps
 export const useDeleteExpense = ({onSuccess,queryClient,onError}:useMutationProps) => {
       return useMutation(deleteExpense,{
             onSuccess: (data) => onSuccess({data} as any),
-            onMutate: async (id:string) => {
+            onMutate: async ({userId,id} :{userId:string,id:string}) => {
                         
                   // Cancel any outgoing refetches
                   // (so they don't overwrite our optimistic update)

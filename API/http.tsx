@@ -4,32 +4,21 @@ import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from
 import { FIREBASE_API_KEY } from 'react-native-dotenv';
 import { Profile } from '../models/profile';
 
-/*
-Firebase rules have to be:
-
-{
-  "rules": {
-    ".read": true,
-    ".write": true,
-  }
-}
-
-*/
 
 export class HTTPInterface{
     readonly rootApi:string='https://bgetapp-default-rtdb.firebaseio.com/';
     readonly expenseNode:string='expenses.json';
     readonly url:string='https://bgetapp-default-rtdb.firebaseio.com/expenses.json';
 
-    async storeExpense(spending:spending){
+    async storeExpense({spending,userId} :{spending:spending,userId:string}){
         //store photo to cloud storage here
-        const response=await axios.post('https://bgetapp-default-rtdb.firebaseio.com/expenses.json',spending)
+        const response=await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`,spending)
         return response.data.name;
     };
-    async getExpenses(){
+    async getExpenses({userId}:{userId:string}){
         const expenses=[] as spending[]
 
-        const response =await axios.get('https://bgetapp-default-rtdb.firebaseio.com/expenses.json');
+        const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`);
         return new Promise((resolve,reject)=>{
             if(response.status===200){
                 const {data}=response
@@ -52,34 +41,26 @@ export class HTTPInterface{
     
     };
 
-    async deleteExpense(id:string) {
-        return await axios.delete('https://bgetapp-default-rtdb.firebaseio.com/expenses'+`/${id}.json`)
+    async deleteExpense({userId,id} :{userId:string,id:string}) {
+        console.log('deleting expense...', id,'from user',userId)
+        return await axios.delete(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json`)
         
     }
 
-    async updateExpense({id,updatedExpense}:{id:string,updatedExpense:spending}){
-        return await axios.put('https://bgetapp-default-rtdb.firebaseio.com/expenses'+`/${id}.json`,updatedExpense)
+    async updateExpense({id,updatedExpense, userId}:{id:string,updatedExpense:spending, userId:string}){
+        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json`,updatedExpense)
     }
 
-    getBudget=async ()=>{
-        try{
-            const response=await axios.get('https://bgetapp-default-rtdb.firebaseio.com/budget.json')
-            return response
-        }catch(err){
-            console.log(err)
-            return err
-        }
+    getBudget=async ({userId}:{userId:string})=>{
+        return await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/budget.json`)
     }
 
-    updateBudget=async (newBudget:spending)=>{
-        try{
-            const response=await axios.put('https://bgetapp-default-rtdb.firebaseio.com/budget.json',newBudget)
-            return response
-        }catch(err){
-            console.log(err)
-            return err
-        }
+    updateBudget=async ({newBudget,userId}:{newBudget:any,userId:string})=>{
+        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/budget.json`,newBudget)
+    }
 
+    createBudget=async ({newBudget,userId}:{newBudget:any,userId:string})=>{
+        return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/budget.json`,newBudget)
     }
 }
 
@@ -97,10 +78,6 @@ export class AuthInterface{
             returnSecureToken:true
             //ask backend to return token; if token is returned, we know that the login was successful
             }as AuthRequestPayloadArgs)
-        
-
-        
-        
     }
 
     signup=async ({email,password}:{email:string,password:string})=>{
@@ -112,8 +89,6 @@ export class AuthInterface{
             }as AuthRequestPayloadArgs)
             
     }
-
-
 
 }
 

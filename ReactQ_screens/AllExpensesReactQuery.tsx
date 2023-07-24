@@ -8,6 +8,7 @@ import DisplaySpendings from '../components/Expenses/SpendingsList';
 import LoadingOvelay from '../components/UI/LoadingOverlay';
 import { SnackBarContext } from '../states/context/SnackBarContext';
 import Colors from '../constants/colors';
+import { AuthContext } from '../states/context/CredentialsContext';
 //*dispatch action to initialize the store*
 
 //*we are still mixing react query and redux*
@@ -31,6 +32,7 @@ import Colors from '../constants/colors';
 //*We'll also implement a new version of the SpendingDetails component that uses react query mutations for delete actions*
 //*And finally an EditItem component that uses react query mutations for update actions*
 const AllExpensesReactQuery = () => {
+    const {userId}=useContext(AuthContext)
     const {setSnackBar}=useContext(SnackBarContext)
     const dispatch=useDispatch();
     const {isLoading,error,data}=useGetExpenses({
@@ -38,6 +40,7 @@ const AllExpensesReactQuery = () => {
             //bind the query to the redux store
             dispatch(InitializeSpending({incomingElements:data}))
         },
+        userId,
         onError:({response})=>{
             setSnackBar({message:'Failed to fetch your spendings'})}
     });

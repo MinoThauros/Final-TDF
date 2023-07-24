@@ -7,17 +7,15 @@ export class FireStore{
     //required for the Profile Object
     //make these methods loosely coupled to the component
 
-    readonly storage = getStorage();
-
     uploadImage = async ({uri,imageName}:{uri: any, imageName: string}) => {
 
-        const storageRef = ref(this.storage, imageName);
+        const storageRef = ref(storage, imageName);
 
         return await uploadString(storageRef, uri)
     }
     
     downloadImage = async ({imageName}:{imageName: string}) => {
-        const storageRef = ref(this.storage, imageName);
+        const storageRef = ref(storage, imageName);
         return await getDownloadURL(storageRef);
     }
 }

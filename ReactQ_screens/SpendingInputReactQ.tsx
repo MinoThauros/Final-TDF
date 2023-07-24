@@ -6,6 +6,7 @@ import { OverlayContext } from '../states/context/InputOverlayContext'
 import { useStoreExpense } from '../Hooks/ReactQ'
 import { useQueryClient,QueryClient } from '@tanstack/react-query'
 import { SnackBarContext } from '../states/context/SnackBarContext'
+import { AuthContext } from '../states/context/CredentialsContext'
 
 const SpendingInputReactQ = () => {
     //import react mutator;
@@ -13,6 +14,7 @@ const SpendingInputReactQ = () => {
     //get modal context
     const {visible,toogleOverlay}=useContext(OverlayContext);
     const {setSnackBar}=useContext(SnackBarContext)
+    const {userId}=useContext(AuthContext)
 
     //useQueryClient  returns the same instance of queryClient
     const queryClient = useQueryClient()
@@ -24,7 +26,10 @@ const SpendingInputReactQ = () => {
     }})
 
     const submitAction=({data}:{data:spending})=>{
-        mutate(data)
+        mutate({
+            spending: data,
+            userId:userId
+        })
     }
     const cancelSubmit=()=>{
         toogleOverlay()

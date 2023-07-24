@@ -6,13 +6,13 @@ const ChartLegends = ({sliceColor}:{sliceColor:string[]}) => {
   return (
     <View style={styles.legends}>
             <ColorCategory CatLabel="Food" BoxColor={sliceColor[0]}/>
-            <ColorCategory CatLabel="Fitness" BoxColor={sliceColor[1]}/>
+            <ColorCategory CatLabel="Clothes" BoxColor={sliceColor[1]}/>
             <ColorCategory CatLabel="Housing" BoxColor={sliceColor[2]}/>
             <ColorCategory CatLabel="Transportation" BoxColor={sliceColor[3]}/>
-            <ColorCategory CatLabel="Healthcare" BoxColor={sliceColor[4]}/>
-            <ColorCategory CatLabel="Entertainment" BoxColor={sliceColor[5]}/>
-            <ColorCategory CatLabel="Personal" BoxColor={sliceColor[6]}/>
-            <ColorCategory CatLabel="Insurance and Pensions" BoxColor={sliceColor[7]}/>
+            <ColorCategory CatLabel="Utilities" BoxColor={sliceColor[4]}/>
+            <ColorCategory CatLabel="Insurance" BoxColor={sliceColor[5]}/>
+            <ColorCategory CatLabel="Health" BoxColor={sliceColor[6]}/>
+            <ColorCategory CatLabel="Personals" BoxColor={sliceColor[7]}/>
 
         </View>
   )

@@ -1,15 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { useState } from 'react'
 import Colors from '../../constants/colors';
-import CustomTextInput from '../../components/UI/CustomTextInput';
-import { Avatar, Button, HStack, Stack, TextInput } from '@react-native-material/core';
-import ProfileHeader from '../../components/Profile/ProfileHeader';
-import Icon from '@expo/vector-icons/MaterialCommunityIcons';
-import ProfilePhotoBox from '../../components/Profile/PhotoForm';
-import { useNavigation } from '@react-navigation/native';
+import { Stack, TextInput } from '@react-native-material/core';
 import TextButton from '../../components/UI/TextButton';
-import CancelButton from '../../components/ProfileForm/CancelButton';
-import { AuthContext } from '../../states/context/CredentialsContext';
 import { Profile } from '../../models/profile';
 import PhotoForm from '../../components/Profile/PhotoForm';
 
@@ -43,6 +36,7 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             id:defaultValue?.id??'',
             imageUrl:imageUrl ,
         }
+        console.log('Profile',profile)
         onSubmit({profile})
     }
     

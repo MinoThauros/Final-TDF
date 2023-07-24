@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useContext, useLayoutEffect } from 'react'
 import { AuthContext } from '../../states/context/CredentialsContext'
 import ProfileForm from './ProfileForm'
@@ -8,10 +8,13 @@ import { useNavigation } from '@react-navigation/native'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import Colors from '../../constants/colors'
 import { useQueryClient } from '@tanstack/react-query'
+import { v4 as uuidv4 } from 'uuid';
+import 'react-native-get-random-values' // polyfill for uuidv4
+import { FireStore } from '../utils/Firebase/CloudStorage'
 
 const EditProfile = () => {
+  const {uploadImage}=new FireStore()
   const queryClient = useQueryClient()
-  //profile doesnt exist; create it
   const {setOptions:navOptions,navigate}=useNavigation()
   const {userId}=useContext(AuthContext)
   useLayoutEffect(() => {
@@ -46,5 +49,5 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection:'column',
     justifyContent:'center',
-},
+  },
 })

@@ -5,8 +5,15 @@ import Colors from '../../constants/colors';
 import TextButton from '../UI/TextButton';
 import ProfilePic from './ProfilePic';
 import { AuthContext } from '../../states/context/CredentialsContext';
-import { ImagePickerResult, useCameraPermissions } from 'expo-image-picker';
+import { 
+    ImagePickerResult, 
+    useCameraPermissions,
+    useMediaLibraryPermissions,
+    PermissionStatus, 
+    launchCameraAsync,
+    launchImageLibraryAsync } from 'expo-image-picker';
 import LargestRoundIconButton from '../UI/LargestRoundIconButton';
+import verifyPermissions from '../../screens/utils/DeviceNative/PermissionsManager';
 
 type PhotoFormProps={
     onNewPhoto:({photoUrl}:{photoUrl:string})=>void
@@ -17,56 +24,101 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     //handle photo change here
     const {userId}=useContext(AuthContext)
     //name of the file will be userId+CurrentTime+UUIDV4
-    const [cameraPermisisonInfo,requestPermission]=useCameraPermissions();
-    const [image,setImage]=useState<ImagePickerResult|undefined>()
     const [modalVisible,setModalVisible]=useState(false)
+    const [cameraPermisisonInfo,cameraRequestPermission]=useCameraPermissions();
+    const [mediaPermissionInfo, mediaRequestPermission] = useMediaLibraryPermissions();
+    const [image,setImage]=useState<ImagePickerResult|undefined>()
     const changePhotoHandler=()=>{
-        console.log('clicked')
         setModalVisible(!modalVisible)
     }
 
+    const checkPermissions=async ({mode}:{mode: 'camera' | 'media'})=>{
+        switch(mode){
+            case 'camera':
+                console.log('Permission',cameraPermisisonInfo?.status)
+                return await verifyPermissions({
+                    permissionState:{
+                        permission:cameraPermisisonInfo,
+                        requestPermission:cameraRequestPermission
+                },
+                PermissionStatus
+            })
+            case 'media':
+                console.log('Permission',mediaPermissionInfo?.status)
+                return await verifyPermissions({
+                    permissionState:{
+                        permission:mediaPermissionInfo,
+                        requestPermission:mediaRequestPermission
+                },
+                PermissionStatus
+            })
+        }
+        
+    }
+
+    const takePhoto=async ()=>{
+        const hasPermission=await checkPermissions({mode:'camera'})
+        if(!hasPermission){
+            return
+        }
+        const image=await launchCameraAsync({
+            allowsEditing:true,
+            aspect:[16,9],
+            quality:0.5,
+            })
+        if (image) {
+            console.log(image.assets ? image.assets[0].uri : 'LOOOL')
+            onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
+        }
+    }
+
+    const pickFromGallery=async ()=>{
+        const hasPermission=await checkPermissions({mode:'media'})
+        if(!hasPermission){
+            return
+        }
+        setModalVisible(false)
+        const image=await launchImageLibraryAsync({
+            allowsEditing:true,
+            aspect:[16,9],
+            quality:0.5,
+            })
+        if (image) {
+            console.log(image.assets ? image.assets[0].uri : 'LOOOL')
+            onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
+        }
+    }
+
+
     const ImageChangerModal=()=>{
         return(
-   
-                <Modal 
-                    visible={modalVisible}
-                    animationType={'fade'}
-                    transparent={true}
-                    style={styles.modal}>
-                    <TouchableOpacity 
-                        style={{flex:1}}
-                        activeOpacity={1}
-                        onPress={()=>setModalVisible(false)}>
-                        <View style={styles.modalContent}>
-                            <LargestRoundIconButton icon={'camera'} onPress={()=>{}}/>
-                            <LargestRoundIconButton icon={'image'} onPress={()=>{}}/>                          
-                        </View>
-                    </TouchableOpacity>
-
-                </Modal>
-
+            <Modal //make this a reusable component
+                visible={modalVisible}
+                animationType={'fade'}
+                transparent={true}
+                style={styles.modal}>
+                <TouchableOpacity 
+                    style={{flex:1}}
+                    activeOpacity={1}
+                    onPress={()=>setModalVisible(false)}>
+                    <View style={styles.modalContent}>
+                        <LargestRoundIconButton icon={'camera'} onPress={takePhoto}/>
+                        <LargestRoundIconButton icon={'image'} onPress={pickFromGallery}/>                          
+                    </View>
+                </TouchableOpacity>
+            </Modal>
         )
     }
   return (
-    <View style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingBottom: '2%',
-        }}>
+    <View style={styles.overallBox}>
         <Stack style={styles.photoBox}>
             <ProfilePic size={100}/>
             <ImageChangerModal/>
             <TextButton 
-            text="Change photo" 
-            onPress={changePhotoHandler}
-            extraStyling={{
-                TextStyling:{
-                    color:Colors.Tangerine,
-                    fontSize:12,
-                    fontWeight:'bold',
-                }
-            }}
+                text="Change photo" 
+                onPress={changePhotoHandler}
+                extraStyling={{
+                    TextStyling:styles.extraStyling}}
             />
     </Stack>
     </View>
@@ -77,18 +129,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
 export default PhotoForm
 
 const styles = StyleSheet.create({
-    buttonContainer:{
-        alignItems:'flex-start'
-    },
-    pressed:{
-        opacity:0.5
-    },
-    buttonText:{
-        fontWeight:'bold',
-        color:Colors.Tangerine,
-        fontSize:12
-
-    },
     photoBox:{
         alignItems:'center',
         marginHorizontal:10,
@@ -105,4 +145,15 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
     },
+    overallBox:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: '2%',
+    },
+    extraStyling:{
+        color:Colors.Tangerine,
+        fontSize:12,
+        fontWeight:'bold',
+    }
 })

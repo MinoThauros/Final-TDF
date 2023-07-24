@@ -1,8 +1,6 @@
 import { getStorage, ref, uploadString,getDownloadURL } from "firebase/storage";
-import { v4 as uuidv4 } from 'uuid';
 import 'react-native-get-random-values'
 import { storage } from '../../../configs/firebaseConfig';
-import { ImageURISource } from "react-native";
 
 export class FireStore{
     //allow component to create the image name

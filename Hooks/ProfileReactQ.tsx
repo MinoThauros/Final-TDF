@@ -5,8 +5,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const {getProfile,createProfile,updateProfile}=new ProfileInterface();
 
-
-
 export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
         queryKey:['profile'],

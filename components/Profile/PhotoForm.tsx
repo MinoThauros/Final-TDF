@@ -14,8 +14,8 @@ import {
     launchImageLibraryAsync } from 'expo-image-picker';
 import LargestRoundIconButton from '../UI/LargestRoundIconButton';
 import verifyPermissions from '../../screens/utils/DeviceNative/PermissionsManager';
-import { useGetProfile, useUpdateProfilePhoto } from '../../Hooks/ProfileReactQ';
-import { useQueryClient } from "@tanstack/react-query";
+import { useGetProfile, useUpdateProfile, useUpdateProfilePhoto } from '../../Hooks/ProfileReactQ';
+import { useQueryClient } from '@tanstack/react-query';
 import { Profile } from '../../models/profile';
 
 type PhotoFormProps={
@@ -52,7 +52,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     const [mediaPermissionInfo, mediaRequestPermission] = useMediaLibraryPermissions()
     const queryClient=useQueryClient()
     const profile=useGetProfile({userId}).data?.response as Profile
-    const {mutate:UpdatePhoto}=useUpdateProfilePhoto({queryClient})
+    const {mutate:changeProfilePhoto}=useUpdateProfilePhoto({queryClient})
     const changePhotoHandler=()=>{
         setModalVisible(!modalVisible)
     }
@@ -92,7 +92,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             quality:0.1,
             })
         if (image) {
-            UpdatePhoto({
+            changeProfilePhoto({
                 userId,
                 newProfile:{
                     ...profile,
@@ -115,7 +115,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             })
         if (image) {
             console.log(image.assets ? image.assets[0].uri : 'LOOOL')
-            UpdatePhoto({
+            changeProfilePhoto({
                 userId,
                 newProfile:{
                     ...profile,

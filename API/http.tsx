@@ -6,12 +6,11 @@ import { Profile } from '../models/profile';
 import { FireStore } from './Firebase/CloudStorage';
 import { store } from '../states/redux/store';
 import { Alert } from 'react-native';
+import { err } from 'react-native-svg/lib/typescript/xml';
 
 export type ProfilePhotoUploadResponse={
-    result:{
-        status:'success'|'error',
-        data:any
-    }
+    response:any,
+    message:'Success' | 'Error'
 }
 
 
@@ -185,17 +184,44 @@ export class ProfileInterface{
         return new Promise((resolve,reject)=>{
             if(error){
                 reject({
-                    result:{
-                        status:'error',
-                        data:error
-                    }
+                        message:'Error',
+                        response:error
+                    })
+            }
+            resolve({
+                    message:'Success',
+                    response:updatedProfile
+                })
+        })
+    }
+
+    getProfileAndPhoto=async ({userId}:{userId:string}):Promise<ProfilePhotoUploadResponse>=>{
+        let profileResponse:any
+        let profile:any
+        let imageUrl :any
+        let error:any=null
+        try{
+            profileResponse=await this.getProfile({userId})
+            profile=profileResponse.response as Profile
+            imageUrl=await downloadImage({imageName:`profile/${userId}`})
+        }catch(e){
+            Alert.alert('Error',e as any)
+            error=e
+        }
+
+        return new Promise((resolve,reject)=>{
+            if(error){
+                reject({
+                    response:error,
+                    message:'Error'
                 })
             }
             resolve({
-                result:{
-                    status:'success',
-                    data:updatedProfile
-                }
+                response:{
+                    ...profile,
+                    imageUrl
+                } as Profile,
+                message:'Success'
             })
         })
     }

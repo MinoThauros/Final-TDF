@@ -1,16 +1,15 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { ProfileInterface } from "../API/http";
 import { Profile } from "../models/profile";
-import { useQueryClient } from "@tanstack/react-query";
-
-const {getProfile,createProfile,updateProfile, updateProfilePhoto}=new ProfileInterface();
+const {createProfile,getProfileAndPhoto, updateProfilePhoto}=new ProfileInterface();
 
 
 
 export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
         queryKey:['profile'],
-        queryFn:()=>getProfile({userId}),
+        queryFn:()=>getProfileAndPhoto({userId}),
+        onSuccess:({response})=>{console.log('Success',response.data)}
     })
 }
 
@@ -39,7 +38,7 @@ export const useCreateProfile = ({queryClient}:{queryClient:QueryClient}) => {
 export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
     return useMutation({
         mutationKey:['profile'],
-        mutationFn:updateProfile,
+        mutationFn:updateProfilePhoto,
         onMutate: async ({ userId, newProfile }:{userId:string,newProfile:Profile})=>{
             await queryClient.cancelQueries({ queryKey: ['profile'] })
             const previousProfile = queryClient.getQueryData(['profile']) as Profile;
@@ -52,7 +51,6 @@ export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
             return { previousProfile };
         },
         onError:(err,variables,context)=>{
-            console.log(err)
             queryClient.setQueryData(['profile'], context?.previousProfile as Profile)
         },
         onSettled:()=>{
@@ -61,7 +59,6 @@ export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
     })
 }
 
-//modify mutationFct to push to S3
 export const useUpdateProfilePhoto = ({queryClient}:{queryClient:QueryClient}) => {
     return useMutation({
         mutationKey:['profile'],
@@ -70,18 +67,14 @@ export const useUpdateProfilePhoto = ({queryClient}:{queryClient:QueryClient}) =
             await queryClient.cancelQueries({ queryKey: ['profile'] })
             const previousProfile = queryClient.getQueryData(['profile']) as Profile;
             queryClient.setQueryData(['profile'], (old:any) => {
-                console.log('cache manipulation going on')
                 return {
                     ...old,
-                    photo:newProfile.imageUrl
-                    //cache manipulation in images is simply a bit slow
-                }
-            }
-             );
+                    imageUrl:newProfile.imageUrl??''
+                } as Profile
+            });
             return { previousProfile };
         },
         onError:(err,variables,context)=>{
-            console.log(err)
             queryClient.setQueryData(['profile'], context?.previousProfile as Profile)
         },
         onSettled:()=>{
@@ -90,13 +83,4 @@ export const useUpdateProfilePhoto = ({queryClient}:{queryClient:QueryClient}) =
     })
 }
 
-//idea: we could create a special hook ['profile/photo'] that handles the photo change
-//this would allow us to update photo without having to update entire profile
-/**
-This is how the hook would look like:
 
-A) upload:
-setQueryData as the uri of the photo
--> onMutate: setQueryData(['profile/photo'], (old:any) => newPhoto as Photo);
-Why is photo
- */

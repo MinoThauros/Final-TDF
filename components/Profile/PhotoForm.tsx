@@ -23,6 +23,26 @@ type PhotoFormProps={
 }
 
 
+const ImageChangerModal=({modalState, takePhoto, pickFromGallery}:any)=>{
+    const [modalVisible, setmodalVisible]=modalState
+    return(
+        <Modal //make this a reusable component
+            visible={modalVisible}
+            animationType={'fade'}
+            transparent={true}
+            style={styles.modal}>
+            <TouchableOpacity 
+                style={{flex:1}}
+                activeOpacity={1}
+                onPress={()=>setmodalVisible(false)}>
+                <View style={styles.modalContent}>
+                    <LargestRoundIconButton icon={'camera'} onPress={takePhoto}/>
+                    <LargestRoundIconButton icon={'image'} onPress={pickFromGallery}/>                          
+                </View>
+            </TouchableOpacity>
+        </Modal>
+    )
+}
 const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     //handle photo change here
     const {userId}=useContext(AuthContext)
@@ -69,10 +89,15 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
         const image=await launchCameraAsync({
             allowsEditing:true,
             aspect:[16,9],
-            quality:0.2,
+            quality:0.1,
             })
         if (image) {
-            console.log(image.assets ? image.assets[0].uri : 'LOOOL')
+            UpdatePhoto({
+                userId,
+                newProfile:{
+                    ...profile,
+                    imageUrl:image.assets ? image.assets[0].uri : ''}})
+            setModalVisible(false)
             onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
         }
     }
@@ -86,7 +111,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
         const image=await launchImageLibraryAsync({
             allowsEditing:true,
             aspect:[16,9],
-            quality:0.2,
+            quality:0.1,
             })
         if (image) {
             console.log(image.assets ? image.assets[0].uri : 'LOOOL')
@@ -100,30 +125,16 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     }
 
 
-    const ImageChangerModal=()=>{
-        return(
-            <Modal //make this a reusable component
-                visible={modalVisible}
-                animationType={'fade'}
-                transparent={true}
-                style={styles.modal}>
-                <TouchableOpacity 
-                    style={{flex:1}}
-                    activeOpacity={1}
-                    onPress={()=>setModalVisible(false)}>
-                    <View style={styles.modalContent}>
-                        <LargestRoundIconButton icon={'camera'} onPress={takePhoto}/>
-                        <LargestRoundIconButton icon={'image'} onPress={pickFromGallery}/>                          
-                    </View>
-                </TouchableOpacity>
-            </Modal>
-        )
-    }
+
   return (
     <View style={styles.overallBox}>
         <Stack style={styles.photoBox}>
             <ProfilePic size={100}/>
-            <ImageChangerModal/>
+            <ImageChangerModal
+            modalState={[modalVisible,setModalVisible]}
+            takePhoto={takePhoto}
+            pickFromGallery={pickFromGallery}
+            />
             <TextButton 
                 text="Change photo" 
                 onPress={changePhotoHandler}

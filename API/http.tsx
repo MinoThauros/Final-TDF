@@ -3,6 +3,16 @@ import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
 import { FIREBASE_API_KEY } from 'react-native-dotenv';
 import { Profile } from '../models/profile';
+import { FireStore } from './Firebase/CloudStorage';
+import { store } from '../states/redux/store';
+import { Alert } from 'react-native';
+
+export type ProfilePhotoUploadResponse={
+    result:{
+        status:'success'|'error',
+        data:any
+    }
+}
 
 
 export class HTTPInterface{
@@ -96,6 +106,8 @@ type GetProfileResponse={
     response:Profile|AxiosResponse<any,any> | null,
     message:'No Profile found' | 'Found profile' | 'error'
 }
+
+const {uploadImage,downloadImage}=new FireStore();
 export class ProfileInterface{
 
     getProfile=async ({userId}:{userId:string}):Promise<GetProfileResponse> =>{
@@ -147,5 +159,44 @@ export class ProfileInterface{
 
     createProfile=async ({userId,profile}:{userId:string,profile:Profile})=>{
         return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`,profile)
+    }
+
+    updateProfilePhoto=async ({userId,newProfile}:{userId:string,newProfile:Profile}):Promise<ProfilePhotoUploadResponse>=>{
+        let error:any
+        let storedImageUrl:any
+        const imageName=`profile/${userId}`
+        let updatedProfile:any
+
+        try{
+            storedImageUrl=await uploadImage({
+                uri:newProfile.imageUrl??'',
+                imageName
+            })
+            updatedProfile=await this.updateProfile({
+                userId,
+                newProfile
+            })
+
+        }catch(err){
+            Alert.alert('Error',err as any)
+            error=err
+        }
+        
+        return new Promise((resolve,reject)=>{
+            if(error){
+                reject({
+                    result:{
+                        status:'error',
+                        data:error
+                    }
+                })
+            }
+            resolve({
+                result:{
+                    status:'success',
+                    data:updatedProfile
+                }
+            })
+        })
     }
 }

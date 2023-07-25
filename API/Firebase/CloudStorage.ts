@@ -1,4 +1,4 @@
-import { getStorage, ref, uploadString,getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getStorage, ref, uploadString,getDownloadURL, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import 'react-native-get-random-values'
 import { storage } from '../../configs/firebaseConfig';
 
@@ -26,14 +26,12 @@ export class FireStore{
         return blob;
       };
 
-    uploadImage = async ({uri,imageName}:{uri: any, imageName: string}) => {
+    uploadImage = async ({uri,imageName}:{uri: string, imageName: string}) => {
         const storageRef = ref(storage,imageName);
-
-        console.log("storageRef",storageRef.bucket)
 
         const blobz = await this.uriToBlob(uri) as Blob;
 
-        return await uploadBytesResumable(storageRef, blobz)
+        return await uploadBytes(storageRef, blobz)
 
         
     }

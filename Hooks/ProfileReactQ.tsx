@@ -3,7 +3,7 @@ import { ProfileInterface } from "../API/http";
 import { Profile } from "../models/profile";
 import { useQueryClient } from "@tanstack/react-query";
 
-const {getProfile,createProfile,updateProfile}=new ProfileInterface();
+const {getProfile,createProfile,updateProfile, updateProfilePhoto}=new ProfileInterface();
 
 
 
@@ -61,17 +61,20 @@ export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
     })
 }
 
+//modify mutationFct to push to S3
 export const useUpdateProfilePhoto = ({queryClient}:{queryClient:QueryClient}) => {
     return useMutation({
         mutationKey:['profile'],
-        mutationFn:updateProfile,
+        mutationFn:updateProfilePhoto,
         onMutate: async ({ userId, newProfile }:{userId:string,newProfile:Profile})=>{
             await queryClient.cancelQueries({ queryKey: ['profile'] })
             const previousProfile = queryClient.getQueryData(['profile']) as Profile;
             queryClient.setQueryData(['profile'], (old:any) => {
+                console.log('cache manipulation going on')
                 return {
                     ...old,
                     photo:newProfile.imageUrl
+                    //cache manipulation in images is simply a bit slow
                 }
             }
              );

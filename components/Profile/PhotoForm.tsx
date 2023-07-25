@@ -14,6 +14,9 @@ import {
     launchImageLibraryAsync } from 'expo-image-picker';
 import LargestRoundIconButton from '../UI/LargestRoundIconButton';
 import verifyPermissions from '../../screens/utils/DeviceNative/PermissionsManager';
+import { useGetProfile, useUpdateProfilePhoto } from '../../Hooks/ProfileReactQ';
+import { useQueryClient } from "@tanstack/react-query";
+import { Profile } from '../../models/profile';
 
 type PhotoFormProps={
     onNewPhoto:({photoUrl}:{photoUrl:string})=>void
@@ -26,8 +29,10 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     //name of the file will be userId+CurrentTime+UUIDV4
     const [modalVisible,setModalVisible]=useState(false)
     const [cameraPermisisonInfo,cameraRequestPermission]=useCameraPermissions();
-    const [mediaPermissionInfo, mediaRequestPermission] = useMediaLibraryPermissions();
-    const [image,setImage]=useState<ImagePickerResult|undefined>()
+    const [mediaPermissionInfo, mediaRequestPermission] = useMediaLibraryPermissions()
+    const queryClient=useQueryClient()
+    const profile=useGetProfile({userId}).data?.response as Profile
+    const {mutate:UpdatePhoto}=useUpdateProfilePhoto({queryClient})
     const changePhotoHandler=()=>{
         setModalVisible(!modalVisible)
     }
@@ -64,7 +69,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
         const image=await launchCameraAsync({
             allowsEditing:true,
             aspect:[16,9],
-            quality:0.5,
+            quality:0.2,
             })
         if (image) {
             console.log(image.assets ? image.assets[0].uri : 'LOOOL')
@@ -81,10 +86,15 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
         const image=await launchImageLibraryAsync({
             allowsEditing:true,
             aspect:[16,9],
-            quality:0.5,
+            quality:0.2,
             })
         if (image) {
             console.log(image.assets ? image.assets[0].uri : 'LOOOL')
+            UpdatePhoto({
+                userId,
+                newProfile:{
+                    ...profile,
+                    imageUrl:image.assets ? image.assets[0].uri : ''}})
             onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
         }
     }

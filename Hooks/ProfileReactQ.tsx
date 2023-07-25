@@ -43,7 +43,12 @@ export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
         onMutate: async ({ userId, newProfile }:{userId:string,newProfile:Profile})=>{
             await queryClient.cancelQueries({ queryKey: ['profile'] })
             const previousProfile = queryClient.getQueryData(['profile']) as Profile;
-            queryClient.setQueryData(['profile'], (old:any) => newProfile as Profile);
+            queryClient.setQueryData(['profile'], (old:any) => {
+                return {
+                    ...old,
+                    ...newProfile
+                }
+            });
             return { previousProfile };
         },
         onError:(err,variables,context)=>{
@@ -55,3 +60,40 @@ export const useUpdateProfile = ({queryClient}:{queryClient:QueryClient}) => {
         },
     })
 }
+
+export const useUpdateProfilePhoto = ({queryClient}:{queryClient:QueryClient}) => {
+    return useMutation({
+        mutationKey:['profile'],
+        mutationFn:updateProfile,
+        onMutate: async ({ userId, newProfile }:{userId:string,newProfile:Profile})=>{
+            await queryClient.cancelQueries({ queryKey: ['profile'] })
+            const previousProfile = queryClient.getQueryData(['profile']) as Profile;
+            queryClient.setQueryData(['profile'], (old:any) => {
+                return {
+                    ...old,
+                    photo:newProfile.imageUrl
+                }
+            }
+             );
+            return { previousProfile };
+        },
+        onError:(err,variables,context)=>{
+            console.log(err)
+            queryClient.setQueryData(['profile'], context?.previousProfile as Profile)
+        },
+        onSettled:()=>{
+            queryClient.invalidateQueries({ queryKey: ['profile'] })
+        },
+    })
+}
+
+//idea: we could create a special hook ['profile/photo'] that handles the photo change
+//this would allow us to update photo without having to update entire profile
+/**
+This is how the hook would look like:
+
+A) upload:
+setQueryData as the uri of the photo
+-> onMutate: setQueryData(['profile/photo'], (old:any) => newPhoto as Photo);
+Why is photo
+ */

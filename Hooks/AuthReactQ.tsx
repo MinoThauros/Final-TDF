@@ -4,7 +4,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/react-query';
 import { AuthInterface } from '../API/http';
 import { SignInResponsePayload, SignUpResponsePayload } from '../API/httpUtils';
-import {format as prettyFormat} from 'pretty-format';
 
 
 //CUD action so either we post a new item

@@ -21,8 +21,6 @@ const CreateProfile = () => {
   }, [])
   const {mutate, isError, isLoading,isSuccess}=useCreateProfile({queryClient})
   const onSubmit=({profile}:{profile:Profile})=>{
-      console.log(profile)
-      //create profile here
       mutate({
         userId,
         profile

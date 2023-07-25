@@ -25,12 +25,11 @@ const EditProfile = () => {
 
   const {data}=useGetProfile({userId})
   const {mutate,isSuccess}=useUpdateProfile({queryClient})
-  const onSubmit=({profile}:{profile:Profile})=>{
+  const onSubmit= async ({profile}:{profile:Profile})=>{
     mutate({
       newProfile:profile,
       userId:userId,
     })
-    navigate('Profile' as never)
     isSuccess&&navigate('Profile' as never)
   }
   return (

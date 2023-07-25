@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { HTTPInterface } from '../API/http';
 import { spending } from '../models/spending';
 import { QueryClient } from '@tanstack/react-query';
+import { FireStore } from '../API/Firebase/CloudStorage';
 //CUD action so either we post a new item
 type useMutationProps = {
       onSuccess: (param:any) => void;
@@ -11,6 +12,7 @@ type useMutationProps = {
 }
 
 const {storeExpense, getExpenses, deleteExpense,updateExpense} = new HTTPInterface();
+const {uploadImage}=new FireStore()
 
 export const useGetExpenses = ({onSuccess,onError,userId}:{onSuccess:({data}:{data:spending[]})=>void,onError: ({response}:{response:any}) => void, userId:string}) => {
       return useQuery({

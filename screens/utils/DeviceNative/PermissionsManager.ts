@@ -1,5 +1,5 @@
 import { PermissionResponse} from 'expo-modules-core';
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 
 type LocationPermissionResponse = {
     status: 'UNDETERMINED' | 'DENIED' | 'GRANTED';

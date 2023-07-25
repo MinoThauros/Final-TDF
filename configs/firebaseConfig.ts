@@ -20,13 +20,13 @@ import {getStorage} from 'firebase/storage';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY,
-  authDomain: FIREBASE_AUTH_DOMAIN,
-  databaseURL: DATABASE_URL,
-  projectId: PROJECT_ID,
-  storageBucket: STORAGE_BUCKET,
-  messagingSenderId: MESSAGING_SENDER_ID,
-  appId: APP_ID
+  apiKey: "AIzaSyDWZcx9JHwZSj2fam2grs4bAL0reJBuIzE",
+  authDomain: "bgetapp.firebaseapp.com",
+  databaseURL: "https://bgetapp-default-rtdb.firebaseio.com",
+  projectId: "bgetapp",
+  storageBucket: "bgetapp.appspot.com",
+  messagingSenderId: "871157693131",
+  appId: "1:871157693131:web:b8692954d93449aee7b94e"
 };
 //pass configs to app contrsuctor
 const app = initializeApp(firebaseConfig);

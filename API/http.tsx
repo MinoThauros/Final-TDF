@@ -3,7 +3,11 @@ import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
 import { FIREBASE_API_KEY } from 'react-native-dotenv';
 import { Profile } from '../models/profile';
+import { v4 as uuidv4 } from 'uuid';
+import 'react-native-get-random-values' // polyfill for uuidv4
+import { FireStore } from './Firebase/CloudStorage';
 
+const {uploadImage}=new FireStore()
 
 export class HTTPInterface{
     readonly rootApi:string='https://bgetapp-default-rtdb.firebaseio.com/';
@@ -126,7 +130,7 @@ export class ProfileInterface{
                     })
                     
                 }
-            }if(profile.length===0 && response.status===200){
+            }if(!response.data && response.status===200){
                 resolve({
                     response: null,
                     message:'No Profile found'

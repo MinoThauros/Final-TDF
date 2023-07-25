@@ -14,7 +14,7 @@ const ProfilePic = ({size}:{size:number}) => {
     label={profile?.name??'?'}
     //need a placeholder image
     image={{
-        uri: profile?.imageUrl?.length ? profile.imageUrl : "https://mui.com/static/images/avatar/8.jpg"}}
+        uri: profile?.imageUrl?.length ? profile.imageUrl : "https://mui.com/static/images/avatar/10.jpg"}}
     size={size}
     imageStyle={{
         borderWidth: 4,

@@ -41,7 +41,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     const checkPermissions=async ({mode}:{mode: 'camera' | 'media'})=>{
         switch(mode){
             case 'camera':
-                console.log('Permission',cameraPermisisonInfo?.status)
                 return await verifyPermissions({
                     permissionState:{
                         permission:cameraPermisisonInfo,
@@ -50,7 +49,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
                 PermissionStatus
             })
             case 'media':
-                console.log('Permission',mediaPermissionInfo?.status)
                 return await verifyPermissions({
                     permissionState:{
                         permission:mediaPermissionInfo,
@@ -73,7 +71,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             quality:0.5,
             })
         if (image) {
-            console.log(image.assets ? image.assets[0].uri : 'LOOOL')
             updateProfile({
                 userId,
                 newProfile:{
@@ -96,7 +93,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             quality:0.5,
             })
         if (image) {
-            console.log(image.assets ? image.assets[0].uri : 'LOOOL')
             updateProfile({
                 userId,
                 newProfile:{

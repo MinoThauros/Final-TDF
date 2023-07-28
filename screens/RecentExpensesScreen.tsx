@@ -11,8 +11,10 @@ import { HTTPInterface } from '../API/http';
 import { useGetExpenses } from "../Hooks/ReactQ";
 import { SnackBarContext } from "../states/context/SnackBarContext";
 import Colors from "../constants/colors";
+import { AuthContext } from "../states/context/CredentialsContext";
 
 const RecentExpenses=({navigation,route}:any)=>{
+    const {userId}=useContext(AuthContext)
     const {setSnackBar}=useContext(SnackBarContext)
     const [temp,setTemp]=useState({} as spending);
     //const spendings=useSelector((states:any)=>states.ExpenseReducer.expenses) as spending[] | undefined;
@@ -24,6 +26,7 @@ const RecentExpenses=({navigation,route}:any)=>{
             //console.log(data)
             setTemp
         },
+        userId,
         onError:({response})=>{
             setSnackBar({message:'Failed to fetch your spendings'})}
     });

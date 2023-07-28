@@ -42,7 +42,6 @@ const LoginPage = ({setLogin}:AuthPagesProps) => {
     
     const submitButton=()=>{
         if (emailValidator(email) && wordValidator(password)){
-            console.log('loggin in',{email,password})
             return signup({email,password})
 
         }

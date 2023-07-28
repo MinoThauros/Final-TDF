@@ -57,8 +57,6 @@ const SpendingCard = ({initialValues,confirm,optionalButton,id}:SpendingCardProp
             }
             else{
                 setWarnings(messages)
-                //controlls the warning messages dynamically
-                console.log('warnings',messages.categoryWarning)
             }
         } 
         return (

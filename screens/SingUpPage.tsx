@@ -39,7 +39,6 @@ const SingUpPage = ({setLogin}:AuthPagesProps) => {
 
     const submitButton=()=>{
         if (emailValidator(email) && wordValidator(password) && password===confirmPassword){
-            console.log('submitting',{email,password})
             return signup({email,password})
 
         }

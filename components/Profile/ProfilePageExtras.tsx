@@ -11,7 +11,7 @@ const ProfilePageExtras = () => {
         options={[
             {
                 title:"Edit profile",
-                action:()=>{navigate('ProfileForm' as never)}
+                action:()=>{navigate('EditProfile' as never)}
             },
             {
                 title:"Change password",

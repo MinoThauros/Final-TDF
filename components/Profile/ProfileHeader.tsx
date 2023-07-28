@@ -1,29 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { Stack, Avatar } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import React, { useContext } from 'react'
 import Colors from '../../constants/colors';
+import { AuthContext } from '../../states/context/CredentialsContext';
+import { useGetProfile } from '../../Hooks/ProfileReactQ';
+import { Profile } from '../../models/profile';
+import ProfilePic from './ProfilePic';
 
 const ProfileHeader = () => {
-  return (
-    <View style={{minWidth:'100%'}}>
+    const {userId}=useContext(AuthContext)
+    const profile=useGetProfile({userId}).data?.response as Profile
 
-        <View style={styles.avatarContainer} >
-            <Avatar
-            label="Jed Watson"
-            icon={props => <Icon name="account" {...props} />}
-            image={{ uri: "https://mui.com/static/images/avatar/1.jpg" }}
-            size={75}
-            style={{ margin: 4 }}
-            />
-        </View>
-        
-        <View style={styles.metaContainer} >
-            <Text>Jed Watson</Text>
-            <Text>Software Engineer, Google</Text>
-        </View>
+    return (
+        <View style={{minWidth:'100%'}}>
+            <View style={styles.avatarContainer} >
+                <ProfilePic size={120}/>
+            </View>
+            <View style={styles.metaContainer} >
+                <Text>{profile?.last_name??''},{profile?.name??''}</Text>
+                <Text>{profile?.occupation??''}</Text>
+            </View>
     </View>
-  )
+    )
 }
 
 export default ProfileHeader
@@ -35,16 +32,12 @@ const styles = StyleSheet.create({
         alignItems:'center',
         borderBottomLeftRadius:10,
         borderBottomRightRadius:10,
-        //marginTop:'5%',
         padding:'2.5%',
     },
     avatarContainer:{
-        //backgroundColor:'blue',
         justifyContent:'center',
-        alignItems:'center',    
-        //marginTop:'5%',
-        //borderTopRightRadius:20,
-       // borderTopLeftRadius:20,
+        alignItems:'center',
         backgroundColor:Colors.Skobeloff,
+        padding:6,
     },
 })

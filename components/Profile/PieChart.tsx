@@ -6,10 +6,12 @@ import { useGetExpenses } from '../../Hooks/ReactQ';
 import { Categories, spending } from '../../models/spending';
 import GetChartObj, {sliceColor} from '../../utils/ChartUtils';
 import { SnackBarContext } from '../../states/context/SnackBarContext';
+import { AuthContext } from '../../states/context/CredentialsContext';
 
 export type CategoryTypes=typeof Categories[number]
 const PieChartComponent = () => {
   const {setSnackBar}=useContext(SnackBarContext)
+  const {userId}=useContext(AuthContext)
   
   const [chartData,setChartData]=useState<{category:CategoryTypes,total:number,catColor: typeof sliceColor[number] }[]>([
     {category:'Food',total:0,catColor:sliceColor[0]},
@@ -23,6 +25,7 @@ const PieChartComponent = () => {
   ])
     useGetExpenses({
       onSuccess:({data})=>setChartData(GetChartObj({spendings:data})),
+      userId,
       onError:({response})=>{
         setSnackBar({message:'Failed to fetch your spendings'})}})
     

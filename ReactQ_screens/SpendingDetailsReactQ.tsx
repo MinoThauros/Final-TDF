@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
 import SpendingCard from '../components/Expenses/SpendingCard';
 import { SnackBarContext } from '../states/context/SnackBarContext';
+import { AuthContext } from '../states/context/CredentialsContext';
 
 /**
  * Receives a spending object though navigation
@@ -15,19 +16,18 @@ import { SnackBarContext } from '../states/context/SnackBarContext';
  */
 const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:()=>void}) => {
         //useQueryClient  returns the same instance of queryClient
+        const {userId}=useContext(AuthContext)
         const queryClient = useQueryClient()
         //const spending=route.params.Spending;
         const [editWindow,setEditWindow]=useState(false);
         const {setSnackBar}=useContext(SnackBarContext)
 
         const onError=({response}:{response:any})=>{
-            console.log(response.data.error)
             setSnackBar({message:response.data.error})
         }
     
         const deleteHandler=({data}:any)=>{
             console.log(data)
-            //navigation.goBack()
     
         }
         const {mutate:deleteItem,error:deleteError,isSuccess:deleteSuccess}=useDeleteExpense({
@@ -46,8 +46,10 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             dispatch(DeleteSpending({element:spending}))
             deleteExpense(spending.id)
              */
-            console.log('deleting item#',spending.id)
-            deleteItem(spending.id??'')
+            deleteItem({
+                id:spending.id??'',
+                userId:userId
+            })
             //navigation.goBack()
         };
     
@@ -61,8 +63,10 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
                 console.log('no id')
                 return setEditWindow(false)
             }
-            console.log('editing item#',{...data})
-            editItem({updatedExpense:data,id})
+            editItem({
+                updatedExpense:data,
+                id,
+                userId:userId})
             setEditWindow(false)
             return 
         }

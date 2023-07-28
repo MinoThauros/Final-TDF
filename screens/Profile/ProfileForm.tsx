@@ -36,7 +36,6 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             id:defaultValue?.id??'',
             imageUrl:imageUrl ,
         }
-        console.log('Profile',profile)
         onSubmit({profile})
     }
     

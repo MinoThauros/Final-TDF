@@ -22,11 +22,6 @@ export const useLogin = ({onSuccess,onError}:useMutationProps) => {
                 idToken:data.idToken,
                 userId:data.localId,
             })},
-        onError:({response})=>{
-            console.log('response is',response.data.error.message,response.data.error.code);
-            onError?onError({response}):console.log('no error handler')
-        
-        },
         //axios returns a .response prop when there is an error
         cacheTime: 15 * (60 * 1000), // 15 mins 
         //for errors, simply notify the user

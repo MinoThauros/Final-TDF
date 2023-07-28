@@ -5,6 +5,7 @@ import Colors from '../../constants/colors';
 import TextButton from '../UI/TextButton';
 import ProfilePic from './ProfilePic';
 import { AuthContext } from '../../states/context/CredentialsContext';
+import LoadingOvelay from '../UI/LoadingOverlay';
 import { 
     ImagePickerResult, 
     useCameraPermissions,
@@ -52,7 +53,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     const [mediaPermissionInfo, mediaRequestPermission] = useMediaLibraryPermissions()
     const queryClient=useQueryClient()
     const profile=useGetProfile({userId}).data?.response as Profile
-    const {mutate:changeProfilePhoto}=useUpdateProfilePhoto({queryClient})
+    const {mutate:changeProfilePhoto, isLoading:newPhotoLoading}=useUpdateProfilePhoto({queryClient})
     const changePhotoHandler=()=>{
         setModalVisible(!modalVisible)
     }
@@ -60,7 +61,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     const checkPermissions=async ({mode}:{mode: 'camera' | 'media'})=>{
         switch(mode){
             case 'camera':
-                console.log('Permission',cameraPermisisonInfo?.status)
                 return await verifyPermissions({
                     permissionState:{
                         permission:cameraPermisisonInfo,
@@ -69,7 +69,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
                 PermissionStatus
             })
             case 'media':
-                console.log('Permission',mediaPermissionInfo?.status)
                 return await verifyPermissions({
                     permissionState:{
                         permission:mediaPermissionInfo,
@@ -114,7 +113,6 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
             quality:0.1,
             })
         if (image) {
-            console.log(image.assets ? image.assets[0].uri : 'LOOOL')
             changeProfilePhoto({
                 userId,
                 newProfile:{
@@ -129,7 +127,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
   return (
     <View style={styles.overallBox}>
         <Stack style={styles.photoBox}>
-            <ProfilePic size={100}/>
+            {newPhotoLoading ? <LoadingOvelay/>:<ProfilePic size={100}/>}
             <ImageChangerModal
             modalState={[modalVisible,setModalVisible]}
             takePhoto={takePhoto}

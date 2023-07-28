@@ -23,7 +23,6 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
         const {setSnackBar}=useContext(SnackBarContext)
 
         const onError=({response}:{response:any})=>{
-            console.log(response.data.error)
             setSnackBar({message:response.data.error})
         }
     
@@ -47,7 +46,6 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             dispatch(DeleteSpending({element:spending}))
             deleteExpense(spending.id)
              */
-            console.log('deleting item#',spending.id)
             deleteItem({
                 id:spending.id??'',
                 userId:userId
@@ -65,7 +63,6 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
                 console.log('no id')
                 return setEditWindow(false)
             }
-            console.log('editing item#',{...data})
             editItem({
                 updatedExpense:data,
                 id,

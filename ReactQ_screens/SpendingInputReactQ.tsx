@@ -20,7 +20,6 @@ const SpendingInputReactQ = () => {
     const queryClient = useQueryClient()
 
     const {mutate}=useStoreExpense({onSuccess:toogleOverlay,queryClient,onError:({response}:{response:any})=>{
-        console.log(response.data.error)
         toogleOverlay()
         setSnackBar({message:response.data.error})
     }})

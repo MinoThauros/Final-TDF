@@ -25,21 +25,23 @@ const Profile=()=>{
 
     const LogOut=()=>{
         //navigation.navigate('Recent expenses');
-        console.log('logout');//tigger a message to the user that they are logging out
         logout();
     }
 
     if(!isFetched){
         return <View><Text>Loading...</Text></View>
     }
-
-    if(isFetched && profileData?.message==='No Profile found'){
+    /**
+        if(isFetched && profileData?.message==='No Profile found'){
         return (
         <View>
             <Text>You do not have a profile yet</Text>
             <Button title="Create Profile" onPress={()=>navigate('CreateProfile' as never)}/>
         </View>)
     }
+     */
+
+
 
    
 

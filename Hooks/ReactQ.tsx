@@ -19,7 +19,6 @@ export const useGetExpenses = ({onSuccess,onError,userId}:{onSuccess:({data}:{da
             onSuccess:(data:spending[])=>{           
             onSuccess({data})},//run provided callback
             onError:(err)=>{
-                  console.log(err)
                   const error=err as any;
                   onError({response:error.response})
             },

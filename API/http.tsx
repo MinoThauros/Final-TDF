@@ -51,7 +51,6 @@ export class HTTPInterface{
     };
 
     async deleteExpense({userId,id} :{userId:string,id:string}) {
-        console.log('deleting expense...', id,'from user',userId)
         return await axios.delete(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json`)
         
     }

@@ -9,7 +9,6 @@ export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
         queryKey:['profile'],
         queryFn:()=>getProfileAndPhoto({userId}),
-        onSuccess:({response})=>{console.log('Success',response.data)}
     })
 }
 

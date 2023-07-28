@@ -13,7 +13,6 @@ import 'react-native-get-random-values' // polyfill for uuidv4
 import { FireStore } from '../utils/Firebase/CloudStorage'
 
 const EditProfile = () => {
-  const {uploadImage}=new FireStore()
   const queryClient = useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
   const {userId}=useContext(AuthContext)

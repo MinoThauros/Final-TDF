@@ -13,7 +13,7 @@ const ProfileHeader = () => {
     return (
         <View style={{minWidth:'100%'}}>
             <View style={styles.avatarContainer} >
-                <ProfilePic size={90}/>
+                <ProfilePic size={120}/>
             </View>
             <View style={styles.metaContainer} >
                 <Text>{profile?.last_name??''},{profile?.name??''}</Text>
@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:Colors.Skobeloff,
-        padding:10,
+        padding:6,
     },
 })

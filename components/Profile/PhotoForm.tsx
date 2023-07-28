@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Modal, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Modal, ActivityIndicator, TouchableOpacity } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { Button, Stack } from '@react-native-material/core';
 import Colors from '../../constants/colors';
@@ -127,18 +127,22 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
   return (
     <View style={styles.overallBox}>
         <Stack style={styles.photoBox}>
-            {newPhotoLoading ? <LoadingOvelay/>:<ProfilePic size={100}/>}
+            <ProfilePic size={110}/>
             <ImageChangerModal
             modalState={[modalVisible,setModalVisible]}
             takePhoto={takePhoto}
             pickFromGallery={pickFromGallery}
             />
-            <TextButton 
+            <View style={{minHeight:30}}>
+                {newPhotoLoading ? <ActivityIndicator color={Colors.Tangerine} size={30}/>:<TextButton 
                 text="Change photo" 
                 onPress={changePhotoHandler}
                 extraStyling={{
                     TextStyling:styles.extraStyling}}
-            />
+                />}
+            </View>
+            
+            
     </Stack>
     </View>
     

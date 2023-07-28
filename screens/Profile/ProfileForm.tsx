@@ -50,7 +50,7 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
                 <PhotoForm onNewPhoto={onNewPhoto}/>
             </View>
             <View>
-                <Stack spacing={6} style={{padding:5, paddingVertical:5, marginBottom:15,marginHorizontal:10}}>
+                <Stack spacing={6} style={{padding:5, paddingVertical:5,marginHorizontal:10}}>
                     <TextInput
                     variant='standard'
                     label='Name'
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginTop:10,
+        marginBottom:10,
     },
     buttonTextStyle:{
         color:Colors.Tangerine,

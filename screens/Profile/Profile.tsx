@@ -1,22 +1,18 @@
-import { Pressable, Text, Touchable, View, StyleSheet, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import PieChartComponent from "../../components/Profile/PieChart";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
-import { Stack, Button, Switch, Divider } from "@react-native-material/core";
+import { Stack, Button } from "@react-native-material/core";
 import Colors from "../../constants/colors";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../states/context/CredentialsContext";
-import { AntDesign } from '@expo/vector-icons';
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import ProfilePageExtras from "../../components/Profile/ProfilePageExtras";
 import ActiveButton from "../../components/UI/ActiveButton";
 import { useGetProfile } from "../../Hooks/ProfileReactQ";
-import CreateProfile from "./CreateProfile";
-import { useNavigation } from "@react-navigation/native";
+
 
 
 
 const Profile=()=>{
-    const {navigate}=useNavigation();
     const {logout,userId}=useContext(AuthContext);
     const [hideMore,setHideMore]=useState(false);
     //-->profile API call here
@@ -100,10 +96,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor:'white',
         marginHorizontal:'2%',
-        shadowBorderRadius:10,
         shadowOpacity: 0.50,
+        shadowRadius: 10,
     },
-    optionsButton:{
-
-    }
 })

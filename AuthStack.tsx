@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { store } from './states/redux/store';
 import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
-import SpendingInput from './screens/SpendingInput'; 
 import SpendingDetailsComponent from './screens/SpengingDetails';
 import AllExpensesReactQuery from './ReactQ_screens/AllExpensesReactQuery';
 import SpendingInputReactQ from './ReactQ_screens/SpendingInputReactQ';
@@ -26,7 +25,6 @@ const AuthStack = () => {
     <OverlayToggleContextProvider>
       <Provider store={store}>
       <KeyboardAvoidingView>
-        <SpendingInput/>
         <SpendingInputReactQ/>
       </KeyboardAvoidingView>
         <NavigationContainer>

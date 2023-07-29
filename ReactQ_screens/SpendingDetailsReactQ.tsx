@@ -27,7 +27,6 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
         }
     
         const deleteHandler=({data}:any)=>{
-            console.log(data)
     
         }
         const {mutate:deleteItem,error:deleteError,isSuccess:deleteSuccess}=useDeleteExpense({
@@ -60,7 +59,6 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
 
         const confirmEdit=({data,id}:{data: spending,id?: string})=>{
             if(!id){
-                console.log('no id')
                 return setEditWindow(false)
             }
             editItem({

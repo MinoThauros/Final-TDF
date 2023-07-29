@@ -1,7 +1,6 @@
 //login and signup hooks to be used in the login and signup components
 //use setQuery hook regardless
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { QueryClient } from '@tanstack/react-query';
 import { AuthInterface } from '../API/http';
 import { SignInResponsePayload, SignUpResponsePayload } from '../API/httpUtils';
 import {format as prettyFormat} from 'pretty-format';
@@ -22,10 +21,7 @@ export const useLogin = ({onSuccess,onError}:useMutationProps) => {
                 idToken:data.idToken,
                 userId:data.localId,
             })},
-        //axios returns a .response prop when there is an error
-        cacheTime: 15 * (60 * 1000), // 15 mins 
-        //for errors, simply notify the user
-        retry: 3,
+        onError:onError
 })}
 
 export const useSignup = ({onSuccess}:{onSuccess: ({idToken,userId}:{idToken:string,userId:string}) => void}) => {

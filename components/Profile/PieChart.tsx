@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
         marginHorizontal:'2%',
         margin:'4%',
         padding:'2%',
-        shadowBorderRadius:10,
+        shadowRadius: 10,
         shadowOpacity: 0.50,
+        elevation: 5,
     }
   })

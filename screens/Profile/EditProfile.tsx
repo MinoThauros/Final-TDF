@@ -16,14 +16,14 @@ const EditProfile = () => {
   const queryClient = useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
   const {userId}=useContext(AuthContext)
+  const {data}=useGetProfile({userId})
+  const {mutate,isSuccess}=useUpdateProfile({queryClient})
   useLayoutEffect(() => {
     navOptions({
         headerLeft:()=><CancelButton onPress={()=>navigate('Profile' as never)}/>,
     })
   }, [])
 
-  const {data}=useGetProfile({userId})
-  const {mutate,isSuccess}=useUpdateProfile({queryClient})
   const onSubmit=({profile}:{profile:Profile})=>{
     mutate({
       newProfile:profile,

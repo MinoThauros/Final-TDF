@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useState,useContext } from 'react'
 import CustomTextInput from '../components/UI/CustomTextInput'
@@ -28,7 +28,7 @@ const LoginPage = ({setLogin}:AuthPagesProps) => {
             token:idToken,
             userId:userId})
     }
-    const {mutate:signup,isSuccess,data,error,isError,status}=useLogin({onSuccess:onLogin,onError:onError})
+    const {mutate:signup,isLoading}=useLogin({onSuccess:onLogin,onError:onError})
     
     const errMessages={
         emailWarning:!emailValidator(email)? <Text style={styles.validationError}>Invalid Email</Text>:<></>,
@@ -61,12 +61,14 @@ const LoginPage = ({setLogin}:AuthPagesProps) => {
                 nextValue={setPassword}
                 validationErr={warnings.passwordValidity}/>
             <View>
-                <Button 
+                <View style={{minHeight:30}}>
+                {isLoading ? <ActivityIndicator color={Colors.Tangerine} size={30}/>: <Button 
                     variant="text" 
                     title="Sign in" 
                     onPress={submitButton}
                     color={Colors.Tangerine}
-                    />
+                    />} 
+                </View>
                 <View style={styles.buttonStack}>
                     <Text>New Here ? </Text>
                     <Pressable onPress={()=>setLogin(false)}>

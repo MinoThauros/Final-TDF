@@ -68,6 +68,7 @@ export const useUpdateProfilePhoto = ({queryClient}:{queryClient:QueryClient}) =
             queryClient.setQueryData(['profile'], (old:any) => {
                 return {
                     ...old,
+                    //set cache url as local url
                     imageUrl:newProfile.imageUrl??''
                 } as Profile
             });

@@ -128,6 +128,9 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     <View style={styles.overallBox}>
         <Stack style={styles.photoBox}>
             <ProfilePic size={110}/>
+            {/*if we pass the uri here, we can show an uri that has temporary changed without
+            calling the hook
+            */}
             <ImageChangerModal
             modalState={[modalVisible,setModalVisible]}
             takePhoto={takePhoto}

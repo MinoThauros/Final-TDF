@@ -5,9 +5,10 @@ import { Stack, TextInput } from '@react-native-material/core';
 import TextButton from '../../components/UI/TextButton';
 import { Profile } from '../../models/profile';
 import PhotoForm from '../../components/Profile/PhotoForm';
+import objectsAreEqual from '../../utils/CheckEqualObj';
 
 type ProfileFormProps={
-    onSubmit:({profile}:{profile:Profile})=>void,
+    onSubmit:({profile,hasChanged}:{profile:Profile,hasChanged:boolean})=>void,
     defaultValue?:Profile
 }
 
@@ -25,6 +26,7 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
     
 
     const submitHandler=()=>{
+        let hasChanged=false
         const profile:Profile={
             name,
             last_name:lastName,
@@ -34,9 +36,15 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             city,
             country,
             id:defaultValue?.id??'',
-            imageUrl:imageUrl ,
+            imageUrl,
         }
-        onSubmit({profile})
+        const modedDefault= defaultValue
+        delete modedDefault?.imageUrl
+        if(!objectsAreEqual(profile,modedDefault)){
+            console.log('profile has changed', profile,'\n',modedDefault)
+            hasChanged=true
+        }
+        onSubmit({profile,hasChanged:hasChanged})
     }
     
     const onNewPhoto=({photoUrl}:{photoUrl:string})=>{

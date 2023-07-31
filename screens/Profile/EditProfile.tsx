@@ -24,13 +24,16 @@ const EditProfile = () => {
     })
   }, [])
 
-  const onSubmit=({profile}:{profile:Profile})=>{
+  const onSubmit=({profile,hasChanged}:{profile:Profile,hasChanged:boolean})=>{
+    if(!hasChanged){
+      return navigate('Profile' as never)
+    }
+    console.log('profile has changed', profile)
     mutate({
       newProfile:profile,
       userId:userId,
     })
     navigate('Profile' as never)
-    isSuccess&&navigate('Profile' as never)
   }
   return (
     <View style={styles.overallContainer}>

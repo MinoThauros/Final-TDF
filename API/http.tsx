@@ -172,7 +172,11 @@ export class ProfileInterface{
             })
             updatedProfile=await this.updateProfile({
                 userId,
-                newProfile
+                newProfile:{
+                    ...newProfile,
+                    imageUrl:''
+                }
+                //the new profile has the new image url which is based on local stuff
             })
 
         }catch(err){
@@ -183,10 +187,12 @@ export class ProfileInterface{
         return new Promise((resolve,reject)=>{
             if(error){
                 reject({
-                        message:'Error',
-                        response:error
+                    console:console.log('error at updateProfilePhoto',error),
+                    message:'Error',
+                    response:error
                     })
             }
+            console.log('updatedProfile',updatedProfile)
             resolve({
                     message:'Success',
                     response:updatedProfile
@@ -211,14 +217,18 @@ export class ProfileInterface{
         return new Promise((resolve,reject)=>{
             if(error){
                 reject({
+                    console:console.log('error at getProfileAndPhoto',error),
                     response:error,
                     message:'Error'
                 })
             }
+            console.log('incomming profile',{...profile,imageUrl})
             resolve({
                 response:{
                     ...profile,
                     imageUrl
+                    //imageUrl isn't fetched using profile
+                    //but is given as a prop to the profile response after the profile is fetched
                 } as Profile,
                 message:'Success'
             })

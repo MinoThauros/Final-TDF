@@ -21,7 +21,6 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
     const [occupation, setOccupation] = useState( defaultValue?.occupation?? '');
     const [city, setCity] = useState( defaultValue?.city?? '');
     const [country, setCountry] = useState( defaultValue?.country?? '');
-    const [imageUrl, setImageUrl] = useState( defaultValue?.imageUrl?? '');
 
     
 
@@ -36,7 +35,6 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
             city,
             country,
             id:defaultValue?.id??'',
-            imageUrl,
         }
         const modedDefault= defaultValue
         delete modedDefault?.imageUrl

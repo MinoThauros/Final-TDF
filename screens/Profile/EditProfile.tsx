@@ -8,9 +8,6 @@ import { useNavigation } from '@react-navigation/native'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import Colors from '../../constants/colors'
 import { useQueryClient } from '@tanstack/react-query'
-import { v4 as uuidv4 } from 'uuid';
-import 'react-native-get-random-values' // polyfill for uuidv4
-import { FireStore } from '../utils/Firebase/CloudStorage'
 
 const EditProfile = () => {
   const queryClient = useQueryClient()
@@ -28,7 +25,6 @@ const EditProfile = () => {
     if(!hasChanged){
       return navigate('Profile' as never)
     }
-    console.log('profile has changed', profile)
     mutate({
       newProfile:profile,
       userId:userId,

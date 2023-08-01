@@ -1,14 +1,14 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { ProfileInterface } from "../API/http";
 import { Profile } from "../models/profile";
-const {createProfile,getProfileAndPhoto, updateProfile}=new ProfileInterface();
+const {createProfile,getProfile, updateProfile}=new ProfileInterface();
 
 
 
 export const useGetProfile = ({userId}:{userId:string}) => {
     return useQuery({
         queryKey:['profile'],
-        queryFn:()=>getProfileAndPhoto({userId}),
+        queryFn:()=>getProfile({userId}),
     })
 }
 

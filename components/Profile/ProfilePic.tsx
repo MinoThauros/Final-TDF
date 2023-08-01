@@ -5,16 +5,19 @@ import { useContext } from 'react';
 import { useGetProfile } from '../../Hooks/ProfileReactQ';
 import { Profile } from '../../models/profile';
 import { AuthContext } from '../../states/context/CredentialsContext';
+import { useGetProfilePicture } from '../../Hooks/ProfilePhotoHooks';
 
 const ProfilePic = ({size}:{size:number}) => {
     const {userId}=useContext(AuthContext)
     const profile=useGetProfile({userId}).data?.response as Profile
+    const {data}=useGetProfilePicture({userId})
+
   return (
     <Avatar
     label={profile?.name??'?'}
     //need a placeholder image
     image={{
-        uri: profile?.imageUrl?.length ? profile.imageUrl : "https://mui.com/static/images/avatar/8.jpg"}}
+        uri: data?.response}}
     size={size}
     imageStyle={{
         borderWidth: 4,

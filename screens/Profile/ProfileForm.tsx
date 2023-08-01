@@ -46,16 +46,13 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
         }
         onSubmit({profile,hasChanged:hasChanged})
     }
-    
-    const onNewPhoto=({photoUrl}:{photoUrl:string})=>{
-        setImageUrl(photoUrl)
-    }
+
 
   return (
     <>
      <View style={styles.card}>
             <View>
-                <PhotoForm onNewPhoto={onNewPhoto}/>
+                <PhotoForm/>
             </View>
             <View>
                 <Stack spacing={6} style={{padding:5, paddingVertical:5,marginHorizontal:10}}>

@@ -7,11 +7,12 @@ type APIResponse = {
   message:'Success' | 'Error'
 }
 
+/**
+ * @classdesc This class is used to handle all the cloud storage related operations
+ * @method uploadImage(photoProps) - Uploads an image to the cloud storage
+ * @method downloadImage(imageName) - Downloads an image from the cloud storage
+ */
 export class FireStore{
-    //allow component to create the image name
-    //required for the Profile Object
-    //make these methods loosely coupled to the component
-
     private readonly uriToBlob = async (uri:string) => {
         const blob = await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();

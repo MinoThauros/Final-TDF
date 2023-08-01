@@ -5,6 +5,9 @@ import { spending } from '../../models/spending';
 import CustomTextInput from '../UI/CustomTextInput';
 import { Categories } from '../../models/spending';
 import { CategoryTypes } from '../Profile/PieChart';
+import { HStack } from '@react-native-material/core';
+import CircleContainer from '../UI/CircleContainer';
+import PlaceSearchButton from '../UI/PlaceSearchButton';
 
 type SpendingCardProps={
     initialValues?:spending,
@@ -61,11 +64,17 @@ const SpendingCard = ({initialValues,confirm,optionalButton,id}:SpendingCardProp
         } 
         return (
             <View style={styles.overallContainer}>
+                <HStack style={{alignItems:'flex-end'}}>
                     <CustomTextInput 
                         nextValue={setTitle} 
                         title={'Title'}
                         validationErr={warnings.titleWarning}
-                        defaultValue={initialValues?.title}/>
+                        defaultValue={initialValues?.title}
+                        extraStyle={{flex:1}}  
+                        />
+                    <PlaceSearchButton onPress={()=>{}}/>
+                </HStack>
+                    
 
                     <CustomTextInput
                         nextValue={(newText:any)=>setAmount(parseInt(newText))}

@@ -1,14 +1,13 @@
 import { KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import RecentExpenses from './screens/RecentExpensesScreen';
+import RecentExpenses from './screens/Expenses/RecentExpensesScreen';
 import Profile from './screens/Profile/Profile';
 import {Ionicons} from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { store } from './states/redux/store';
 import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
-import SpendingDetailsComponent from './screens/SpengingDetails';
 import AllExpensesReactQuery from './ReactQ_screens/AllExpensesReactQuery';
 import SpendingInputReactQ from './ReactQ_screens/SpendingInputReactQ';
 import SpendingDetailsReactQ from './ReactQ_screens/SpendingDetailsReactQ';
@@ -41,18 +40,7 @@ const AuthStack = () => {
             },
             tabBarActiveTintColor:Colors.Tangerine,
             
-            //tabBarInactiveTintColor:Colors.Columbia_blue,
-            
-            }}>
-            {/*
-            
-            <Tab.Screen 
-              name="All Expenses" 
-              component={AllExpenses}
-              options={{
-                tabBarIcon: ({color,size}:any)=>(<Ionicons name="cash-outline" color={color} size={size}/>)
-              }}/>
-            */}          
+            }}>   
             
             <Tab.Screen
               name="AllExpensesReactQuery"
@@ -85,16 +73,6 @@ const AuthStack = () => {
                 title:'My Profile',
                 
               }}/>
-              
-              {/**
-               <Tab.Screen 
-              name="Details"
-              component={SpendingDetailsComponent}
-              options={{
-                tabBarButton: () => null
-              }}/>
-               */
-              }
               <Tab.Screen
                 name="CreateProfile"
                 component={CreateProfile}

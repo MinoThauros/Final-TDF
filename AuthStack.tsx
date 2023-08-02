@@ -16,6 +16,7 @@ import Colors from './constants/colors';
 import ProfileForm from './screens/Profile/ProfileForm';
 import CreateProfile from './screens/Profile/CreateProfile';
 import EditProfile from './screens/Profile/EditProfile';
+import SpendingForm from './screens/Expenses/SpendingForm';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,9 +25,9 @@ const AuthStack = () => {
     <OverlayToggleContextProvider>
       <Provider store={store}>
       <KeyboardAvoidingView>
-        <SpendingInputReactQ/>
       </KeyboardAvoidingView>
         <NavigationContainer>
+        <SpendingInputReactQ/>
           <Tab.Navigator 
           initialRouteName='AllExpensesReactQuery'
           screenOptions={{
@@ -94,6 +95,17 @@ const AuthStack = () => {
                     color:Colors.Tangerine,
                   }
               }}/>
+
+              <Tab.Screen
+                name="SpendingForm"
+                component={SpendingForm}
+                options={{
+                  tabBarButton: () => null,
+                  title:'Spending Form',
+                  headerTitleStyle:{
+                    color:Colors.Tangerine,
+                  }
+                }}/>
 
               
           </Tab.Navigator>

@@ -1,5 +1,5 @@
 import { View, Text, Button, Modal, TextInput, StyleSheet } from 'react-native'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Validator } from '../../API/validator';
 import { spending } from '../../models/spending';
 import CustomTextInput from '../UI/CustomTextInput';
@@ -8,6 +8,9 @@ import { CategoryTypes } from '../Profile/PieChart';
 import { HStack } from '@react-native-material/core';
 import CircleContainer from '../UI/CircleContainer';
 import PlaceSearchButton from '../UI/PlaceSearchButton';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { OverlayContext } from '../../states/context/InputOverlayContext';
 
 type SpendingCardProps={
     initialValues?:spending,
@@ -23,11 +26,10 @@ type SpendingCardProps={
  * @param param0 
  * @returns 
  */
-const SpendingCard = ({initialValues,confirm,optionalButton,id}:SpendingCardProps) => {
-
-  
+const SpendingCard = ({initialValues,confirm,id}:SpendingCardProps) => {
+    const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
+    const {toogleOverlay}=useContext(OverlayContext);
     const {wordValidator,numValidator}=new Validator()
-
     const ValidativeForm=():JSX.Element=>{
         const [amount,setAmount]=useState(initialValues?.price??'' as unknown as  number);
         const [category,setCategory]=useState(initialValues?.category??'' as CategoryTypes);
@@ -46,6 +48,19 @@ const SpendingCard = ({initialValues,confirm,optionalButton,id}:SpendingCardProp
             categoryWarning:!wordValidator(category) || !Categories.includes(category as any) ?<Text style={styles.validationError}>Invalid Category</Text>:<></>,
             dateWarning:!wordValidator(date)?<Text style={styles.validationError}>Invalid date</Text>:<></>,
             titleWarning:!wordValidator(title)?<Text style={styles.validationError}>Invalid title</Text>:<></>
+        }
+
+        const gotToDetails=()=>{
+            //navigate to details screen
+            navigate('SpendingForm',{
+                amount,
+                category,
+                date,
+                title
+            })
+
+            toogleOverlay()
+            
         }
         
         
@@ -72,7 +87,7 @@ const SpendingCard = ({initialValues,confirm,optionalButton,id}:SpendingCardProp
                         defaultValue={initialValues?.title}
                         extraStyle={{flex:1}}  
                         />
-                    <PlaceSearchButton onPress={()=>{}}/>
+                    <PlaceSearchButton onPress={gotToDetails}/>
                 </HStack>
                     
 
@@ -94,7 +109,7 @@ const SpendingCard = ({initialValues,confirm,optionalButton,id}:SpendingCardProp
                         validationErr={warnings.dateWarning}
                         defaultValue={initialValues?.date??''}/>
                     <View style={styles.buttonStack}>
-                        <Button title='Go back' onPress={optionalButton}/>
+                        <Button title='Go back' onPress={toogleOverlay}/>
                         <Button title="Submit" onPress={submitButton}/>
                     </View>
             </View>)

@@ -30,9 +30,6 @@ const SpendingInputReactQ = () => {
             userId:userId
         })
     }
-    const cancelSubmit=()=>{
-        toogleOverlay()
-    }
 
     return (
         <Modal
@@ -40,7 +37,7 @@ const SpendingInputReactQ = () => {
             visible={visible} 
             animationType={'fade'}
             transparent={true}>
-            <SpendingCard confirm={submitAction} optionalButton={cancelSubmit}/>
+            <SpendingCard confirm={submitAction}/>
         </Modal>
         
     )

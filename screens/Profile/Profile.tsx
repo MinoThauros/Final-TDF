@@ -8,6 +8,7 @@ import { AuthContext } from "../../states/context/CredentialsContext";
 import ProfilePageExtras from "../../components/Profile/ProfilePageExtras";
 import ActiveButton from "../../components/UI/ActiveButton";
 import { useGetProfile } from "../../Hooks/ProfileReactQ";
+import LoadingOvelay from "../../components/UI/LoadingOverlay";
 
 
 
@@ -25,7 +26,7 @@ const Profile=()=>{
     }
 
     if(!isFetched){
-        return <View><Text>Loading...</Text></View>
+        return <LoadingOvelay/>
     }
     /**
         if(isFetched && profileData?.message==='No Profile found'){
@@ -36,10 +37,6 @@ const Profile=()=>{
         </View>)
     }
      */
-
-
-
-   
 
     return (
         <View style={styles.overallContainer}>

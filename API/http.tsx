@@ -3,7 +3,7 @@ import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
 import { FIREBASE_API_KEY } from 'react-native-dotenv';
 import { Profile } from '../models/profile';
-import { FireStore } from './Firebase/CloudStorage';
+import { APIResponse, FireStore } from './Firebase/CloudStorage';
 
 export type ProfilePhotoUploadResponse={
     response:any,
@@ -23,11 +23,25 @@ export class HTTPInterface{
     };
     async getExpenses({userId}:{userId:string}){
         const expenses=[] as spending[]
+        let resp:APIResponse
 
-        const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`);
+        try{
+            const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`);
+            resp={
+                response:response,
+                message:'Success'
+            }
+        }catch(err){
+            resp={
+                response:err,
+                message:'Error'
+            }
+        }
+
+        
         return new Promise((resolve,reject)=>{
-            if(response.status===200){
-                const {data}=response
+            if(resp.response.status===200 || resp.message==='Success'){
+                const {data}=resp.response
                 for ( let key in data){
                     const expenseObj:spending={
                         id:key,//firebase id
@@ -41,7 +55,7 @@ export class HTTPInterface{
 
                 resolve(expenses as spending[])
             }else{
-                reject(response as  AxiosResponse<any, any>)
+                reject(resp.response as AxiosResponse<any,any>)
             }
         })
     

@@ -2,7 +2,7 @@ import { getStorage, ref, uploadString,getDownloadURL, uploadBytes } from "fireb
 import 'react-native-get-random-values'
 import { storage } from '../../configs/firebaseConfig';
 
-type APIResponse = {
+export type APIResponse = {
   response:any,
   message:'Success' | 'Error'
 }

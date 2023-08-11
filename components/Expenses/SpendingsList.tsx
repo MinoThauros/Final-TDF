@@ -1,7 +1,7 @@
 //we'll create here a function who takes in a list of expenses and returns a flatlist of expenses
 import { useNavigation } from "@react-navigation/native";
 import { FlatList,View } from "react-native";
-import SpendingsDisplayer from "./ SpendingsDisplayer";
+import SpendingsDisplayer from "./SpendingsDisplayer";
 import { spending } from '../../models/spending';
 //import { SetSpending } from "../states/redux/expenses";
 

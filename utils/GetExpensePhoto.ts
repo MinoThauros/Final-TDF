@@ -16,7 +16,6 @@ export const getExpensePhoto = async ({details}:{details:any})=> {
     let resp: null | AxiosResponse<any>= null
     try{
         resp=await getPhoto({height,width, photo_reference})
-        console.log('resp status',resp.status)
     }catch(e:any){
         Alert.alert('Error',e.message)
     }

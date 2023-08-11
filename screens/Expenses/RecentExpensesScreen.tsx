@@ -1,7 +1,7 @@
 import {FlatList,View, Text} from "react-native";
 import { spending } from '../../models/spending';
 import { useSelector} from "react-redux";
-import SpendingsDisplayer from "../../components/Expenses/ SpendingsDisplayer";
+import SpendingsDisplayer from "../../components/Expenses/SpendingsDisplayer";
 import {useLayoutEffect, useState,useEffect } from 'react';
 import { useContext } from "react";
 import { OverlayContext } from '../../states/context/InputOverlayContext';

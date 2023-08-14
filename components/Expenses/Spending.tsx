@@ -6,6 +6,7 @@ import CircleContainer from "../UI/CircleContainer";
 import LargerCircleContainer from "../UI/LargerCircleContainer";
 
 
+
 const Spending=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
     const {title,date,price,category}=spending;
     return(

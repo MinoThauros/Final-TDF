@@ -21,12 +21,12 @@ const PlaceSearchBar = ({onSelectedLocation}:PlaceSearchProps) => {
     const processSelectedLocation=async (data:any, details:any)=>{
         const url=await getExpensePhoto({details}) as string
         const dtails=details as Place
-        console.log('data',data)
         const location={
             name:data.structured_formatting.main_text,
             photoUrl:url,
             type:mapTypeToCategory(dtails.types)??'Other',
         }
+        console.log('location',location)
         onSelectedLocation(location)
         //dtails.types[0]
     }

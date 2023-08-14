@@ -96,7 +96,7 @@ export class AuthInterface{
             password,
             returnSecureToken:true
             //ask backend to return token; if token is returned, we know that the login was successful
-            }as AuthRequestPayloadArgs)
+        }as AuthRequestPayloadArgs)
     }
 
     signup=async ({email,password}:{email:string,password:string})=>{
@@ -105,8 +105,7 @@ export class AuthInterface{
             password,
             returnSecureToken:true
             //ask backend to return token; if token is returned, we know that the login was successful
-            }as AuthRequestPayloadArgs)
-            
+            }as AuthRequestPayloadArgs)  
     }
 
 }

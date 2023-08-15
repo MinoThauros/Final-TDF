@@ -5,14 +5,17 @@ import { useDeleteExpense,useUpdateExpense} from '../Hooks/ReactQ';
 import Spending from '../components/Expenses/Spending';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
-import SpendingCard from '../components/Expenses/SpendingCard';
 import { SnackBarContext } from '../states/context/SnackBarContext';
 import { AuthContext } from '../states/context/CredentialsContext';
+import ExpenseForm from '../components/Expenses/ExpenseForm';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 /**
- * Receives a spending object though navigation
- * @param param0 
- * @returns 
+ * Displays the details of a spending and allows the user to edit or delete it
+ * Does so by summoning a expense form modal with the details of the spending 
+ * @param spending
+ * @param optional: optional function to be called when the user deletes the spending
+ * @returns API calls to delete or edit a spending
  */
 const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:()=>void}) => {
         //useQueryClient  returns the same instance of queryClient
@@ -21,6 +24,7 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
         //const spending=route.params.Spending;
         const [editWindow,setEditWindow]=useState(false);
         const {setSnackBar}=useContext(SnackBarContext)
+        const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
 
         const onError=({response}:{response:any})=>{
             setSnackBar({message:response.data.error})
@@ -69,6 +73,14 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             return 
         }
 
+        const imageModeHandler=()=>{
+            //navigate directly to ExpenseAndImage component
+            navigate('ExpenseWithImage',{initialValues:spending})
+            setEditWindow(false)
+        }
+
+        //construct the submission function here
+
         
     
         const Content=()=>{
@@ -87,13 +99,20 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             }
             return Details
         }
+
+
         
         return (
             <View >
-                <Modal visible={editWindow} 
-                animationType={'fade'}
-                transparent={true}>
-                    <SpendingCard initialValues={spending} confirm={confirmEdit} id={spending.id} optionalButton={()=>setEditWindow(false)}/>
+                <Modal 
+                    visible={editWindow} 
+                    animationType={'fade'}
+                    transparent={true}>
+                    <ExpenseForm 
+                        initialValues={spending} 
+                        confirm={confirmEdit} 
+                        optionalButton={()=>setEditWindow(false)}
+                        imageModeHandler={imageModeHandler}/>
                 </Modal>
                 <Content/>
             </View>

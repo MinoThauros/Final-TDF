@@ -1,5 +1,5 @@
 import { View, Text, Modal, StyleSheet } from 'react-native'
-import {useContext} from 'react'
+import {useContext, useState} from 'react'
 import { spending } from '../models/spending'
 import SpendingCard from '../components/Expenses/SpendingCard'
 import { OverlayContext } from '../states/context/InputOverlayContext'
@@ -9,14 +9,10 @@ import { SnackBarContext } from '../states/context/SnackBarContext'
 import { AuthContext } from '../states/context/CredentialsContext'
 
 const SpendingInputReactQ = () => {
-    //import react mutator;
-    //pass it to the component
-    //get modal context
+    const [imageMode,setImageMode]=useState<boolean>(false)
     const {visible,toogleOverlay}=useContext(OverlayContext);
     const {setSnackBar}=useContext(SnackBarContext)
     const {userId}=useContext(AuthContext)
-
-    //useQueryClient  returns the same instance of queryClient
     const queryClient = useQueryClient()
 
     const {mutate}=useStoreExpense({onSuccess:toogleOverlay,queryClient,onError:({response}:{response:any})=>{
@@ -30,6 +26,7 @@ const SpendingInputReactQ = () => {
             userId:userId
         })
     }
+
 
     return (
         <Modal

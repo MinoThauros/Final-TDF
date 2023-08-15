@@ -10,13 +10,11 @@ import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
 import AllExpensesReactQuery from './ReactQ_screens/AllExpensesReactQuery';
 import SpendingInputReactQ from './ReactQ_screens/SpendingInputReactQ';
-import SpendingDetailsReactQ from './ReactQ_screens/SpendingDetailsReactQ';
-import AuthPages from './screens/AuthPages';
 import Colors from './constants/colors';
-import ProfileForm from './screens/Profile/ProfileForm';
 import CreateProfile from './screens/Profile/CreateProfile';
 import EditProfile from './screens/Profile/EditProfile';
 import SpendingForm from './screens/Expenses/SpendingForm';
+import ExpenseWithImage from './components/Expenses/ExpenseWithImage';
 
 const Tab = createBottomTabNavigator();
 
@@ -106,6 +104,16 @@ const AuthStack = () => {
                     color:Colors.Tangerine,
                   }
                 }}/>
+
+            <Tab.Screen
+              name="ExpenseWithImage"
+              component={ExpenseWithImage}
+              options={{
+                tabBarButton: () => null,
+                headerTitleStyle:{
+                  color:Colors.Tangerine,
+                }
+              }}/>
 
               
           </Tab.Navigator>

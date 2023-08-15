@@ -20,13 +20,14 @@ const PlaceSearchBar = ({onSelectedLocation}:PlaceSearchProps) => {
 
     const processSelectedLocation=async (data:any, details:any)=>{
         const url=await getExpensePhoto({details}) as string
+        //use getExpensePhoto to get the photo hook from the details
+        //we need to show the user that we are loading the image
         const dtails=details as Place
         const location={
             name:data.structured_formatting.main_text,
             photoUrl:url,
             type:mapTypeToCategory(dtails.types)??'Other',
         }
-        console.log('location',location)
         onSelectedLocation(location)
         //dtails.types[0]
     }

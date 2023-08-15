@@ -23,18 +23,16 @@ const PieChartComponent = () => {
     {category:'Health',total:0,catColor:sliceColor[6]},
     {category:'Personal',total:0,catColor:sliceColor[7]},
   ])
-    const {data, isFetched}=useGetExpenses({
-      onSuccess:({data})=>setChartData([{
-        category:'Clothes',total:1,catColor:sliceColor[1],
-      }]),
+    useGetExpenses({
+      onSuccess:({data})=>{
+        if(data.length>0){
+          setChartData([{
+            category:'Clothes',total:1,catColor:sliceColor[1],
+      }])}},
       userId,
       onError:({response})=>{
         setSnackBar({message:'Failed to fetch your spendings'})}})
     
-    if (!data && isFetched) {
-      setChartData(GetChartObj({spendings:[]}))
-    }
-
     return (
       <View style={styles.overallContainer}>
         <View style={styles.ChartContainer}>

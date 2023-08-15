@@ -52,13 +52,12 @@ const SpendingCard = ({initialValues,confirm,id}:SpendingCardProps) => {
 
         const gotToDetails=()=>{
             //navigate to details screen
-            navigate('SpendingForm',{
+            navigate('PlaceForm',{
                 amount,
                 category,
                 date,
                 title
             })
-
             toogleOverlay()
             
         }

@@ -13,7 +13,7 @@ import SpendingInputReactQ from './ReactQ_screens/SpendingInputReactQ';
 import Colors from './constants/colors';
 import CreateProfile from './screens/Profile/CreateProfile';
 import EditProfile from './screens/Profile/EditProfile';
-import SpendingForm from './screens/Expenses/SpendingForm';
+import PlaceForm from './screens/Expenses/PlaceForm';
 import ExpenseWithImage from './components/Expenses/ExpenseWithImage';
 
 const Tab = createBottomTabNavigator();
@@ -95,8 +95,8 @@ const AuthStack = () => {
               }}/>
 
               <Tab.Screen
-                name="SpendingForm"
-                component={SpendingForm}
+                name="PlaceForm"
+                component={PlaceForm}
                 options={{
                   tabBarButton: () => null,
                   title:'Spending Form',

@@ -11,7 +11,7 @@ export type PlaceSearchBarResult={
   type:string,
 }
 
-const SpendingForm = () => {
+const PlaceForm = () => {
   const {params}=useRoute<any>()
   const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
   //after selecting a location, show a form where the user sees the location name, type, and photo
@@ -27,7 +27,7 @@ const SpendingForm = () => {
   )
 }
 
-export default SpendingForm
+export default PlaceForm
 
 const styles = StyleSheet.create({
   textInputA:{

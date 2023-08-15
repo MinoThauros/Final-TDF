@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React, { useState } from 'react'
-import { PlaceSearchBarResult } from '../../screens/Expenses/SpendingForm'
+import { PlaceSearchBarResult } from '../../screens/Expenses/PlaceForm'
 import Colors from '../../constants/colors'
 import { Stack, TextInput } from '@react-native-material/core'
 import { useRoute } from '@react-navigation/native'

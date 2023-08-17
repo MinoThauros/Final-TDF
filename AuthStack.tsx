@@ -14,7 +14,7 @@ import Colors from './constants/colors';
 import CreateProfile from './screens/Profile/CreateProfile';
 import EditProfile from './screens/Profile/EditProfile';
 import PlaceForm from './screens/Expenses/PlaceForm';
-import ExpenseWithImage from './components/Expenses/ExpenseWithImage';
+import ExpenseWithImage from './components/Expenses/ExpenseWithImages/ExpenseWithImage';
 
 const Tab = createBottomTabNavigator();
 

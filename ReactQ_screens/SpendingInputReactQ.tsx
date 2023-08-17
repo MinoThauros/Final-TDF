@@ -6,7 +6,7 @@ import { useStoreExpense } from '../Hooks/ReactQ'
 import { useQueryClient,QueryClient } from '@tanstack/react-query'
 import { SnackBarContext } from '../states/context/SnackBarContext'
 import { AuthContext } from '../states/context/CredentialsContext'
-import ExpenseForm from '../components/Expenses/ExpenseForm'
+import ExpenseForm from '../components/Forms/ExpenseForm'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
@@ -41,8 +41,6 @@ const SpendingInputReactQ = () => {
         
     }
 
-    //this function should full control the expense form
-
 
     return (
         <Modal
@@ -50,7 +48,10 @@ const SpendingInputReactQ = () => {
             visible={visible} 
             animationType={'fade'}
             transparent={true}>
-            <ExpenseForm confirm={submitAction} imageModeHandler={imageModeHandler} optionalButton={toogleOverlay}/>
+            <ExpenseForm //control of the 3 buttons on the component
+                confirm={submitAction} 
+                imageModeHandler={imageModeHandler} 
+                optionalButton={toogleOverlay}/>
         </Modal>
         
     )

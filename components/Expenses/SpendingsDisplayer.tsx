@@ -4,7 +4,7 @@ import { useState } from "react";
 import SpendingDetailsReactQ from "../../ReactQ_screens/SpendingDetailsReactQ";
 
 
-const SpendingsDisplayer=({spending}:{spending:spending}):JSX.Element=>{
+const Expense=({spending}:{spending:spending}):JSX.Element=>{
     const {title,price,date}=spending;
     const [details,setDetails]=useState(false);
     const SingleSpendingDisplayer=({spendingInfo}:any):JSX.Element=>{
@@ -30,15 +30,11 @@ const SpendingsDisplayer=({spending}:{spending:spending}):JSX.Element=>{
         )
     }
     
-    return (
+    return (//enable this component to handle the case where the expense has an image
         <>
             {!details && <SingleSpendingDisplayer spendingInfo={{title,price,date}} />}
             {details && <SpendingDetailsReactQ spending={spending} optional={()=>setDetails(!details)}/>} 
         </>
-
-
-            
-        
     )};
 
 const styles=StyleSheet.create({
@@ -88,4 +84,4 @@ const styles=StyleSheet.create({
     },})
 
 
-export default SpendingsDisplayer
+export default Expense

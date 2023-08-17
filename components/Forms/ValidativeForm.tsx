@@ -80,10 +80,12 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
                     defaultValue={initialValues?.title}
                     extraStyle={{flex:1}}  
                     />
-                <PlaceSearchButton onPress={imageModeHandler}/>
+                <PlaceSearchButton
+                //I dont want to change the image it already exists
+                    disabled={!!initialValues} //if expense already exists, disable the button
+                    //we want the button to be active only when creating a new expense
+                    onPress={imageModeHandler}/>
             </HStack>
-                
-
                 <CustomTextInput
                     nextValue={(newText:any)=>setAmount(parseInt(newText))}
                     title={'Amount'}

@@ -4,10 +4,17 @@ import React from 'react'
 import { IconButton } from '@react-native-material/core'
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-const PlaceSearchButton = ({onPress}:{onPress:()=>void}) => {
+const PlaceSearchButton = ({onPress, disabled}:{onPress:()=>void, disabled:boolean}) => {
   return (
     <View style={styles.CircleContainer}>
-      <IconButton icon={<MaterialIcons name="image-search" size={30} color="black" />} onPress={onPress}/>
+      <IconButton 
+        icon={
+          <MaterialIcons 
+            name="image-search" 
+            size={30} color="black" 
+          />}
+        disabled={disabled}
+        onPress={onPress}/>
     </View>
   )
 }

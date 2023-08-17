@@ -2,12 +2,12 @@ import { View, Text,Button, StyleSheet, Modal} from 'react-native'
 import { spending } from '../models/spending';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteExpense,useUpdateExpense} from '../Hooks/ReactQ';
-import Spending from '../components/Expenses/Spending';
+import NoImageSpendingCardWithButtons from '../components/Expenses/SimpleExpenses/NoImageSpendingCardWithButtons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
 import { SnackBarContext } from '../states/context/SnackBarContext';
 import { AuthContext } from '../states/context/CredentialsContext';
-import ExpenseForm from '../components/Expenses/ExpenseForm';
+import ExpenseForm from '../components/Forms/ExpenseForm';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 /**
@@ -75,7 +75,13 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
 
         const imageModeHandler=()=>{
             //navigate directly to ExpenseAndImage component
-            navigate('ExpenseWithImage',{initialValues:spending})
+            navigate('ExpenseWithImage',{
+                name:spending.title,
+                photoUrl:spending.imageUrl,
+                type:spending.category,
+                amount:spending.price,
+
+            })
             setEditWindow(false)
         }
 
@@ -86,7 +92,11 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
         const Content=()=>{
             var Details:JSX.Element=(
             <View>
-                <Spending spending={spending} Delete={deleteSpending} Edit={editSpending} optional={optional}/>
+                <NoImageSpendingCardWithButtons 
+                    spending={spending} 
+                    Delete={deleteSpending} 
+                    Edit={editSpending} 
+                    optional={optional}/>
             </View>
                 
             )

@@ -4,11 +4,12 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import Colors from '../../constants/colors';
 import PlaceSearchBar from '../../components/PlaceSearch/PlaceSearchBar';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Categories } from '../../models/spending';
 
 export type PlaceSearchBarResult={
   name:string,
   photoUrl?:string,
-  type:string,
+  type: typeof Categories[number],
 }
 
 const PlaceForm = () => {
@@ -17,7 +18,7 @@ const PlaceForm = () => {
   //after selecting a location, show a form where the user sees the location name, type, and photo
   //and some empty text fields for amount and the date
   const onSelectedLocation = async ({name,photoUrl,type}:PlaceSearchBarResult) => {
-    navigate('ExpenseWithImage',{name,photoUrl,type})
+    navigate('ExpenseWithImageForm',{name,photoUrl,type})
   }
     //preview image of location+name+type
   return (

@@ -4,8 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import RecentExpenses from './screens/Expenses/RecentExpensesScreen';
 import Profile from './screens/Profile/Profile';
 import {Ionicons} from '@expo/vector-icons';
-import { Provider } from 'react-redux';
-import { store } from './states/redux/store';
 import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
 import AllExpensesReactQuery from './ReactQ_screens/AllExpensesReactQuery';
@@ -14,14 +12,13 @@ import Colors from './constants/colors';
 import CreateProfile from './screens/Profile/CreateProfile';
 import EditProfile from './screens/Profile/EditProfile';
 import PlaceForm from './screens/Expenses/PlaceForm';
-import ExpenseWithImage from './components/Expenses/ExpenseWithImages/ExpenseWithImage';
+import ExpenseWithImageForm from './screens/Expenses/ExpenseWithImageForm';
 
 const Tab = createBottomTabNavigator();
 
 const AuthStack = () => {
   return (
     <OverlayToggleContextProvider>
-      <Provider store={store}>
       <KeyboardAvoidingView>
       </KeyboardAvoidingView>
         <NavigationContainer>
@@ -106,8 +103,8 @@ const AuthStack = () => {
                 }}/>
 
             <Tab.Screen
-              name="ExpenseWithImage"
-              component={ExpenseWithImage}
+              name="ExpenseWithImageForm"
+              component={ExpenseWithImageForm}
               options={{
                 tabBarButton: () => null,
                 headerTitleStyle:{
@@ -118,7 +115,6 @@ const AuthStack = () => {
               
           </Tab.Navigator>
         </NavigationContainer>
-      </Provider>
     </OverlayToggleContextProvider>
   )
 }

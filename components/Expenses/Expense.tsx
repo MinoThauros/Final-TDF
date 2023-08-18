@@ -2,38 +2,20 @@ import { Button, Text, View, StyleSheet, Pressable } from "react-native";
 import { spending } from '../../models/spending';
 import { useState } from "react";
 import SpendingDetailsReactQ from "../../ReactQ_screens/SpendingDetailsReactQ";
+import ExpenseWithImageCard from "./ExpenseWithImages/ExpenseWithImageCard";
+import NoImageSpending from "./SimpleExpenses/NoImageSpending";
 
 
 const Expense=({spending}:{spending:spending}):JSX.Element=>{
-    const {title,price,date}=spending;
+    const {title,price,date,imageUrl}=spending;
     const [details,setDetails]=useState(false);
-    const SingleSpendingDisplayer=({spendingInfo}:any):JSX.Element=>{
-        const {title, price, date}=spendingInfo;
-        return (
-            <Pressable 
-            style={({pressed})=>(pressed ? styles.pressed:null)}
-            onLongPress={()=>setDetails(!details)}>
-            <View style={styles.overallContainer}>
-                <View style={styles.DetailsContainer} >
-                    <View style={styles.DetailsColumn}>
-                        <Text style={styles.DetailsName}>{title}</Text>
-                        <Text style={styles.DetailsDate}>{date}</Text>
-                    </View>
-                    <View style={styles.PriceContainer}>
-                        <Text style={{fontWeight:'bold'}}>
-                            {price}
-                        </Text>
-                    </View>
-                </View>
-            </View>
-             </Pressable>
-        )
-    }
-    
+  
     return (//enable this component to handle the case where the expense has an image
         <>
-            {!details && <SingleSpendingDisplayer spendingInfo={{title,price,date}} />}
-            {details && <SpendingDetailsReactQ spending={spending} optional={()=>setDetails(!details)}/>} 
+            {!details && !imageUrl && <NoImageSpending spendingInfo={{title,price,date}} onLongPress={()=>setDetails(!details)}/>}
+            {details && !imageUrl && <SpendingDetailsReactQ spending={spending} optional={()=>setDetails(!details)}/>}
+            {imageUrl && <ExpenseWithImageCard name={spending.title} type={spending.category} photoUrl={spending.imageUrl}/>}
+            {details && imageUrl && <SpendingDetailsReactQ spending={spending} optional={()=>setDetails(!details)}/>}
         </>
     )};
 

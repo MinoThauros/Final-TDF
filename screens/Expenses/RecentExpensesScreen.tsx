@@ -1,12 +1,10 @@
-import {FlatList,View, Text} from "react-native";
+import {View} from "react-native";
 import { spending } from '../../models/spending';
-import { useSelector} from "react-redux";
-import {useLayoutEffect, useState,useEffect } from 'react';
+import {useState,useEffect } from 'react';
 import { useContext } from "react";
 import { OverlayContext } from '../../states/context/InputOverlayContext';
 import LastDaysTotal from "../../components/Expenses/LastDays";
 import DisplaySpendings from "../../components/Expenses/ExpenseLists/SpendingsList";
-import { HTTPInterface } from '../../API/http';
 import { useGetExpenses } from "../../Hooks/ReactQ";
 import { SnackBarContext } from "../../states/context/SnackBarContext";
 import Colors from "../../constants/colors";

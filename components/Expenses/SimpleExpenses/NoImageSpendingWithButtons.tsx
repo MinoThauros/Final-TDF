@@ -7,7 +7,7 @@ import LargerCircleContainer from "../../UI/LargerCircleContainer";
 
 
 
-const NoImageSpendingCardWithButtons=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
+const NoImageSpendingWithButtons=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
     const {title,date,price,category}=spending;
     return(
         <View style={styles.overallContainer}>
@@ -140,5 +140,5 @@ const styles=StyleSheet.create({
 
 })
 
-export default NoImageSpendingCardWithButtons;
+export default NoImageSpendingWithButtons;
 

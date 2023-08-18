@@ -1,4 +1,7 @@
 //https://developers.google.com/maps/documentation/places/web-service/supported_types
+
+import { Categories } from "../models/spending";
+
 /**
  * Maps Google Places API types to our categories
  */
@@ -83,7 +86,7 @@ function mapTypeToCategory(types: string[])  {
     }
   }
 
-  return category;
+  return category as typeof Categories[number];
 }
 
 export default mapTypeToCategory;

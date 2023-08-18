@@ -6,9 +6,11 @@ import { getExpensePhoto } from '../../utils/GetExpensePhoto'
 import Colors from '../../constants/colors'
 import { Place } from '../../models/GooglePlace';
 import mapTypeToCategory from '../../utils/TypeToCatMapping'
+import { Categories } from '../../models/spending'
+import { PlaceSearchBarResult } from '../../screens/Expenses/PlaceForm'
 
 type PlaceSearchProps={
-    onSelectedLocation:({name,photoUrl,type}:{name:string,photoUrl?:string,type:string})=>void
+    onSelectedLocation:({name,photoUrl,type}:{name:string,photoUrl?:string,type: typeof Categories[number]})=>void
 }
 
 const PlaceSearchBar = ({onSelectedLocation}:PlaceSearchProps) => {
@@ -23,7 +25,7 @@ const PlaceSearchBar = ({onSelectedLocation}:PlaceSearchProps) => {
         //use getExpensePhoto to get the photo hook from the details
         //we need to show the user that we are loading the image
         const dtails=details as Place
-        const location={
+        const location:PlaceSearchBarResult={
             name:data.structured_formatting.main_text,
             photoUrl:url,
             type:mapTypeToCategory(dtails.types)??'Other',

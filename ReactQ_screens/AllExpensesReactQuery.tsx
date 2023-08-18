@@ -2,8 +2,6 @@
 import { View, Text } from 'react-native'
 import React, { useContext } from 'react'
 import { useGetExpenses } from '../Hooks/ReactQ'
-import { InitializeSpending } from '../states/redux/expenses';
-import { useDispatch, useSelector } from "react-redux";
 import DisplaySpendings from '../components/Expenses/ExpenseLists/SpendingsList';
 import LoadingOvelay from '../components/UI/LoadingOverlay';
 import { SnackBarContext } from '../states/context/SnackBarContext';
@@ -34,18 +32,15 @@ import { AuthContext } from '../states/context/CredentialsContext';
 const AllExpensesReactQuery = () => {
     const {userId}=useContext(AuthContext)
     const {setSnackBar}=useContext(SnackBarContext)
-    const dispatch=useDispatch();
     const {isLoading,error,data}=useGetExpenses({
         onSuccess:({data})=>{
             //bind the query to the redux store
-            dispatch(InitializeSpending({incomingElements:data}))
         },
         userId,
         onError:({response})=>{
             setSnackBar({message:'Failed to fetch your spendings'})}
     });
 
-    const {expenses}=useSelector((state:any)=>state.ExpenseReducer);
 
     //after loading is done, it's ether error or expenses
     const ErrorHandler=()=>{

@@ -1,12 +1,16 @@
 import { StyleSheet, Text, View, Image, Button } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
-import { PlaceSearchBarResult } from '../../../screens/Expenses/PlaceForm'
-import Colors from '../../../constants/colors'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { PlaceSearchBarResult } from './PlaceForm'
+import Colors from '../../constants/colors'
 import { HStack, Stack, TextInput } from '@react-native-material/core'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import ExpenseWithImageCard from './ExpenseWithImageCard'
-import { useStoreExpense } from '../../../Hooks/ReactQ'
+import ExpenseWithImageCard from '../../components/Expenses/ExpenseWithImages/ExpenseWithImageCard'
+import { useStoreExpense } from '../../Hooks/ReactQ'
 import { useQueryClient } from '@tanstack/react-query'
+import CircleContainer from '../../components/UI/CircleContainer'
+import LargerCircleContainer from '../../components/UI/LargerCircleContainer'
+import CancelButton from '../../components/ProfileForm/CancelButton'
+import { AuthContext } from '../../states/context/CredentialsContext'
 
 
 /**
@@ -15,32 +19,53 @@ import { useQueryClient } from '@tanstack/react-query'
  * Should take an expense with the optional photoUrl
  * @returns 
  */
-const ExpenseWithImage=()=>{
+const ExpenseWithImageForm=()=>{
+  const {userId}=useContext(AuthContext)
   const queryClient=useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
-  useStoreExpense({
-    onSuccess:()=>{},
+  const {mutate}=useStoreExpense({
+    onSuccess:()=>{
+      navigate('AllExpensesReactQuery' as never)
+    },
     onError:()=>{},
     queryClient})
   const {params}=useRoute()
-  //receive props with navigation instead
-  const {name,photoUrl,type}=params as PlaceSearchBarResult//guaranteed to exist
-  const [amount,setAmount]=useState(name);
-  const [date, setDate]=useState(name);
 
   useLayoutEffect(() => {
     navOptions({
+        headerLeft:()=><CancelButton onPress={()=>navigate('PlaceForm' as never)}/>,
         title:'Edit Expense',
     })
-    setAmount(name)
-    setDate(name)
+}, [])
+  //receive props with navigation instead
+  const {name,photoUrl,type}=params as PlaceSearchBarResult//guaranteed to exist
+  const [amount,setAmount]=useState<string>();
+  const [date, setDate]=useState('');
+
+  useEffect(() => {
+    navOptions({
+        
+    })
+    //setAmount(name)
+    //setDate(name)
 }, [navigate,params])
+
+  const onSubmit=()=>{
+    mutate({
+      spending:{
+        title:name,
+        price:Number(amount),
+        date,
+        category:type,
+        imageUrl:photoUrl,
+      },
+      userId,
+    })
+  }
 
   return (
     <View style={{justifyContent:'center', flex:1, backgroundColor:Colors.Skobeloff}}>
-      <ExpenseWithImageCard 
-        //should only be displayed if we are getting a url photo
-        //
+      <ExpenseWithImageCard
         name={name} 
         photoUrl={photoUrl} 
         type={type}>
@@ -51,6 +76,7 @@ const ExpenseWithImage=()=>{
               onChangeText={setAmount}
               inputStyle={{color:Colors.Tangerine,}}
               color={Colors.Tangerine}
+              keyboardType='numeric'
               style={{marginVertical:5, minWidth:'90%'}}
               />
           <TextInput
@@ -63,13 +89,7 @@ const ExpenseWithImage=()=>{
               style={{marginVertical:5, minWidth:'90%'}}
               />
           <View style={styles.buttonStack}>
-            <Button //use a cross and a checkmark instead of these buttons
-              onPress={()=>{}}
-              title='Cancel'/>
-            <Button
-              onPress={()=>{}}
-              title='Save'
-              />
+            <LargerCircleContainer onPress={onSubmit} icon={"check"}/>
           </View>
         </ExpenseWithImageCard>
     </View>
@@ -112,10 +132,13 @@ const styles = StyleSheet.create({
 
   },
   buttonStack:{
+    marginTop:20,
     flexDirection:'row',
     alignItems:'center',
-    justifyContent:'space-between'
+    justifyContent:'center',
+    marginHorizontal:'15%',
+
 },
 })
 
-export default ExpenseWithImage
+export default ExpenseWithImageForm

@@ -2,7 +2,7 @@ import { View, Text,Button, StyleSheet, Modal} from 'react-native'
 import { spending } from '../models/spending';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteExpense,useUpdateExpense} from '../Hooks/ReactQ';
-import NoImageSpendingCardWithButtons from '../components/Expenses/SimpleExpenses/NoImageSpendingCardWithButtons';
+import NoImageSpendingWithButtons from '../components/Expenses/SimpleExpenses/NoImageSpendingWithButtons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
 import { SnackBarContext } from '../states/context/SnackBarContext';
@@ -75,7 +75,7 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
 
         const imageModeHandler=()=>{
             //navigate directly to ExpenseAndImage component
-            navigate('ExpenseWithImage',{
+            navigate('ExpenseWithImageForm',{
                 name:spending.title,
                 photoUrl:spending.imageUrl,
                 type:spending.category,
@@ -92,7 +92,7 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
         const Content=()=>{
             var Details:JSX.Element=(
             <View>
-                <NoImageSpendingCardWithButtons 
+                <NoImageSpendingWithButtons 
                     spending={spending} 
                     Delete={deleteSpending} 
                     Edit={editSpending} 

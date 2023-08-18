@@ -39,26 +39,8 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
         titleWarning:!wordValidator(title)?<Text style={styles.validationError}>Invalid title</Text>:<></>
     }
 
-    /**
-        const gotToDetails=()=>{
-        //navigate to details screen
-        toogleOverlay()
-        navigate('PlaceForm',{
-            amount,
-            category,
-            date,
-            title
-        })
-        console.log('navigating with data', amount,category,date,title)
-        
-        
-    }
-     */
-
-    
     
     const submitButton=()=>{
-        //check if all fields are valid
 
         if (numValidator(amount) && wordValidator(category) &&  wordValidator(date) &&  wordValidator(title) && Categories.includes(category as any)){
             if (Categories.includes(category as any)){

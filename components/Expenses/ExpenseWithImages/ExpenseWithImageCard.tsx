@@ -1,31 +1,35 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { PlaceSearchBarResult } from '../../../screens/Expenses/PlaceForm'
-import { Stack } from '@react-native-material/core'
+import { HStack, Stack } from '@react-native-material/core'
 import Colors from '../../../constants/colors'
+import PriceContainer from '../../UI/PriceContainer'
 
 export type ExpenseWithImageCardProps= PlaceSearchBarResult &{
     children?:React.ReactNode,
+    price?:number,
 }
 
-const ExpenseWithImageCard = ({name,photoUrl,type, children}:ExpenseWithImageCardProps) => {
+const ExpenseWithImageCard = ({name,photoUrl,type, children, price}:ExpenseWithImageCardProps) => {
   //send the photoUrl and type to a function which still would return an image
   //this would ensure that we always have an image/imageUrl for every expense
 
   return (
     <View style={styles.overallContainer}>
         <View style={styles.imagePreview}>
-        <Image 
+          <Image 
             style={styles.image} 
             source={{uri:photoUrl}}/>
         </View>
         <View style={styles.DetailsBox}>
-          <Stack style={styles.textContainer}>
-            <Text style={{color:Colors.Tangerine,fontSize:20,fontWeight:'bold'}}>{name}</Text>
-            <Text style={{color:Colors.Tangerine,fontSize:16}}>{type}</Text>            
-          </Stack>
+          <View style={styles.info}>
+            <Stack style={styles.textContainer}>
+              <Text style={{color:Colors.Tangerine,fontSize:20,fontWeight:'bold'}}>{name}</Text>
+              <Text style={{color:Colors.Tangerine,fontSize:16}}>{type}</Text>            
+            </Stack>
+            {price &&<PriceContainer>${price}</PriceContainer> }
+          </View>
         </View>
-
         {children &&
         <Stack spacing={6} style={{marginBottom:'10%'}}>
             {children}  
@@ -58,18 +62,16 @@ const styles = StyleSheet.create({
       overallContainer:{
           backgroundColor:Colors.Dark_Purple,
           alignItems:'center',
-          margin:10,
+          margin:15,
           borderRadius:10,
           justifyContent:'center',
       },
       textContainer:{
-        width:'100%',
         alignItems:'flex-start',
         flexDirection:'column',
         backgroundColor:Colors.Dark_Purple,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
         padding:10,
+        maxWidth:'60%',
       },
 
       DetailsBox:{
@@ -79,4 +81,12 @@ const styles = StyleSheet.create({
         borderRadius:5,
         alignItems:'center',
     },
+
+    info:{
+      flexDirection:'row',
+      alignItems:'center',
+      justifyContent:'space-between',
+      width:'100%',
+      paddingHorizontal:10,
+  },
 })

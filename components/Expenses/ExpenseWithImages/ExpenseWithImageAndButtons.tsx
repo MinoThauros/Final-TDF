@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import ExpenseWithImageCard, { ExpenseWithImageCardProps } from './ExpenseWithImageCard'
 import { spending } from '../../../models/spending'
-import CircleContainer from '../../UI/CircleContainer'
+import LargerCircleContainer from '../../UI/LargerCircleContainer';
 
 type ExpenseWithImageAndButtonsProps=ExpenseWithImageCardProps & {
     edit:()=>void,
@@ -10,22 +10,28 @@ type ExpenseWithImageAndButtonsProps=ExpenseWithImageCardProps & {
 }
 
 //more details about the expense + buttons to edit/delete
-const ExpenseWithImageAndButtons = (props:spending) => {
-    const {category,date,price,title,id,imageUrl}=props
+const ExpenseWithImageAndButtons = ({expense,details}:{expense:spending,details?:boolean}) => {
+    const {category,date,price,title,id,imageUrl}=expense
   return (
-    <ExpenseWithImageCard name={title} photoUrl={imageUrl} type={category}>
+    <ExpenseWithImageCard name={title} photoUrl={imageUrl} price={price} type={category}>
         <View style={{flexDirection:'row',justifyContent:'space-around'}}>
-            <Text style={{color:'white',fontSize:20}}>{price}</Text>
             <Text style={{color:'white',fontSize:20}}>{date}</Text>
         </View>
-        <View>
-            <CircleContainer onPress={()=>{}} icon={"delete"}/>
-            <CircleContainer onPress={()=>{}} icon={"pen"}/>
-        </View>
+        {details&& 
+        <View style={styles.buttons}>
+            <LargerCircleContainer onPress={()=>{}} icon={"delete"}/>
+            <LargerCircleContainer onPress={()=>{}} icon={"pen"}/>
+        </View>}
     </ExpenseWithImageCard>
   )
 }
 
 export default ExpenseWithImageAndButtons
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    buttons:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+       paddingHorizontal:10,
+    },
+})

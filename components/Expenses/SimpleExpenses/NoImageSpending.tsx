@@ -26,7 +26,8 @@ const NoImageSpending =({spendingInfo,onLongPress}:{spendingInfo:any,onLongPress
 
 export default NoImageSpending
 
-const styles = StyleSheet.create({    overallContainer:{
+const styles = StyleSheet.create({    
+overallContainer:{
     backgroundColor:"#521e87",
     borderRadius:6,
     padding:10,

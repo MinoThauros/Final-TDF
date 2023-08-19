@@ -48,7 +48,8 @@ export class HTTPInterface{
                         price:data[key].price,
                         date:data[key].date,
                         category:data[key].category,
-                        title:data[key].title
+                        title:data[key].title,
+                        imageUrl:data[key].imageUrl,
                     };
                     expenses.push(expenseObj);
                 }

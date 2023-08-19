@@ -26,6 +26,8 @@ const ExpenseWithImageForm=()=>{
   const {mutate}=useStoreExpense({
     onSuccess:()=>{
       navigate('AllExpensesReactQuery' as never)
+      setAmount('')
+      setDate('')
     },
     onError:()=>{},
     queryClient})
@@ -34,7 +36,7 @@ const ExpenseWithImageForm=()=>{
   useLayoutEffect(() => {
     navOptions({
         headerLeft:()=><CancelButton onPress={()=>navigate('PlaceForm' as never)}/>,
-        title:'Edit Expense',
+        title:'New expense',
     })
 }, [])
   //receive props with navigation instead
@@ -42,13 +44,6 @@ const ExpenseWithImageForm=()=>{
   const [amount,setAmount]=useState<string>();
   const [date, setDate]=useState('');
 
-  useEffect(() => {
-    navOptions({
-        
-    })
-    //setAmount(name)
-    //setDate(name)
-}, [navigate,params])
 
   const onSubmit=()=>{
     mutate({

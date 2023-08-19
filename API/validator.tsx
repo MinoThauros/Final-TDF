@@ -1,7 +1,7 @@
 //creating a validator which takes in an array
 
 export class Validator {
-    readonly specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    readonly specialChars = /[`!@#$%^&*_+\-=\[\]{};':"\\|,.<>\/?~]/;
     readonly emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex for demonstration purposes
   
     wordValidator = (word: string): boolean => {

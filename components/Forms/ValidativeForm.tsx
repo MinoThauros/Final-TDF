@@ -44,7 +44,12 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
 
         if (numValidator(amount) && wordValidator(category) &&  wordValidator(date) &&  wordValidator(title) && Categories.includes(category as any)){
             if (Categories.includes(category as any)){
-                let enteredData:spending=new spending(amount,category,date,title)
+                let enteredData:spending={
+                    imageUrl:initialValues?.imageUrl,
+                    price:amount,
+                    category,
+                    date,
+                    title}
                 confirm ? confirm({data:enteredData,id}):null
             }
         }

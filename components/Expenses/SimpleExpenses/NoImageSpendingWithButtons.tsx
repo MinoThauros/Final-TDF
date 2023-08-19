@@ -8,7 +8,7 @@ import LargerCircleContainer from "../../UI/LargerCircleContainer";
 
 
 const NoImageSpendingWithButtons=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
-    const {title,date,price,category}=spending;
+    const {title,date,price,category,imageUrl}=spending;
     return(
         <View style={styles.overallContainer}>
             <HStack m={4} spacing={6} style={styles.titleBox}>

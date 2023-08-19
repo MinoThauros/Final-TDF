@@ -4,17 +4,24 @@ import { useState } from "react";
 import SpendingDetailsReactQ from "../../ReactQ_screens/SpendingDetailsReactQ";
 import ExpenseWithImageCard from "./ExpenseWithImages/ExpenseWithImageCard";
 import NoImageSpending from "./SimpleExpenses/NoImageSpending";
+import PressableWrapper from './ExpenseWithImages/PressableWrapper';
+import ExpenseWithImageAndButtons from "./ExpenseWithImages/ExpenseWithImageAndButtons";
+import PressableExpenseWithImage from "./ExpenseWithImages/PressableExpenseWithImage";
 
 
 const Expense=({spending}:{spending:spending}):JSX.Element=>{
     const {title,price,date,imageUrl}=spending;
     const [details,setDetails]=useState(false);
+    
+    const onPress=()=>{
+        setDetails(!details);
+    }
   
     return (//enable this component to handle the case where the expense has an image
         <>
-            {!details && !imageUrl && <NoImageSpending spendingInfo={{title,price,date}} onLongPress={()=>setDetails(!details)}/>}
+            {!details && !imageUrl && <NoImageSpending spendingInfo={{title,price,date}} onLongPress={onPress}/>}
             {details && !imageUrl && <SpendingDetailsReactQ spending={spending} optional={()=>setDetails(!details)}/>}
-            {imageUrl && <ExpenseWithImageCard name={spending.title} type={spending.category} photoUrl={spending.imageUrl}/>}
+            {imageUrl && !details && <PressableExpenseWithImage onPress={onPress} spending={spending}/> }
             {details && imageUrl && <SpendingDetailsReactQ spending={spending} optional={()=>setDetails(!details)}/>}
         </>
     )};

@@ -6,7 +6,7 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 const LargerCircleContainer = ({onPress,icon}:{onPress:()=>void,icon:any}) => {
   return (
     <View style={styles.CircleContainer2}>
-        <IconButton icon={<Icon name={icon} size={20} color="black"/>} onPress={onPress}/>
+        <IconButton icon={<Icon name={icon} size={30} color="black"/>} onPress={onPress}/>
     </View>
   )
 }

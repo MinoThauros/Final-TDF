@@ -8,29 +8,28 @@ import { useNavigation } from '@react-navigation/native'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import Colors from '../../constants/colors'
 import { useQueryClient } from '@tanstack/react-query'
-import { v4 as uuidv4 } from 'uuid';
-import 'react-native-get-random-values' // polyfill for uuidv4
-import { FireStore } from '../utils/Firebase/CloudStorage'
 
 const EditProfile = () => {
   const queryClient = useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
   const {userId}=useContext(AuthContext)
+  const {data}=useGetProfile({userId})
+  const {mutate,isSuccess}=useUpdateProfile({queryClient})
   useLayoutEffect(() => {
     navOptions({
         headerLeft:()=><CancelButton onPress={()=>navigate('Profile' as never)}/>,
     })
   }, [])
 
-  const {data}=useGetProfile({userId})
-  const {mutate,isSuccess}=useUpdateProfile({queryClient})
-  const onSubmit=({profile}:{profile:Profile})=>{
+  const onSubmit=({profile,hasChanged}:{profile:Profile,hasChanged:boolean})=>{
+    if(!hasChanged){
+      return navigate('Profile' as never)
+    }
     mutate({
       newProfile:profile,
       userId:userId,
     })
     navigate('Profile' as never)
-    isSuccess&&navigate('Profile' as never)
   }
   return (
     <View style={styles.overallContainer}>

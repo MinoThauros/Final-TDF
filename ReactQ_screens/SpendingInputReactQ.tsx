@@ -1,23 +1,26 @@
 import { View, Text, Modal, StyleSheet } from 'react-native'
-import {useContext} from 'react'
+import {useContext, useState} from 'react'
 import { spending } from '../models/spending'
-import SpendingCard from '../components/Expenses/SpendingCard'
 import { OverlayContext } from '../states/context/InputOverlayContext'
 import { useStoreExpense } from '../Hooks/ReactQ'
 import { useQueryClient,QueryClient } from '@tanstack/react-query'
 import { SnackBarContext } from '../states/context/SnackBarContext'
 import { AuthContext } from '../states/context/CredentialsContext'
+import ExpenseForm from '../components/Forms/ExpenseForm'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
+/**
+ * Simple modal that displays a form to add a new spending
+ * @returns API calls to post a new spending
+ */
 const SpendingInputReactQ = () => {
-    //import react mutator;
-    //pass it to the component
-    //get modal context
+    const [imageMode,setImageMode]=useState<boolean>(false)
     const {visible,toogleOverlay}=useContext(OverlayContext);
     const {setSnackBar}=useContext(SnackBarContext)
     const {userId}=useContext(AuthContext)
-
-    //useQueryClient  returns the same instance of queryClient
     const queryClient = useQueryClient()
+    const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
 
     const {mutate}=useStoreExpense({onSuccess:toogleOverlay,queryClient,onError:({response}:{response:any})=>{
         toogleOverlay()
@@ -30,9 +33,14 @@ const SpendingInputReactQ = () => {
             userId:userId
         })
     }
-    const cancelSubmit=()=>{
+
+    const imageModeHandler=()=>{
+        //about to create a new image; navigate to places form
+        navigate('PlaceForm')
         toogleOverlay()
+        
     }
+
 
     return (
         <Modal
@@ -40,7 +48,10 @@ const SpendingInputReactQ = () => {
             visible={visible} 
             animationType={'fade'}
             transparent={true}>
-            <SpendingCard confirm={submitAction} optionalButton={cancelSubmit}/>
+            <ExpenseForm //control of the 3 buttons on the component
+                confirm={submitAction} 
+                imageModeHandler={imageModeHandler} 
+                optionalButton={toogleOverlay}/>
         </Modal>
         
     )

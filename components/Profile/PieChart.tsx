@@ -4,7 +4,7 @@ import PieChart  from 'react-native-pie-chart' //https://www.npmjs.com/package/r
 import ChartLegends from './ChartLegends';
 import { useGetExpenses } from '../../Hooks/ReactQ';
 import { Categories, spending } from '../../models/spending';
-import GetChartObj, {sliceColor} from '../../utils/ChartUtils';
+import GetChartObj, {ChartObj, sliceColor} from '../../utils/ChartUtils';
 import { SnackBarContext } from '../../states/context/SnackBarContext';
 import { AuthContext } from '../../states/context/CredentialsContext';
 
@@ -13,7 +13,7 @@ const PieChartComponent = () => {
   const {setSnackBar}=useContext(SnackBarContext)
   const {userId}=useContext(AuthContext)
   
-  const [chartData,setChartData]=useState<{category:CategoryTypes,total:number,catColor: typeof sliceColor[number] }[]>([
+  const [chartData,setChartData]=useState<ChartObj[]>([
     {category:'Food',total:0,catColor:sliceColor[0]},
     {category:'Clothes',total:1,catColor:sliceColor[1]},
     {category:'Housing',total:0,catColor:sliceColor[2]},
@@ -23,22 +23,25 @@ const PieChartComponent = () => {
     {category:'Health',total:0,catColor:sliceColor[6]},
     {category:'Personal',total:0,catColor:sliceColor[7]},
   ])
-    useGetExpenses({
-      onSuccess:({data})=>setChartData(GetChartObj({spendings:data})),
+    const{data}=useGetExpenses({
+      onSuccess:({data})=>{
+        if(data.length>0){
+          setChartData(GetChartObj({spendings:data}))}},
       userId,
       onError:({response})=>{
         setSnackBar({message:'Failed to fetch your spendings'})}})
-    
 
+        
+    
     return (
       <View style={styles.overallContainer}>
         <View style={styles.ChartContainer}>
         <View>
-             <Text>Spending overview:</Text>
+             <Text>{ data && data?.length>0?'Spendings overview: ':'No Expenses'}</Text>
         </View>
           <PieChart
             widthAndHeight={300}
-            series={chartData.map((item)=>item['total'])}
+            series={chartData.map((item)=>item['total'])}//this series somehow returns 0
             sliceColor={chartData.map((item)=>item['catColor'])}
             coverRadius={0.45}
             coverFill={'#FFF'}
@@ -75,7 +78,8 @@ const styles = StyleSheet.create({
         marginHorizontal:'2%',
         margin:'4%',
         padding:'2%',
-        shadowBorderRadius:10,
+        shadowRadius: 10,
         shadowOpacity: 0.50,
+        elevation: 5,
     }
   })

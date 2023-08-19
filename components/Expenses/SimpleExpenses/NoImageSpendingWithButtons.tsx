@@ -1,13 +1,14 @@
 import { View,Text, StyleSheet,Button } from "react-native"
-import { spending } from '../../models/spending';
+import { spending } from '../../../models/spending';
 import { Stack, IconButton, HStack } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import CircleContainer from "../UI/CircleContainer";
-import LargerCircleContainer from "../UI/LargerCircleContainer";
+import CircleContainer from "../../UI/CircleContainer";
+import LargerCircleContainer from "../../UI/LargerCircleContainer";
 
 
-const Spending=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
-    const {title,date,price,category}=spending;
+
+const NoImageSpendingWithButtons=({spending,Delete,Edit,optional}:{spending:spending,Delete:()=>void,Edit:()=>void,optional?:()=>void})=>{
+    const {title,date,price,category,imageUrl}=spending;
     return(
         <View style={styles.overallContainer}>
             <HStack m={4} spacing={6} style={styles.titleBox}>
@@ -139,5 +140,5 @@ const styles=StyleSheet.create({
 
 })
 
-export default Spending;
+export default NoImageSpendingWithButtons;
 

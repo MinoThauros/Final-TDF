@@ -2,17 +2,20 @@ import { View, Text,Button, StyleSheet, Modal} from 'react-native'
 import { spending } from '../models/spending';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteExpense,useUpdateExpense} from '../Hooks/ReactQ';
-import Spending from '../components/Expenses/Spending';
+import NoImageSpendingWithButtons from '../components/Expenses/SimpleExpenses/NoImageSpendingWithButtons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
-import SpendingCard from '../components/Expenses/SpendingCard';
 import { SnackBarContext } from '../states/context/SnackBarContext';
 import { AuthContext } from '../states/context/CredentialsContext';
+import ExpenseForm from '../components/Forms/ExpenseForm';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 /**
- * Receives a spending object though navigation
- * @param param0 
- * @returns 
+ * Displays the details of a spending and allows the user to edit or delete it
+ * Does so by summoning a expense form modal with the details of the spending 
+ * @param spending
+ * @param optional: optional function to be called when the user deletes the spending
+ * @returns API calls to delete or edit a spending
  */
 const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:()=>void}) => {
         //useQueryClient  returns the same instance of queryClient
@@ -21,13 +24,13 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
         //const spending=route.params.Spending;
         const [editWindow,setEditWindow]=useState(false);
         const {setSnackBar}=useContext(SnackBarContext)
+        const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
 
         const onError=({response}:{response:any})=>{
             setSnackBar({message:response.data.error})
         }
     
         const deleteHandler=({data}:any)=>{
-            console.log(data)
     
         }
         const {mutate:deleteItem,error:deleteError,isSuccess:deleteSuccess}=useDeleteExpense({
@@ -60,7 +63,6 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
 
         const confirmEdit=({data,id}:{data: spending,id?: string})=>{
             if(!id){
-                console.log('no id')
                 return setEditWindow(false)
             }
             editItem({
@@ -71,12 +73,30 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             return 
         }
 
+        const imageModeHandler=()=>{
+            //navigate directly to ExpenseAndImage component
+            navigate('ExpenseWithImageForm',{
+                name:spending.title,
+                photoUrl:spending.imageUrl,
+                type:spending.category,
+                amount:spending.price,
+
+            })
+            setEditWindow(false)
+        }
+
+        //construct the submission function here
+
         
     
         const Content=()=>{
             var Details:JSX.Element=(
             <View>
-                <Spending spending={spending} Delete={deleteSpending} Edit={editSpending} optional={optional}/>
+                <NoImageSpendingWithButtons 
+                    spending={spending} 
+                    Delete={deleteSpending} 
+                    Edit={editSpending} 
+                    optional={optional}/>
             </View>
                 
             )
@@ -89,13 +109,20 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             }
             return Details
         }
+
+
         
         return (
             <View >
-                <Modal visible={editWindow} 
-                animationType={'fade'}
-                transparent={true}>
-                    <SpendingCard initialValues={spending} confirm={confirmEdit} id={spending.id} optionalButton={()=>setEditWindow(false)}/>
+                <Modal 
+                    visible={editWindow} 
+                    animationType={'fade'}
+                    transparent={true}>
+                    <ExpenseForm 
+                        initialValues={spending} 
+                        confirm={confirmEdit} 
+                        optionalButton={()=>setEditWindow(false)}
+                        imageModeHandler={imageModeHandler}/>
                 </Modal>
                 <Content/>
             </View>

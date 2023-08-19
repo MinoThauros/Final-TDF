@@ -1,35 +1,28 @@
 import { KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import RecentExpenses from './screens/RecentExpensesScreen';
+import RecentExpenses from './screens/Expenses/RecentExpensesScreen';
 import Profile from './screens/Profile/Profile';
 import {Ionicons} from '@expo/vector-icons';
-import { Provider } from 'react-redux';
-import { store } from './states/redux/store';
 import {HeaderButton} from './components/Global/headerAddButton';
 import OverlayToggleContextProvider from './states/context/InputOverlayContext';
-import SpendingInput from './screens/SpendingInput'; 
-import SpendingDetailsComponent from './screens/SpengingDetails';
 import AllExpensesReactQuery from './ReactQ_screens/AllExpensesReactQuery';
 import SpendingInputReactQ from './ReactQ_screens/SpendingInputReactQ';
-import SpendingDetailsReactQ from './ReactQ_screens/SpendingDetailsReactQ';
-import AuthPages from './screens/AuthPages';
 import Colors from './constants/colors';
-import ProfileForm from './screens/Profile/ProfileForm';
 import CreateProfile from './screens/Profile/CreateProfile';
 import EditProfile from './screens/Profile/EditProfile';
+import PlaceForm from './screens/Expenses/PlaceForm';
+import ExpenseWithImageForm from './screens/Expenses/ExpenseWithImageForm';
 
 const Tab = createBottomTabNavigator();
 
 const AuthStack = () => {
   return (
     <OverlayToggleContextProvider>
-      <Provider store={store}>
       <KeyboardAvoidingView>
-        <SpendingInput/>
-        <SpendingInputReactQ/>
       </KeyboardAvoidingView>
         <NavigationContainer>
+        <SpendingInputReactQ/>
           <Tab.Navigator 
           initialRouteName='AllExpensesReactQuery'
           screenOptions={{
@@ -43,18 +36,7 @@ const AuthStack = () => {
             },
             tabBarActiveTintColor:Colors.Tangerine,
             
-            //tabBarInactiveTintColor:Colors.Columbia_blue,
-            
-            }}>
-            {/*
-            
-            <Tab.Screen 
-              name="All Expenses" 
-              component={AllExpenses}
-              options={{
-                tabBarIcon: ({color,size}:any)=>(<Ionicons name="cash-outline" color={color} size={size}/>)
-              }}/>
-            */}          
+            }}>   
             
             <Tab.Screen
               name="AllExpensesReactQuery"
@@ -87,16 +69,6 @@ const AuthStack = () => {
                 title:'My Profile',
                 
               }}/>
-              
-              {/**
-               <Tab.Screen 
-              name="Details"
-              component={SpendingDetailsComponent}
-              options={{
-                tabBarButton: () => null
-              }}/>
-               */
-              }
               <Tab.Screen
                 name="CreateProfile"
                 component={CreateProfile}
@@ -119,10 +91,30 @@ const AuthStack = () => {
                   }
               }}/>
 
+              <Tab.Screen
+                name="PlaceForm"
+                component={PlaceForm}
+                options={{
+                  tabBarButton: () => null,
+                  title:'Spending Form',
+                  headerTitleStyle:{
+                    color:Colors.Tangerine,
+                  }
+                }}/>
+
+            <Tab.Screen
+              name="ExpenseWithImageForm"
+              component={ExpenseWithImageForm}
+              options={{
+                tabBarButton: () => null,
+                headerTitleStyle:{
+                  color:Colors.Tangerine,
+                }
+              }}/>
+
               
           </Tab.Navigator>
         </NavigationContainer>
-      </Provider>
     </OverlayToggleContextProvider>
   )
 }

@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import SnackBar, { SnackBarProps } from '../../components/UI/SnackBar';
+import { SnackBarProps } from '../../components/UI/SnackBar';
 
 export const SnackBarContext=createContext({
     SnackBar:{

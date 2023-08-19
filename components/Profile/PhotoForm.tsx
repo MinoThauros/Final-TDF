@@ -15,9 +15,8 @@ import {
     launchImageLibraryAsync } from 'expo-image-picker';
 import LargestRoundIconButton from '../UI/LargestRoundIconButton';
 import verifyPermissions from '../../screens/utils/DeviceNative/PermissionsManager';
-import { useGetProfile, useUpdateProfile, useUpdateProfilePhoto } from '../../Hooks/ProfileReactQ';
+import { usePutProfilePhoto } from '../../Hooks/ProfilePhotoHooks';
 import { useQueryClient } from '@tanstack/react-query';
-import { Profile } from '../../models/profile';
 
 type PhotoFormProps={
     onNewPhoto:({photoUrl}:{photoUrl:string})=>void
@@ -44,7 +43,7 @@ const ImageChangerModal=({modalState, takePhoto, pickFromGallery}:any)=>{
         </Modal>
     )
 }
-const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
+const PhotoForm = () => {
     //handle photo change here
     const {userId}=useContext(AuthContext)
     //name of the file will be userId+CurrentTime+UUIDV4
@@ -52,8 +51,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
     const [cameraPermisisonInfo,cameraRequestPermission]=useCameraPermissions();
     const [mediaPermissionInfo, mediaRequestPermission] = useMediaLibraryPermissions()
     const queryClient=useQueryClient()
-    const profile=useGetProfile({userId}).data?.response as Profile
-    const {mutate:changeProfilePhoto, isLoading:newPhotoLoading}=useUpdateProfilePhoto({queryClient})
+    const {mutate:changeProfilePhoto, isLoading:newPhotoLoading}=usePutProfilePhoto({queryClient})
     const changePhotoHandler=()=>{
         setModalVisible(!modalVisible)
     }
@@ -93,11 +91,8 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
         if (image) {
             changeProfilePhoto({
                 userId,
-                newProfile:{
-                    ...profile,
-                    imageUrl:image.assets ? image.assets[0].uri : ''}})
+                uri: image.assets ? image.assets[0].uri : ''})
             setModalVisible(false)
-            onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
         }
     }
 
@@ -115,10 +110,7 @@ const PhotoForm = ({onNewPhoto}:PhotoFormProps) => {
         if (image) {
             changeProfilePhoto({
                 userId,
-                newProfile:{
-                    ...profile,
-                    imageUrl:image.assets ? image.assets[0].uri : ''}})
-            onNewPhoto({photoUrl: image.assets ? image.assets[0].uri : ''});
+                uri: image.assets ? image.assets[0].uri : ''})
         }
     }
 

@@ -31,7 +31,7 @@ const CreateProfile = () => {
     
   return (
     <View style={styles.overallContainer}>
-      <ProfileForm onSubmit={(onSubmit)}/>
+      <ProfileForm onSubmit={onSubmit}/>
     </View>
   )
 }

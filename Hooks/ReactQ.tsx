@@ -17,18 +17,15 @@ export const useGetExpenses = ({onSuccess,onError,userId}:{onSuccess:({data}:{da
             queryKey: ['expenses'],
             queryFn: async () => getExpenses({userId}),
             onSuccess:(data:spending[])=>{           
-            onSuccess({data})},//run provided callback
-            onError:(err)=>{
-                  const error=err as any;
-                  onError({response:error.response})
-            },
+                  onSuccess({data})},//run provided callback
+            onError,
             enabled: !!userId,
-
       });
 }
 
 export const useStoreExpense = ({onSuccess,queryClient,onError}:useMutationProps) => {
       return useMutation(storeExpense,{
+            mutationKey: ['expenses'],
             onSuccess: (data) => {
                   onSuccess({data})},
             onMutate: async ({spending} :{spending:spending,userId:string}) => {

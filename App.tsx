@@ -10,13 +10,12 @@ import SnackBar from './components/UI/SnackBar';
 const Pages=()=>{
     const {isAuthenticated}=useContext(AuthContext)
     return(
-      <>
+
+      <SnackBarContextProvider>
         {isAuthenticated && <AuthStack/>}
         {!isAuthenticated && <AuthPages/>}
-      </>
-        
-        
-
+        <SnackBar/>
+      </SnackBarContextProvider>
     )
 }
 const queryClient = new QueryClient();
@@ -28,7 +27,6 @@ export default function App() {
     <SnackBarContextProvider>
     <AuthContextProvider>
       <Pages/>
-      <SnackBar/>
     </AuthContextProvider>
     </SnackBarContextProvider>
   </QueryClientProvider>

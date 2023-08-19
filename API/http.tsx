@@ -3,10 +3,7 @@ import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
 import { FIREBASE_API_KEY } from 'react-native-dotenv';
 import { Profile } from '../models/profile';
-import { FireStore } from './Firebase/CloudStorage';
-import { store } from '../states/redux/store';
-import { Alert } from 'react-native';
-import { err } from 'react-native-svg/lib/typescript/xml';
+import { APIResponse, FireStore } from './Firebase/CloudStorage';
 
 export type ProfilePhotoUploadResponse={
     response:any,
@@ -26,25 +23,40 @@ export class HTTPInterface{
     };
     async getExpenses({userId}:{userId:string}){
         const expenses=[] as spending[]
+        let resp:APIResponse
 
-        const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`);
+        try{
+            const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`);
+            resp={
+                response:response,
+                message:'Success'
+            }
+        }catch(err){
+            resp={
+                response:err,
+                message:'Error'
+            }
+        }
+
+        
         return new Promise((resolve,reject)=>{
-            if(response.status===200){
-                const {data}=response
+            if(resp.response.status===200 || resp.message==='Success'){
+                const {data}=resp.response
                 for ( let key in data){
                     const expenseObj:spending={
                         id:key,//firebase id
                         price:data[key].price,
                         date:data[key].date,
                         category:data[key].category,
-                        title:data[key].title
+                        title:data[key].title,
+                        imageUrl:data[key].imageUrl,
                     };
                     expenses.push(expenseObj);
                 }
 
                 resolve(expenses as spending[])
             }else{
-                reject(response as  AxiosResponse<any, any>)
+                reject(resp.response as AxiosResponse<any,any>)
             }
         })
     
@@ -85,7 +97,7 @@ export class AuthInterface{
             password,
             returnSecureToken:true
             //ask backend to return token; if token is returned, we know that the login was successful
-            }as AuthRequestPayloadArgs)
+        }as AuthRequestPayloadArgs)
     }
 
     signup=async ({email,password}:{email:string,password:string})=>{
@@ -94,8 +106,7 @@ export class AuthInterface{
             password,
             returnSecureToken:true
             //ask backend to return token; if token is returned, we know that the login was successful
-            }as AuthRequestPayloadArgs)
-            
+            }as AuthRequestPayloadArgs)  
     }
 
 }
@@ -105,7 +116,6 @@ type GetProfileResponse={
     message:'No Profile found' | 'Found profile' | 'error'
 }
 
-const {uploadImage,downloadImage}=new FireStore();
 export class ProfileInterface{
 
     getProfile=async ({userId}:{userId:string}):Promise<GetProfileResponse> =>{
@@ -123,8 +133,7 @@ export class ProfileInterface{
                     city:data.city,
                     country:data.country,
                     gender:data.gender,
-                    occupation:data.occupation,
-                    imageUrl:data.imageUrl??'',//if no image url, set to empty string
+                    occupation:data.occupation
                 };
 
 
@@ -157,71 +166,5 @@ export class ProfileInterface{
 
     createProfile=async ({userId,profile}:{userId:string,profile:Profile})=>{
         return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`,profile)
-    }
-
-    updateProfilePhoto=async ({userId,newProfile}:{userId:string,newProfile:Profile}):Promise<ProfilePhotoUploadResponse>=>{
-        let error:any
-        let storedImageUrl:any
-        const imageName=`profile/${userId}`
-        let updatedProfile:any
-
-        try{
-            storedImageUrl=await uploadImage({
-                uri:newProfile.imageUrl??'',
-                imageName
-            })
-            updatedProfile=await this.updateProfile({
-                userId,
-                newProfile
-            })
-
-        }catch(err){
-            Alert.alert('Error',err as any)
-            error=err
-        }
-        
-        return new Promise((resolve,reject)=>{
-            if(error){
-                reject({
-                        message:'Error',
-                        response:error
-                    })
-            }
-            resolve({
-                    message:'Success',
-                    response:updatedProfile
-                })
-        })
-    }
-
-    getProfileAndPhoto=async ({userId}:{userId:string}):Promise<ProfilePhotoUploadResponse>=>{
-        let profileResponse:any
-        let profile:any
-        let imageUrl :any
-        let error:any=null
-        try{
-            profileResponse=await this.getProfile({userId})
-            profile=profileResponse.response as Profile
-            imageUrl=await downloadImage({imageName:`profile/${userId}`})
-        }catch(e){
-            Alert.alert('Error',e as any)
-            error=e
-        }
-
-        return new Promise((resolve,reject)=>{
-            if(error){
-                reject({
-                    response:error,
-                    message:'Error'
-                })
-            }
-            resolve({
-                response:{
-                    ...profile,
-                    imageUrl
-                } as Profile,
-                message:'Success'
-            })
-        })
     }
 }

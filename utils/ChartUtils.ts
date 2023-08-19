@@ -1,6 +1,12 @@
 import Colors from '../constants/colors';
 import { Categories, spending } from '../models/spending';
 
+export type ChartObj={
+    category:CategoryTypes,
+    total:number,
+    catColor:string
+}
+
 type CategoryTypes=typeof Categories[number]
 export const sliceColor = ['#fbd203', '#ffb300', '#ff9100', '#ff6c00', '#ff3c00',Colors.Skobeloff,Colors.Columbia_blue, Colors.Slate_blue]
 
@@ -10,15 +16,15 @@ const getCategoryTotal=({category,spendings}:{category : CategoryTypes,spendings
     const total=moddedList.reduce((prev,curr)=>prev+curr.price,0)
     return {total,category}
   }
-const GetChartObj=({spendings}:{spendings:spending[]})=>{
-let totalObj:{category:CategoryTypes,total:number}[]=[]
-for (let category of Categories){  //will always return an array of length 8
-    totalObj.push(getCategoryTotal({category,spendings}))
-}
-return totalObj.map((item,index)=>{
-    return {
-    ...item,
-    catColor:sliceColor[index]}})
+const GetChartObj=({spendings}:{spendings:spending[]}):ChartObj[]=>{
+    let totalObj:{category:CategoryTypes,total:number}[]=[]
+    for (let category of Categories){  //will always return an array of length 8
+        totalObj.push(getCategoryTotal({category,spendings}))
+    }
+    return totalObj.map((item,index)=>{
+        return {
+        ...item,
+        catColor:sliceColor[index]}})
 }
 
 export default GetChartObj

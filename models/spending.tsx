@@ -15,6 +15,7 @@ export const Categories:['Food','Clothes','Housing','Transportation','Utilities'
 ]
 
 export class spending {
+    readonly imageUrl?:string;
     readonly id?:string;
     readonly title:string;
     readonly price:number;
@@ -27,8 +28,9 @@ export class spending {
         category: typeof Categories[number],
         date:string,
         title:string,
+        imageUrl?:string,
     ){
-
+        this.imageUrl=imageUrl
         this.price=price;
         this.category=category
         this.date=date

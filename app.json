@@ -39,8 +39,8 @@
       [
         "expo-image-picker",
         {
-          "cameraPermission": "The app needs access to your camera to take photos",
-          "photosPermission": "The app accesses your photos to select a photo"
+          "cameraPermission": "TDF's Budget App needs access to your camera to take photos",
+          "photosPermission": "TDF's Budget App needs access to your library to select a photo"
         }
       ]
     ],

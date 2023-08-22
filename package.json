@@ -40,9 +40,7 @@
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
     "react-redux": "^8.0.2",
-    "redux": "^4.2.0",
-    "uuid": "^9.0.0",
-    "yarn": "^1.22.19"
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

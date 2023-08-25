@@ -47,7 +47,6 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
 
 
   return (
-    <>
      <View style={styles.card}>
             <View>
                 <PhotoForm/>
@@ -115,10 +114,7 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
                     }}/>
                     </View>
             </View>
-            <View>
-                
-        </View>
-    </>
+
        
         
   )

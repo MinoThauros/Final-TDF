@@ -47,7 +47,7 @@ const Profile=()=>{
                 <View style={{minWidth:'100%'}}>
                     <PieChartComponent/>
                 </View>
-                <Stack style={{...styles.optionsContainer}}>
+                <Stack style={styles.optionsContainer}>
                     <ActiveButton
                         condition={hideMore}
                         IfTrue={{title:"Less Options",buttonTitle:"downcircle"}}

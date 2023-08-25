@@ -1,8 +1,10 @@
 //creating a validator which takes in an array
 
 export class Validator {
-    readonly specialChars = /[`!@#$%^&*_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    readonly emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex for demonstration purposes
+  private readonly   specialChars = /[`!@#$%^&*_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  private readonly emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex for demonstration purposes
+  private readonly dateRegex = /^(19[0-9]{2}|20[0-2][0-3])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+  ;
   
     wordValidator = (word: string): boolean => {
       let status = false;
@@ -27,4 +29,8 @@ export class Validator {
       }
       return status;
     };
+
+    dateValidator = (date: string): boolean => {
+      return this.dateRegex.test(date);
+    }
   }

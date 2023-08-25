@@ -23,7 +23,7 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
     const [category,setCategory]=useState(initialValues?.category??'' as CategoryTypes);
     const [date, setDate]=useState(initialValues?.date??'');
     const [title,setTitle]=useState(initialValues?.title??'');
-    const {wordValidator,numValidator}=new Validator()
+    const {wordValidator,numValidator, dateValidator}=new Validator()
 
     const [warnings,setWarnings]=useState({
         amountWarning:<></>,
@@ -35,14 +35,14 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
     const messages={
         amountWarning: !numValidator(amount)? <Text style={styles.validationError}>Invalid amount</Text>:<></>,
         categoryWarning:!wordValidator(category) || !Categories.includes(category as any) ?<Text style={styles.validationError}>Invalid Category</Text>:<></>,
-        dateWarning:!wordValidator(date)?<Text style={styles.validationError}>Invalid date</Text>:<></>,
+        dateWarning:!dateValidator(date)?<Text style={styles.validationError}>Invalid date</Text>:<></>,
         titleWarning:!wordValidator(title)?<Text style={styles.validationError}>Invalid title</Text>:<></>
     }
 
     
     const submitButton=()=>{
 
-        if (numValidator(amount) && wordValidator(category) &&  wordValidator(date) &&  wordValidator(title) && Categories.includes(category as any)){
+        if (numValidator(amount) && wordValidator(category) &&  dateValidator(date) &&  wordValidator(title) && Categories.includes(category as any)){
             if (Categories.includes(category as any)){
                 let enteredData:spending={
                     imageUrl:initialValues?.imageUrl,
@@ -77,7 +77,7 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
                     nextValue={(newText:any)=>setAmount(parseInt(newText))}
                     title={'Amount'}
                     validationErr={warnings.amountWarning}
-                    defaultValue={initialValues?.price.toString()?? undefined}/>
+                    defaultValue={initialValues?.price.toString()??''}/>
 
                 <CustomTextInput
                     nextValue={setCategory}
@@ -89,6 +89,7 @@ const ValidativeForm=({initialValues,confirm, cancelAction, imageModeHandler}:Va
                     nextValue={setDate}
                     title={'Date'}
                     validationErr={warnings.dateWarning}
+                    placeHolder='yyyy-mm-dd'
                     defaultValue={initialValues?.date??''}/>
                 <View style={styles.buttonStack}>
                     <Button title='Go back' onPress={cancelAction}/>

@@ -8,7 +8,8 @@ type CustomTextInputProps={
     nextValue: React.Dispatch<React.SetStateAction<string>> | ((prevState: any) => void) ,
     validationErr? :  JSX.Element,
     //pass the form submission 
-    extraStyle?:any
+    extraStyle?:any,
+    placeHolder?:string
 }
 
 /**
@@ -24,7 +25,8 @@ const CustomTextInput = ({
     nextValue,
     validationErr,
     title,
-    extraStyle
+    extraStyle,
+    placeHolder
 }:CustomTextInputProps) => {
 
     return (
@@ -33,6 +35,7 @@ const CustomTextInput = ({
                 {validationErr}
                 <TextInput 
                 style={styles.textInputA}
+                placeholder={placeHolder}
                 onChangeText={nextValue}//
                 defaultValue={defaultValue}/>
         </View>

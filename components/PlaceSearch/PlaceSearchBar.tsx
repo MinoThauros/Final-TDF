@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { FIREBASE_API_KEY } from 'react-native-dotenv'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { getExpensePhoto } from '../../utils/GetExpensePhoto'
 import Colors from '../../constants/colors'
@@ -40,7 +39,7 @@ const PlaceSearchBar = ({onSelectedLocation}:PlaceSearchProps) => {
       onPress={processSelectedLocation}
       fetchDetails={true}
       query={{
-        key: FIREBASE_API_KEY,
+        key: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
         language: 'en',
         components: 'country:ca',
         rankby: 'distance',

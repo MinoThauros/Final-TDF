@@ -1,0 +1,46 @@
+{
+  "cli": {
+    "version": ">= 4.1.2"
+  },
+  "build": {
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env":{
+        "EXPO_PUBLIC_FIREBASE_API_KEY":"AIzaSyDWZcx9JHwZSj2fam2grs4bAL0reJBuIzE",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN":"bgetapp.firebaseapp.com",
+        "EXPO_PUBLIC_DATABASE_URL":"https://bgetapp-default-rtdb.firebaseio.com",
+        "EXPO_PUBLIC_PROJECT_ID":"bgetapp",
+        "EXPO_PUBLIC_STORAGE_BUCKET":"bgetapp.appspot.com",
+        "EXPO_PUBLIC_MESSAGING_SENDER_ID":"871157693131",
+        "EXPO_PUBLIC_APP_ID":"1:871157693131:web:b8692954d93449aee7b94e"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType":"apk"
+      },
+      "env":{
+        "EXPO_PUBLIC_FIREBASE_API_KEY":"AIzaSyDWZcx9JHwZSj2fam2grs4bAL0reJBuIzE",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN":"bgetapp.firebaseapp.com",
+        "EXPO_PUBLIC_DATABASE_URL":"https://bgetapp-default-rtdb.firebaseio.com",
+        "EXPO_PUBLIC_PROJECT_ID":"bgetapp",
+        "EXPO_PUBLIC_STORAGE_BUCKET":"bgetapp.appspot.com",
+        "EXPO_PUBLIC_MESSAGING_SENDER_ID":"871157693131",
+        "EXPO_PUBLIC_APP_ID":"1:871157693131:web:b8692954d93449aee7b94e"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}

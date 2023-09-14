@@ -1,9 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { spending } from '../models/spending';
 import {AuthRequestPayloadArgs,SignUpResponsePayload,SignInResponsePayload} from './httpUtils'
-import { FIREBASE_API_KEY } from 'react-native-dotenv';
 import { Profile } from '../models/profile';
-import { APIResponse, FireStore } from './Firebase/CloudStorage';
+import { APIResponse } from './Firebase/CloudStorage';
 
 export type ProfilePhotoUploadResponse={
     response:any,
@@ -12,7 +11,7 @@ export type ProfilePhotoUploadResponse={
 
 
 export class HTTPInterface{
-    readonly rootApi:string='https://bgetapp-default-rtdb.firebaseio.com/';
+    readonly rootApi:string=process.env.EXPO_PUBLIC_DATABASE_URL as string;
     readonly expenseNode:string='expenses.json';
     readonly url:string='https://bgetapp-default-rtdb.firebaseio.com/expenses.json';
 
@@ -85,7 +84,7 @@ export class HTTPInterface{
 }
 
 export class AuthInterface{
-    private readonly  API_KEY:string=FIREBASE_API_KEY;
+    private readonly  API_KEY:string=process.env.EXPO_PUBLIC_FIREBASE_API_KEY as string;
     private readonly  generateUrl=({mode}:{mode:'signInWithPassword'|'signUp'})=>{
         return `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${this.API_KEY}`
 

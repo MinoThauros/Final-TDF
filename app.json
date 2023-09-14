@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "bdget_app",
-    "slug": "bdget_app",
+    "name": "TDF's Budget App",
+    "slug": "TDF_bdget_app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/TDF.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/TDF.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,13 +18,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1.0.0",
+      "supportsTablet": true,
+      "bundleIdentifier": "TDF1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,10 +39,15 @@
       [
         "expo-image-picker",
         {
-          "cameraPermission": "The app needs access to your camera to take photos",
-          "photosPermission": "The app accesses your photos to select a photo"
+          "cameraPermission": "TDF's Budget App needs access to your camera to take photos",
+          "photosPermission": "TDF's Budget App needs access to your library to select a photo"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f08e5000-fc43-4eca-9f7e-b4776b8e8beb"
+      }
+    }
   }
 }

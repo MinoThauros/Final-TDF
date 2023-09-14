@@ -14,10 +14,10 @@ const ProfilePic = ({size}:{size:number}) => {
 
   return (
     <Avatar
-    label={profile?.name??'?'}
+    label={profile?.name??''}
     //need a placeholder image
     image={{
-        uri: data?.response}}
+        uri: data?.response??'https://picsum.photos/200',}}
     size={size}
     imageStyle={{
         borderWidth: 4,

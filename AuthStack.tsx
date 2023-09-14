@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import RecentExpenses from './screens/Expenses/RecentExpensesScreen';
@@ -18,7 +18,8 @@ const Tab = createBottomTabNavigator();
 
 const AuthStack = () => {
   return (
-    <OverlayToggleContextProvider>
+    <View style={{flex:1}}>
+      <OverlayToggleContextProvider>
       <KeyboardAvoidingView>
       </KeyboardAvoidingView>
         <NavigationContainer>
@@ -116,6 +117,8 @@ const AuthStack = () => {
           </Tab.Navigator>
         </NavigationContainer>
     </OverlayToggleContextProvider>
+    </View>
+    
   )
 }
 

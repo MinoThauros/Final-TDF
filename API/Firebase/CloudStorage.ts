@@ -13,21 +13,10 @@ export type APIResponse = {
  * @method downloadImage(imageName) - Downloads an image from the cloud storage
  */
 export class FireStore{
+  //this method is problematic and most likely causes crashes
     private readonly uriToBlob = async (uri:string) => {
-        const blob = await new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.onload = function () {
-            resolve(xhr.response);
-          };
-          xhr.onerror = function (e) {
-            reject(new TypeError("Network request failed"));
-          };
-          xhr.responseType = "blob";
-          xhr.open("GET", uri, true);
-          xhr.send(null);
-        });
-      
-        return blob;
+      const fetchResponse = await fetch(uri);
+      return await fetchResponse.blob();
       };
 
     uploadImage = async ({uri,imageName}:{uri: string, imageName: string}):Promise<APIResponse> => {

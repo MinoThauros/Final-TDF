@@ -1,5 +1,5 @@
 declare module 'react-native-dotenv' {
-    export const FIREBASE_API_KEY: string;
+    export const EXPO_PUBLIC_FIREBASE_API_KEY: string;
     export const FIREBASE_AUTH_DOMAIN: string;
     export const DATABASE_URL: string;
     export const PROJECT_ID: string;

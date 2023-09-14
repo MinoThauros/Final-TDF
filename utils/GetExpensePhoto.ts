@@ -1,10 +1,10 @@
-import { FIREBASE_API_KEY } from "react-native-dotenv"
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { Alert } from "react-native"
 
 const getPhoto = async ({ height, width, photo_reference }: any) => {
+    const APIKey=process.env.EXPO_PUBLIC_FIREBASE_API_KEY
     try {
-      const resp = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${width}&maxheight=${height}&photo_reference=${photo_reference}&key=${FIREBASE_API_KEY}`);
+      const resp = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${width}&maxheight=${height}&photo_reference=${photo_reference}&key=${APIKey}`);
       return resp;
     } catch (error) {
         throw error;

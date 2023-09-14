@@ -4,10 +4,10 @@
     "slug": "TDF_bdget_app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/TimaTechLogo.png",
+    "icon": "./assets/TDF.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/TimaTechLogo.png",
+      "image": "./assets/TDF.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

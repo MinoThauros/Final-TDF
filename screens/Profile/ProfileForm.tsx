@@ -8,7 +8,7 @@ import PhotoForm from '../../components/Profile/PhotoForm';
 import objectsAreEqual from '../../utils/CheckEqualObj';
 
 type ProfileFormProps={
-    onSubmit:({profile,hasChanged}:{profile:Profile,hasChanged:boolean})=>void,
+    onSubmit:({profile,hasChanged}:{profile:Profile,hasChanged?:boolean})=>void,
     defaultValue?:Profile
 }
 

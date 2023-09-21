@@ -21,7 +21,7 @@ const EditProfile = () => {
     })
   }, [])
 
-  const onSubmit=({profile,hasChanged}:{profile:Profile,hasChanged:boolean})=>{
+  const onSubmit=({profile,hasChanged}:{profile:Profile,hasChanged?:boolean})=>{
     if(!hasChanged){
       return navigate('Profile' as never)
     }

@@ -18,16 +18,13 @@ const Profile=()=>{
     const [hideMore,setHideMore]=useState(false);
     //-->profile API call here
     //send it as default value to the form]
-    const {data:profileData,isFetched}=useGetProfile({userId})
 
     const LogOut=()=>{
         //navigation.navigate('Recent expenses');
         logout();
     }
 
-    if(!isFetched){
-        return <LoadingOvelay/>
-    }
+
     /**
         if(isFetched && profileData?.message==='No Profile found'){
         return (

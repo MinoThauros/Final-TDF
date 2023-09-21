@@ -10,8 +10,9 @@ const ProfileHeader = () => {
     const {userId}=useContext(AuthContext)
     const profile=useGetProfile({userId}).data?.response as Profile
 
-    if
-    (!profile){
+
+
+    if(!profile){
         console.log('no profile')   
         return <View><Text>You do not have a profile yet</Text></View>
     }

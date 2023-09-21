@@ -18,7 +18,7 @@ const SpendingInputReactQ = () => {
     const [imageMode,setImageMode]=useState<boolean>(false)
     const {visible,toogleOverlay}=useContext(OverlayContext);
     const {setSnackBar}=useContext(SnackBarContext)
-    const {userId}=useContext(AuthContext)
+    const {userId, token}=useContext(AuthContext)
     const queryClient = useQueryClient()
     const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
 
@@ -30,7 +30,8 @@ const SpendingInputReactQ = () => {
     const submitAction=({data}:{data:spending})=>{
         mutate({
             spending: data,
-            userId:userId
+            userId:userId,
+            IdToken:token??''
         })
     }
 

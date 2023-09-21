@@ -19,7 +19,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
  */
 const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:()=>void}) => {
         //useQueryClient  returns the same instance of queryClient
-        const {userId}=useContext(AuthContext)
+        const {userId, token}=useContext(AuthContext)
         const queryClient = useQueryClient()
         //const spending=route.params.Spending;
         const [editWindow,setEditWindow]=useState(false);
@@ -51,7 +51,8 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
              */
             deleteItem({
                 id:spending.id??'',
-                userId:userId
+                userId:userId,
+                IdToken:token??''
             })
             //navigation.goBack()
         };
@@ -68,6 +69,7 @@ const SpendingDetailsReactQ = ({spending,optional}:{spending:spending,optional?:
             editItem({
                 updatedExpense:data,
                 id,
+                IdToken:token??'',
                 userId:userId})
             setEditWindow(false)
             return 

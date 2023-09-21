@@ -5,10 +5,10 @@ const {createProfile,getProfile, updateProfile}=new ProfileInterface();
 
 
 
-export const useGetProfile = ({userId}:{userId:string}) => {
+export const useGetProfile = ({userId,IdToken}:{userId:string,IdToken:string}) => {
     return useQuery({
         queryKey:['profile'],
-        queryFn:()=>getProfile({userId}),
+        queryFn:()=>getProfile({userId,IdToken}),
     })
 }
 

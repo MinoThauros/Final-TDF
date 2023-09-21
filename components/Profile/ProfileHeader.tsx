@@ -7,13 +7,13 @@ import { Profile } from '../../models/profile';
 import ProfilePic from './ProfilePic';
 
 const ProfileHeader = () => {
-    const {userId}=useContext(AuthContext)
-    const profile=useGetProfile({userId}).data?.response as Profile
+    const {userId,token}=useContext(AuthContext)
+    const profile=useGetProfile({userId,IdToken:token??''}).data?.response as Profile
+    //improve this to taka care of loading as well
 
 
 
     if(!profile){
-        console.log('no profile')   
         return <View><Text>You do not have a profile yet</Text></View>
     }
     return (

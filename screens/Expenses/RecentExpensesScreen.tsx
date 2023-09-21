@@ -11,7 +11,7 @@ import Colors from "../../constants/colors";
 import { AuthContext } from "../../states/context/CredentialsContext";
 
 const RecentExpenses=({navigation,route}:any)=>{
-    const {userId}=useContext(AuthContext)
+    const {userId,token}=useContext(AuthContext)
     const {setSnackBar}=useContext(SnackBarContext)
     const [temp,setTemp]=useState({} as spending);
     //const spendings=useSelector((states:any)=>states.ExpenseReducer.expenses) as spending[] | undefined;
@@ -24,6 +24,7 @@ const RecentExpenses=({navigation,route}:any)=>{
             setTemp
         },
         userId,
+        IdToken:token??'',
         onError:({response})=>{
             setSnackBar({message:'Failed to fetch your spendings'})}
     });

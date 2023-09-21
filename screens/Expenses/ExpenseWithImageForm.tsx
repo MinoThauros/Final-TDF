@@ -20,7 +20,7 @@ import { AuthContext } from '../../states/context/CredentialsContext'
  * @returns 
  */
 const ExpenseWithImageForm=()=>{
-  const {userId}=useContext(AuthContext)
+  const {userId,token}=useContext(AuthContext)
   const queryClient=useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
   const {mutate}=useStoreExpense({
@@ -53,8 +53,10 @@ const ExpenseWithImageForm=()=>{
         date,
         category:type,
         imageUrl:photoUrl,
+
       },
       userId,
+      IdToken:token??''
     })
   }
 

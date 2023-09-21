@@ -7,8 +7,6 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../states/context/CredentialsContext";
 import ProfilePageExtras from "../../components/Profile/ProfilePageExtras";
 import ActiveButton from "../../components/UI/ActiveButton";
-import { useGetProfile } from "../../Hooks/ProfileReactQ";
-import LoadingOvelay from "../../components/UI/LoadingOverlay";
 
 
 

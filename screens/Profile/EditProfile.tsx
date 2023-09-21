@@ -12,8 +12,8 @@ import { useQueryClient } from '@tanstack/react-query'
 const EditProfile = () => {
   const queryClient = useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
-  const {userId}=useContext(AuthContext)
-  const {data}=useGetProfile({userId})
+  const {userId,token}=useContext(AuthContext)
+  const {data}=useGetProfile({userId, IdToken:token??''})
   const {mutate,isSuccess}=useUpdateProfile({queryClient})
   useLayoutEffect(() => {
     navOptions({
@@ -28,6 +28,7 @@ const EditProfile = () => {
     mutate({
       newProfile:profile,
       userId:userId,
+      IdToken:token??''
     })
     navigate('Profile' as never)
   }

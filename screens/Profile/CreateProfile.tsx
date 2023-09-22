@@ -18,13 +18,15 @@ const CreateProfile = () => {
   const queryClient = useQueryClient()
     //profile doesnt exist; create it
   const {setOptions:navOptions,navigate}=useNavigation()
-  const {userId}=useContext(AuthContext)
+  const {userId,token}=useContext(AuthContext)
   const {mutate,isSuccess}=useUpdateProfile({queryClient})
   
   const onSubmit=({profile}:{profile:Profile})=>{
     mutate({
       newProfile:profile,
       userId:userId,
+      IdToken:token??''
+
     })
     navigate('Profile' as never)
   }

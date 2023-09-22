@@ -11,6 +11,8 @@ import CircleContainer from '../../components/UI/CircleContainer'
 import LargerCircleContainer from '../../components/UI/LargerCircleContainer'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import { AuthContext } from '../../states/context/CredentialsContext'
+import CustomTextInput from '../../components/UI/CustomTextInput'
+import { Validator } from '../../API/validator'
 
 
 /**
@@ -23,11 +25,16 @@ const ExpenseWithImageForm=()=>{
   const {userId,token}=useContext(AuthContext)
   const queryClient=useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
+  const {wordValidator,numValidator, dateValidator}=new Validator()
   const {mutate}=useStoreExpense({
     onSuccess:()=>{
       navigate('AllExpensesReactQuery' as never)
-      setAmount('')
+      setAmount('' as unknown as number)
       setDate('')
+      setWarnings({
+        amountWarning:<></>,
+        dateWarning:<></>,
+      })
     },
     onError:()=>{},
     queryClient})
@@ -39,14 +46,27 @@ const ExpenseWithImageForm=()=>{
         title:'New expense',
     })
 }, [])
+  
+
+
   //receive props with navigation instead
   const {name,photoUrl,type}=params as PlaceSearchBarResult//guaranteed to exist
-  const [amount,setAmount]=useState<string>();
+  const [amount,setAmount]=useState<number>('' as unknown as number);
   const [date, setDate]=useState('');
 
+  const [warnings,setWarnings]=useState({
+    amountWarning:<></>,
+    dateWarning:<></>,
+})
+
+const messages={
+    amountWarning: !numValidator(amount)? <Text style={styles.validationError}>Enter amount</Text>:<></>,
+    dateWarning:!dateValidator(date)?<Text style={styles.validationError}>Invalid date</Text>:<></>
+}
 
   const onSubmit=()=>{
-    mutate({
+    if (numValidator(amount) &&  dateValidator(date)){
+      mutate({
       spending:{
         title:name,
         price:Number(amount),
@@ -58,7 +78,12 @@ const ExpenseWithImageForm=()=>{
       userId,
       IdToken:token??''
     })
+    }else{
+      setWarnings(messages)
+    }
+    
   }
+
 
   return (
     <View style={{justifyContent:'center', flex:1, backgroundColor:Colors.Skobeloff}}>
@@ -66,6 +91,7 @@ const ExpenseWithImageForm=()=>{
         name={name} 
         photoUrl={photoUrl} 
         type={type}>
+        {/**
         <TextInput
               variant='standard'
               label="Amount"
@@ -85,6 +111,24 @@ const ExpenseWithImageForm=()=>{
               color={Colors.Tangerine}
               style={{marginVertical:5, minWidth:'90%'}}
               />
+         */}
+        <CustomTextInput
+          title='Amount'
+          placeHolder='Enter amount'
+          defaultValue={amount.toString()}
+          nextValue={setAmount}
+          extraStyle={{marginVertical:5, minWidth:'90%'}}
+          validationErr={warnings.amountWarning}
+        />
+        <CustomTextInput
+          title='Date'
+          placeHolder='yyyy-mm-dd'
+          defaultValue={date}
+          nextValue={setDate}
+          extraStyle={{marginVertical:5, minWidth:'90%'}}
+          validationErr={warnings.dateWarning}
+          />
+        
           <View style={styles.buttonStack}>
             <LargerCircleContainer onPress={onSubmit} icon={"check"}/>
           </View>
@@ -134,8 +178,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     marginHorizontal:'15%',
-
-},
+  },
+  validationError:{
+    fontSize:12,
+    color:'red'
+}
 })
 
 export default ExpenseWithImageForm

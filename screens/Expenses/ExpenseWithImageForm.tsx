@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Button } from 'react-native'
+import { StyleSheet, Text, View, Image, Button, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { PlaceSearchBarResult } from './PlaceForm'
 import Colors from '../../constants/colors'
@@ -86,32 +86,15 @@ const messages={
 
 
   return (
-    <View style={{justifyContent:'center', flex:1, backgroundColor:Colors.Skobeloff}}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={120}
+    style={{flex:1}}>
+      <View style={{justifyContent:'center', flex:1, backgroundColor:Colors.Skobeloff}}>
       <ExpenseWithImageCard
         name={name} 
         photoUrl={photoUrl} 
         type={type}>
-        {/**
-        <TextInput
-              variant='standard'
-              label="Amount"
-              value={amount}
-              onChangeText={setAmount}
-              inputStyle={{color:Colors.Tangerine,}}
-              color={Colors.Tangerine}
-              keyboardType='numeric'
-              style={{marginVertical:5, minWidth:'90%'}}
-              />
-          <TextInput
-              variant='standard'
-              label="Date"
-              value={date}
-              onChangeText={setDate}
-              inputStyle={{color:Colors.Tangerine,}}
-              color={Colors.Tangerine}
-              style={{marginVertical:5, minWidth:'90%'}}
-              />
-         */}
         <CustomTextInput
           title='Amount'
           placeHolder='Enter amount'
@@ -132,8 +115,10 @@ const messages={
           <View style={styles.buttonStack}>
             <LargerCircleContainer onPress={onSubmit} icon={"check"}/>
           </View>
-        </ExpenseWithImageCard>
+      </ExpenseWithImageCard>
     </View>
+    </KeyboardAvoidingView>
+    
     
   )
 }

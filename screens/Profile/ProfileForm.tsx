@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { useState } from 'react'
 import Colors from '../../constants/colors';
 import { Stack, TextInput } from '@react-native-material/core';
@@ -47,11 +47,14 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
 
 
   return (
+    <ScrollView 
+    contentContainerStyle={{flexGrow:1}}
+    style={{minHeight:'100%'}}>
      <View style={styles.card}>
             <View>
                 <PhotoForm/>
             </View>
-            <View>
+            
                 <Stack spacing={6} style={{padding:5, paddingVertical:5,marginHorizontal:10}}>
                     <TextInput
                     variant='standard'
@@ -112,8 +115,9 @@ const ProfileForm = ({onSubmit,defaultValue}:ProfileFormProps) => {
                             TextStyling:styles.buttonTextStyle,
                             ButtonStyling:styles.buttonContainerStyle
                     }}/>
-                    </View>
+            
             </View>
+            </ScrollView>
 
        
         
@@ -145,12 +149,12 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         justifyContent:'center',
         alignItems:'center',
-        marginTop:10,
+        marginTop:'10%',
         marginBottom:10,
     },
     buttonTextStyle:{
         color:Colors.Tangerine,
-        fontSize:18,
+        fontSize:22,
         fontWeight:'bold',
         paddingHorizontal:10,
     },

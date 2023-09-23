@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native'
 import React, { useContext, useLayoutEffect } from 'react'
 import { AuthContext } from '../../states/context/CredentialsContext'
 import ProfileForm from './ProfileForm'
@@ -33,9 +33,15 @@ const EditProfile = () => {
     navigate('Profile' as never)
   }
   return (
-    <View style={styles.overallContainer}>
-      <ProfileForm onSubmit={onSubmit} defaultValue={data?.response as Profile}/>
-    </View>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={120}
+    style={{flex:1}}>
+      <View style={styles.overallContainer}>
+        <ProfileForm onSubmit={onSubmit} defaultValue={data?.response as Profile}/>
+      </View>
+    </KeyboardAvoidingView>
+    
   )
 }
 
@@ -44,9 +50,12 @@ export default EditProfile
 const styles = StyleSheet.create({
   overallContainer:{
     backgroundColor:Colors.Slate_blue,
-    padding:10,
-    flex:1,
-    flexDirection:'column',
-    justifyContent:'center',
+    paddingHorizontal:10,
+    flex: 1,            // Takes up all available space
+    justifyContent: 'center', // Centers children components along the main axis (vertically)
+    // If you want to center content while preserving its width (not stretching),
+    // set alignItems to 'flex-start'
+    alignItems: 'flex-start', 
+    flexDirection:'row',
   },
 })

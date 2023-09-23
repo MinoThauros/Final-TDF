@@ -1,4 +1,4 @@
-import { View, Text, Modal, StyleSheet } from 'react-native'
+import { View, Text, Modal, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import {useContext, useState} from 'react'
 import { spending } from '../models/spending'
 import { OverlayContext } from '../states/context/InputOverlayContext'
@@ -49,10 +49,15 @@ const SpendingInputReactQ = () => {
             visible={visible} 
             animationType={'fade'}
             transparent={true}>
-            <ExpenseForm //control of the 3 buttons on the component
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{flex:1}}>  
+    <ExpenseForm //control of the 3 buttons on the component
                 confirm={submitAction} 
                 imageModeHandler={imageModeHandler} 
                 optionalButton={toogleOverlay}/>
+    </KeyboardAvoidingView>
+            
         </Modal>
         
     )

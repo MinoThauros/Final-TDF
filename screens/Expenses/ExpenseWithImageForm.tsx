@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Button, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, Text, View, Image, Button, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { PlaceSearchBarResult } from './PlaceForm'
 import Colors from '../../constants/colors'
@@ -90,7 +90,8 @@ const messages={
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     keyboardVerticalOffset={120}
     style={{flex:1}}>
-      <View style={{justifyContent:'center', flex:1, backgroundColor:Colors.Skobeloff}}>
+      <ScrollView>
+        <View style={{justifyContent:'center', minHeight:'100%', backgroundColor:Colors.Skobeloff}}>
       <ExpenseWithImageCard
         name={name} 
         photoUrl={photoUrl} 
@@ -117,6 +118,8 @@ const messages={
           </View>
       </ExpenseWithImageCard>
     </View>
+      </ScrollView>
+      
     </KeyboardAvoidingView>
     
     

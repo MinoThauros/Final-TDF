@@ -52,7 +52,7 @@ const SpendingInputReactQ = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{flex:1}}>  
-    <ExpenseForm //control of the 3 buttons on the component
+                <ExpenseForm //control of the 3 buttons on the component
                 confirm={submitAction} 
                 imageModeHandler={imageModeHandler} 
                 optionalButton={toogleOverlay}/>

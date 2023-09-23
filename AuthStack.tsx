@@ -20,8 +20,6 @@ const AuthStack = () => {
   return (
     <View style={{flex:1}}>
       <OverlayToggleContextProvider>
-      <KeyboardAvoidingView>
-      </KeyboardAvoidingView>
         <NavigationContainer>
         <SpendingInputReactQ/>
           <Tab.Navigator 

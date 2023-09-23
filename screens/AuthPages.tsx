@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import CustomTextInput from '../components/UI/CustomTextInput'
 import { useState } from 'react'
 import { Button } from '@react-native-material/core'
@@ -16,9 +16,15 @@ const AuthPages = () => {
     const [login,setLogin]=useState(true)
         return(
             <View style={styles.overallView}>
+                <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={100}>
+                    <ScrollView>
                 <LogoDisplayer/>
                 {login && <LoginPage setLogin={setLogin}/>}
                 {!login && <SignupPage setLogin={setLogin}/>}
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </View>
         )};
 

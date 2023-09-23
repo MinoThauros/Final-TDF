@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import LargerCircleContainer from '../../UI/LargerCircleContainer'
 
-const PressableWrapper = ({onLongPress,children,details}:{onLongPress:()=>void, children:React.ReactNode, details:boolean}) => {
+const PressableWrapper = ({onLongPress,children}:{onLongPress:()=>void, children:React.ReactNode}) => {
   return (
     <Pressable
       style={({pressed})=>(pressed ? styles.pressed:null)} 

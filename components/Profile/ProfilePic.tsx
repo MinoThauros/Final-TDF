@@ -8,9 +8,9 @@ import { AuthContext } from '../../states/context/CredentialsContext';
 import { useGetProfilePicture } from '../../Hooks/ProfilePhotoHooks';
 
 const ProfilePic = ({size}:{size:number}) => {
-    const {userId}=useContext(AuthContext)
-    const profile=useGetProfile({userId}).data?.response as Profile
-    const {data}=useGetProfilePicture({userId})
+    const {userId,token}=useContext(AuthContext)
+    const profile=useGetProfile({userId,IdToken:token??''}).data?.response as Profile
+    const {data}=useGetProfilePicture({userId, profile})
 
   return (
     <Avatar

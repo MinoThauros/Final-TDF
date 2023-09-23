@@ -15,17 +15,17 @@ export class HTTPInterface{
     readonly expenseNode:string='expenses.json';
     readonly url:string='https://bgetapp-default-rtdb.firebaseio.com/expenses.json';
 
-    async storeExpense({spending,userId} :{spending:spending,userId:string}){
+    async storeExpense({spending,userId, IdToken} :{spending:spending,userId:string,IdToken:string}){
         //store photo to cloud storage here
-        const response=await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`,spending)
+        const response=await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json?auth=${IdToken}`,spending)
         return response.data.name;
     };
-    async getExpenses({userId}:{userId:string}){
+    async getExpenses({userId,IdToken}:{userId:string,IdToken:string}){
         const expenses=[] as spending[]
         let resp:APIResponse
 
         try{
-            const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json`);
+            const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses.json?auth=${IdToken}`);
             resp={
                 response:response,
                 message:'Success'
@@ -61,25 +61,13 @@ export class HTTPInterface{
     
     };
 
-    async deleteExpense({userId,id} :{userId:string,id:string}) {
-        return await axios.delete(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json`)
+    async deleteExpense({userId,id,IdToken} :{userId:string,id:string,IdToken:string}) {
+        return await axios.delete(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json?auth=${IdToken}`)
         
     }
 
-    async updateExpense({id,updatedExpense, userId}:{id:string,updatedExpense:spending, userId:string}){
-        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json`,updatedExpense)
-    }
-
-    getBudget=async ({userId}:{userId:string})=>{
-        return await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/budget.json`)
-    }
-
-    updateBudget=async ({newBudget,userId}:{newBudget:any,userId:string})=>{
-        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/budget.json`,newBudget)
-    }
-
-    createBudget=async ({newBudget,userId}:{newBudget:any,userId:string})=>{
-        return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/budget.json`,newBudget)
+    async updateExpense({id,updatedExpense, userId, IdToken}:{id:string,updatedExpense:spending, userId:string, IdToken:string}){
+        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/expenses/${id}.json?auth=${IdToken}`,updatedExpense)
     }
 }
 
@@ -117,10 +105,10 @@ type GetProfileResponse={
 
 export class ProfileInterface{
 
-    getProfile=async ({userId}:{userId:string}):Promise<GetProfileResponse> =>{
+    getProfile=async ({userId,IdToken}:{userId:string,IdToken:string}):Promise<GetProfileResponse> =>{
         let profile=[] as Profile[]
 
-        const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`);
+        const response =await axios.get(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json?auth=${IdToken}`);
         return new Promise((resolve,reject)=>{
             if(response.status===200 && response){
                 const {data}=response
@@ -159,11 +147,11 @@ export class ProfileInterface{
         })
     }
 
-    updateProfile=async ({userId,newProfile}:{userId:string,newProfile:Profile})=>{
-        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`,newProfile)
+    updateProfile=async ({userId,newProfile,IdToken}:{userId:string,newProfile:Profile,IdToken:string})=>{
+        return await axios.put(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json?auth=${IdToken}`,newProfile)
     }
 
-    createProfile=async ({userId,profile}:{userId:string,profile:Profile})=>{
-        return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json`,profile)
+    createProfile=async ({userId,profile,IdToken}:{userId:string,profile:Profile,IdToken:string})=>{
+        return await axios.post(`https://bgetapp-default-rtdb.firebaseio.com/${userId}/profile.json?auth=${IdToken}`,profile)
     }
 }

@@ -11,7 +11,7 @@ import { AuthContext } from '../../states/context/CredentialsContext';
 export type CategoryTypes=typeof Categories[number]
 const PieChartComponent = () => {
   const {setSnackBar}=useContext(SnackBarContext)
-  const {userId}=useContext(AuthContext)
+  const {userId,token}=useContext(AuthContext)
   
   const [chartData,setChartData]=useState<ChartObj[]>([
     {category:'Food',total:0,catColor:sliceColor[0]},
@@ -28,6 +28,7 @@ const PieChartComponent = () => {
         if(data.length>0){
           setChartData(GetChartObj({spendings:data}))}},
       userId,
+      IdToken:token??'',
       onError:({response})=>{
         setSnackBar({message:'Failed to fetch your spendings'})}})
 

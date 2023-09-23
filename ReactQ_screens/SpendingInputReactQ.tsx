@@ -1,4 +1,4 @@
-import { View, Text, Modal, StyleSheet } from 'react-native'
+import { View, Text, Modal, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import {useContext, useState} from 'react'
 import { spending } from '../models/spending'
 import { OverlayContext } from '../states/context/InputOverlayContext'
@@ -18,7 +18,7 @@ const SpendingInputReactQ = () => {
     const [imageMode,setImageMode]=useState<boolean>(false)
     const {visible,toogleOverlay}=useContext(OverlayContext);
     const {setSnackBar}=useContext(SnackBarContext)
-    const {userId}=useContext(AuthContext)
+    const {userId, token}=useContext(AuthContext)
     const queryClient = useQueryClient()
     const {navigate}=useNavigation<NativeStackNavigationProp<any>>()
 
@@ -30,7 +30,8 @@ const SpendingInputReactQ = () => {
     const submitAction=({data}:{data:spending})=>{
         mutate({
             spending: data,
-            userId:userId
+            userId:userId,
+            IdToken:token??''
         })
     }
 
@@ -48,10 +49,15 @@ const SpendingInputReactQ = () => {
             visible={visible} 
             animationType={'fade'}
             transparent={true}>
-            <ExpenseForm //control of the 3 buttons on the component
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{flex:1}}>  
+                <ExpenseForm //control of the 3 buttons on the component
                 confirm={submitAction} 
                 imageModeHandler={imageModeHandler} 
                 optionalButton={toogleOverlay}/>
+    </KeyboardAvoidingView>
+            
         </Modal>
         
     )

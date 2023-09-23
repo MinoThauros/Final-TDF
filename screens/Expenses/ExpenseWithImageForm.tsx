@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Button } from 'react-native'
+import { StyleSheet, Text, View, Image, Button, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { PlaceSearchBarResult } from './PlaceForm'
 import Colors from '../../constants/colors'
@@ -11,6 +11,8 @@ import CircleContainer from '../../components/UI/CircleContainer'
 import LargerCircleContainer from '../../components/UI/LargerCircleContainer'
 import CancelButton from '../../components/ProfileForm/CancelButton'
 import { AuthContext } from '../../states/context/CredentialsContext'
+import CustomTextInput from '../../components/UI/CustomTextInput'
+import { Validator } from '../../API/validator'
 
 
 /**
@@ -20,14 +22,19 @@ import { AuthContext } from '../../states/context/CredentialsContext'
  * @returns 
  */
 const ExpenseWithImageForm=()=>{
-  const {userId}=useContext(AuthContext)
+  const {userId,token}=useContext(AuthContext)
   const queryClient=useQueryClient()
   const {setOptions:navOptions,navigate}=useNavigation()
+  const {wordValidator,numValidator, dateValidator}=new Validator()
   const {mutate}=useStoreExpense({
     onSuccess:()=>{
       navigate('AllExpensesReactQuery' as never)
-      setAmount('')
+      setAmount('' as unknown as number)
       setDate('')
+      setWarnings({
+        amountWarning:<></>,
+        dateWarning:<></>,
+      })
     },
     onError:()=>{},
     queryClient})
@@ -39,55 +46,82 @@ const ExpenseWithImageForm=()=>{
         title:'New expense',
     })
 }, [])
+  
+
+
   //receive props with navigation instead
   const {name,photoUrl,type}=params as PlaceSearchBarResult//guaranteed to exist
-  const [amount,setAmount]=useState<string>();
+  const [amount,setAmount]=useState<number>('' as unknown as number);
   const [date, setDate]=useState('');
 
+  const [warnings,setWarnings]=useState({
+    amountWarning:<></>,
+    dateWarning:<></>,
+})
+
+const messages={
+    amountWarning: !numValidator(amount)? <Text style={styles.validationError}>Enter amount</Text>:<></>,
+    dateWarning:!dateValidator(date)?<Text style={styles.validationError}>Invalid date</Text>:<></>
+}
 
   const onSubmit=()=>{
-    mutate({
+    if (numValidator(amount) &&  dateValidator(date)){
+      mutate({
       spending:{
         title:name,
         price:Number(amount),
         date,
         category:type,
         imageUrl:photoUrl,
+
       },
       userId,
+      IdToken:token??''
     })
+    }else{
+      setWarnings(messages)
+    }
+    
   }
 
+
   return (
-    <View style={{justifyContent:'center', flex:1, backgroundColor:Colors.Skobeloff}}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={120}
+    style={{flex:1}}>
+      <ScrollView>
+        <View style={{justifyContent:'center', minHeight:'100%', backgroundColor:Colors.Skobeloff}}>
       <ExpenseWithImageCard
         name={name} 
         photoUrl={photoUrl} 
         type={type}>
-        <TextInput
-              variant='standard'
-              label="Amount"
-              value={amount}
-              onChangeText={setAmount}
-              inputStyle={{color:Colors.Tangerine,}}
-              color={Colors.Tangerine}
-              keyboardType='numeric'
-              style={{marginVertical:5, minWidth:'90%'}}
-              />
-          <TextInput
-              variant='standard'
-              label="Date"
-              value={date}
-              onChangeText={setDate}
-              inputStyle={{color:Colors.Tangerine,}}
-              color={Colors.Tangerine}
-              style={{marginVertical:5, minWidth:'90%'}}
-              />
+        <CustomTextInput
+          title='Amount'
+          placeHolder='Enter amount'
+          defaultValue={amount.toString()}
+          nextValue={setAmount}
+          extraStyle={{marginVertical:5, minWidth:'90%'}}
+          validationErr={warnings.amountWarning}
+        />
+        <CustomTextInput
+          title='Date'
+          placeHolder='yyyy-mm-dd'
+          defaultValue={date}
+          nextValue={setDate}
+          extraStyle={{marginVertical:5, minWidth:'90%'}}
+          validationErr={warnings.dateWarning}
+          />
+        
           <View style={styles.buttonStack}>
             <LargerCircleContainer onPress={onSubmit} icon={"check"}/>
           </View>
-        </ExpenseWithImageCard>
+      </ExpenseWithImageCard>
     </View>
+      </ScrollView>
+      
+    </KeyboardAvoidingView>
+    
     
   )
 }
@@ -132,8 +166,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     marginHorizontal:'15%',
-
-},
+  },
+  validationError:{
+    fontSize:12,
+    color:'red'
+}
 })
 
 export default ExpenseWithImageForm

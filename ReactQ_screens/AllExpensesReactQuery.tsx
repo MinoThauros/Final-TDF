@@ -30,13 +30,14 @@ import { AuthContext } from '../states/context/CredentialsContext';
 //*We'll also implement a new version of the SpendingDetails component that uses react query mutations for delete actions*
 //*And finally an EditItem component that uses react query mutations for update actions*
 const AllExpensesReactQuery = () => {
-    const {userId}=useContext(AuthContext)
+    const {userId,token}=useContext(AuthContext)
     const {setSnackBar}=useContext(SnackBarContext)
     const {isLoading,error,data}=useGetExpenses({
         onSuccess:({data})=>{
             //bind the query to the redux store
         },
         userId,
+        IdToken:token??'',
         onError:({response})=>{
             setSnackBar({message:'Failed to fetch your spendings'})}
     });

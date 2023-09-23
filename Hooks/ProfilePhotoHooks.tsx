@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { FireStore } from "../API/Firebase/CloudStorage"
 import { ProfilePhotoInterface } from "../API/Firebase/ProfilePhoto"
+import { Profile } from "../models/profile";
 
 const {downloadProfilePhoto,uploadProfilePhoto}=new ProfilePhotoInterface();
 
-export const useGetProfilePicture = ({ userId }: { userId: string }) => {
+export const useGetProfilePicture = ({ userId,profile }: { userId: string, profile:Profile }) => {
     return useQuery({
         queryKey: ['profile/photo'],
         queryFn: () => downloadProfilePhoto({ userId }),
-        enabled:!!userId
+        enabled:!!userId && !! profile,
     })
 }
 
